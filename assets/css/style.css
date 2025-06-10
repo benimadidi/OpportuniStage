@@ -1,0 +1,489 @@
+
+/*-------------------------------------------------------------------------*/
+/*Initialisation de ma page*/
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+
+:root {
+    --primary-color: #005F99;
+    --secondary-color: #4FB0E3;
+    --success-color: #2ECC71;
+    --error-color: #E74C3C;
+    --off-white-text: #F0F2F5;
+    --text-color: #2C3E50;
+    --background-color: #F8F9FA;
+    --card-background: #ECEFF1;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    border: none;
+    outline: none;
+    font-family: 'Poppins', sans-serif;
+}
+
+html{
+    font-size: 62.5%;
+    overflow-x: hidden;
+}
+
+body{
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+section{
+    min-height: 100vh;
+    padding: 10rem 9% 2rem;
+}
+
+/*-------------------------------------------------------------------------*/
+/*Header*/
+.header{
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 2rem 9%;
+    background-color: var(--card-background);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 99;
+}
+
+.logo{
+    font-size: 2.5rem;
+    color: var(--text-color);
+    font-weight: 600;
+    cursor: default;
+}
+
+.navbar a{
+    font-size: 1.7rem;
+    color: var(--text-color);
+    margin-left: 4.5rem;
+    transition: .3s ease;
+}
+
+.navbar a:hover, .navbar a.active{
+    color: var(--secondary-color);
+}
+
+#menu-icon{
+    font-size: 3.6rem;
+    color: var(--text-color);
+    display: none;
+}
+
+.login-btn-modal{
+    margin-left: 4.5rem;
+    height: 4rem;
+    padding: 0 2rem;
+    background-color: var(--primary-color);
+    border-radius: 4rem;
+    font-size: 1.7rem;
+    color: var(--off-white-text);
+    cursor: pointer;
+    transition: .3s;
+}
+
+.login-btn-modal:hover{
+    background-color: var(--text-color);
+    color: var(--off-white-text);
+}
+
+.profile-box .avatar-circle{
+    width: 5.5rem;
+    height: 5.5rem;
+    background-color: var(--background-color);
+    border-radius: 50%;
+    line-height: 5.5rem;
+    text-align: center;
+    font-size: 2.5rem;
+    color: var(--text-color);
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.profile-box .dropdown{
+    position: absolute;
+    top: 9rem;
+    right: 3rem;
+    padding: 1.5rem 2rem;
+    margin-right: 2rem;
+    background-color: var(--background-color);
+    border-radius: .9rem;
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .2);
+    display: flex;
+    flex-direction: column;
+    transform: translateY(3.2rem);
+    opacity: 0;
+    pointer-events: none;
+    transition: .5s;
+    z-index: 2500;
+}
+
+.profile-box.show .dropdown{
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.profile-box .dropdown a{
+    padding: 1rem 2rem ;
+    border-radius: .6rem;
+    color: var(--text-color);
+    font-weight: 500;
+    margin: .5rem 0;
+    font-size: 1.4rem;
+    transition: .2s ease;
+}
+
+.profile-box.show .dropdown a:hover{
+    color: var(--secondary-color);
+    background-color: var(--card-background);
+}
+
+.profile-box .dropdown a i{
+    margin-right: 1rem;
+}
+
+.alert-box{
+    position: fixed;
+    inset: 0;
+    top: 5.6rem;
+    margin: 0 auto;
+    width: 56rem;
+    height: 6rem;
+    background-color: #fff;
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .2);
+    border-radius: .9rem;
+    padding: 0 2rem;
+    z-index: 9999;
+    overflow: hidden;
+    transform: translateY(calc(-100% - 5.6rem));
+    transition: .5s ease;
+}
+
+.alert-box.show{
+    transform: translateY(0);
+}
+
+.alert{
+    display: flex;
+    align-items: center;
+    height: 100%;
+    color: var(--text-color);
+    font-weight: 500;
+}
+
+.alert::after{
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: .2rem;
+    background-color: var(--success-color);
+    animation: progressBar 6s linear forwards;
+}
+
+.alert.error::after{
+    background-color: var(--error-color);
+}
+
+@keyframes progressBar {
+    100%{
+        width: 0;
+    }
+}
+
+.alert i{
+    font-size: 3.5rem;
+    color: var(--success-color);
+    margin-right: 1rem;
+    background-color: var(--card-background);
+    border-radius: 50%;
+}
+
+.alert p{
+    font-size: 1.5rem;
+}
+
+.alert.error i{
+    color: var(--error-color);
+}
+
+/*-------------------------------------------------------------------------*/
+/*Authentification*/
+.auth-modal {
+    position: relative;
+    width: 42rem;
+    height: 43rem;
+    background-color: var(--card-background);
+    border-radius: 2rem;
+    border: 0.5rem solid var(--card-background);
+    color: var(--text-color);
+    inset: 0;
+    overflow: hidden;
+    margin: 2.5rem auto;
+    display: flex;
+    align-items: center;
+    transform: scale(0);
+    transition: height 0.2s ease, transform 0.5s ease;
+}
+
+.auth-modal.show {
+    transform: scale(1);
+}
+
+.auth-modal.slide {
+    height: 52rem;
+}
+
+.auth-modal .form-box {
+    width: 100%;
+    padding: 4rem;
+}
+
+.auth-modal .form-box.login,
+.auth-modal.slide .form-box.register {
+    transform: translateX(0);
+    transition: transform 0.18s ease;
+}
+
+.auth-modal.slide .form-box.login,
+.auth-modal .form-box.register {
+    transform: translateX(-60rem);
+    transition: none;
+}
+
+.auth-modal .form-box.register {
+    position: absolute;
+    transform: translateX(60rem);
+}
+
+.form-box h2 {
+    font-size: 3.5rem;
+    text-align: center;
+}
+
+.input-box {
+    position: relative;
+    width: 100%;
+    height: 5rem;
+    margin: 3rem 0;
+}
+
+.input-box input {
+    width: 100%;
+    height: 100%;
+    background-color: var(--background-color);
+    border: 0.2rem solid var(--card-background);
+    outline: none;
+    border-radius: 4rem;
+    font-size: 1.6rem;
+    color: var(--text-color);
+    padding: 2rem 4.5rem 2rem 2rem;
+}
+
+.input-box input::placeholder {
+    color: var(--text-color);
+}
+
+.input-box i {
+    position: absolute;
+    right: 2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 2rem;
+}
+
+.btn {
+    width: 100%;
+    height: 4.5rem;
+    color: var(--text-color);
+    border-radius: 4rem;
+    border: none;
+    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.3);
+    font-size: 1.6rem;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.form-box p {
+    font-size: 1.45rem;
+    text-align: center;
+    margin: 2.5rem 0 1rem;
+}
+
+.form-box p a {
+    color: var(--text-color);
+    font-weight: 600;
+    transition: 0.3s ease;
+}
+
+.form-box p a:hover {
+    color: var(--secondary-color);
+}
+
+.auth-modal .close-btn-modal {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 4.5rem;
+    height: 4.5rem;
+    background-color: var(--background-color);
+    font-size: 3.5rem;
+    color: var(--text-color);
+    cursor: pointer;
+    z-index: 500;
+    border-bottom-left-radius: 2rem;
+}
+
+
+/*-------------------------------------------------------------------------*/
+/*footer*/
+footer{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 2rem 9%;
+    background-color: var(--card-background);
+}
+
+footer p{
+    font-size: 1.6rem;
+}
+
+footer p a{
+    color: var(--text-color);
+    transition: .3s ease;
+}
+
+footer p a:hover{
+    color: var(--secondary-color);
+}
+
+
+
+
+/*-------------------------------------------------------------------------*/
+/*Responsive*/
+@media screen and (max-width : 1200px) {
+    html{
+        font-size: 55%;
+    }
+}
+
+@media screen and (max-width : 991px) {
+    .header{
+        padding: 2rem 3%;
+    }
+
+    footer{
+        padding: 2rem 3%;
+    }
+
+}
+
+@media screen and (max-width : 768px) {
+    #menu-icon{
+        display: block;
+        z-index: 2000;
+    }
+
+    .navbar{
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        padding: 1rem 3%;
+        background-color: var(--background-color);
+        border-top: .1rem solid rgba(0, 0, 0, .2);
+        box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .2);
+        display: none;
+    }
+
+    .navbar.active{
+        display: block;
+        z-index: 2100;
+    }
+
+    .login-btn-modal{
+        font-size: 1.7rem;
+        color: var(--text-color);
+        margin-left: 4.5rem;
+        transition: .3s ease;;
+        height: 0;
+        padding: 0;
+        border: none;
+        border-radius: 0;
+    }
+
+    .login-btn-modal:hover{
+        background-color: var(--text-color);
+        color: var(--secondary-color);
+    }
+
+    .navbar a, .navbar .login-btn-modal{
+        display: block;
+        font-size: 2rem;
+        margin: 3rem;
+    }
+
+    .profile-box.show{
+        z-index: 2500;
+    }
+
+    .auth-modal {
+        width: 90%;
+        height: auto;
+        padding: 2rem 1.5rem;
+        border-radius: 1.5rem;
+        margin: 2rem auto;
+    }
+
+    .auth-modal .form-box {
+        padding: 2rem;
+    }
+
+    .form-box h2 {
+        font-size: 2.8rem;
+    }
+
+    .input-box {
+        height: 4.5rem;
+        margin: 2.5rem 0;
+    }
+
+    .input-box input {
+        font-size: 1.4rem;
+        padding: 1.5rem 4rem 1.5rem 1.5rem;
+    }
+
+    .input-box i {
+        font-size: 1.8rem;
+        right: 1.5rem;
+    }
+
+    .btn {
+        height: 4rem;
+        font-size: 1.4rem;
+    }
+
+    .form-box p {
+        font-size: 1.3rem;
+        margin: 2rem 0 1rem;
+    }
+
+    .auth-modal .close-btn-modal {
+        width: 4rem;
+        height: 4rem;
+        font-size: 3rem;
+    }
+}
