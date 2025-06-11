@@ -278,7 +278,7 @@ section{
     margin: 3rem 0;
 }
 
-.input-box input {
+.input-box input, select {
     width: 100%;
     height: 100%;
     background-color: var(--background-color);
@@ -287,7 +287,7 @@ section{
     border-radius: 4rem;
     font-size: 1.6rem;
     color: var(--text-color);
-    padding: 2rem 4.5rem 2rem 2rem;
+    padding: 0 4.5rem  0 2rem;
 }
 
 .input-box input::placeholder {

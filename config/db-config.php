@@ -16,6 +16,7 @@ try{
 
     $PDO = new PDO($DSN, $DB_USER, $DB_PASS, $options);
 }
+/* Gestion des erreurs */
 catch(PDOException $pe){
     echo 'Erreur' . $pe -> getMessage();
 }

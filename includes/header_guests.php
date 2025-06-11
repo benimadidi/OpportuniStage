@@ -1,7 +1,7 @@
 
 <header class="header">
     
-    <a href="#" class="logo">OpportuniSatge</a>
+    <a href="#" class="logo">OpportuniStage</a>
 
     <i class='bx  bxs-menu' id="menu-icon" ></i> 
 

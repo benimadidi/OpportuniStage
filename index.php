@@ -6,6 +6,17 @@
 error_reporting(-1);
 ini_set('display_errors', 1);
 
+session_start();
+
+$session_name = $_SESSION['name'] ?? null;
+$alerts = $_SESSION['allerts'] ?? [];
+$active_form = $_SESSION['active_form'] ?? '';
+
+session_unset();
+
+if ($session_name !== null)
+    $_SESSION['name'] = $session_name ;
+
 ?>
 
 <!DOCTYPE html>
@@ -34,7 +45,7 @@ ini_set('display_errors', 1);
 
     <!--////////////////////////////////////////////////////-->
     <!-- header -->
-    <?php include 'includes/header_guests.php' ?>
+    <?php include './includes/load_header.php' ?>
 
     <!--////////////////////////////////////////////////////-->
     <!-- Gestion des alertes -->
@@ -51,7 +62,7 @@ ini_set('display_errors', 1);
 
     <!--////////////////////////////////////////////////////-->
     <!-- page de connexion -->
-     <div class="auth-modal">
+     <div class="auth-modal <?= $active_form === 'register' ? 'show slide' : ($active_form === 'login' ? 'show' : ''); ?>">
 
         <button type="button" class="close-btn-modal"><i class='bx  bxs-x' ></i></button>
 
@@ -103,11 +114,13 @@ ini_set('display_errors', 1);
                 <i class='bx  bxs-lock'  ></i> 
             </div>
 
-            <!-- Role (etudiant ou entreprise)  !!!!!!!!!!!!!!-->
+            <!-- Rôles -->
             <div class="input-box">
-                <select name="role" id="role">
-                    <option value="etudiant">Etudiant</option>
-                    <option value="entreprise">Entreprise</option>
+                <select name="role" id="role" required>
+                    <option value="" disabled selected>Choisissez une option</option>
+                    <option value="student">Etudiant</option>
+                    <option value="company">Entreprise</option>
+                    <option value="admin">Admin</option>
                 </select>
             </div>
 
@@ -119,9 +132,6 @@ ini_set('display_errors', 1);
         </div>
 
     </div>
-    
-
-
 
     <!--////////////////////////////////////////////////////-->
     <!-- footer -->

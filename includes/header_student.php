@@ -1,7 +1,7 @@
 
 <header class="header">
 
-    <a href="#" class="logo">OpportuniSatge</a>
+    <a href="#" class="logo">OpportuniStage</a>
 
     <i class='bx bxs-menu' id="menu-icon"></i>
 
@@ -12,26 +12,26 @@
     </nav>
 
     <div class="user-auth">
+        
+        <?php if(!empty($session_name)) : ?>
+            <div class="profile-box">
+                
+                <div class="avatar-circle"><?= strtoupper($session_name[0])?></div>
 
-        <div class="profile-box">
-            
-            <div class="avatar-circle">A</div>
+                <div class="dropdown">
+                    <a href="./admin/profile.php">
+                        <i class='bx  bxs-user'  ></i> 
+                        Mon Profil
+                    </a>
 
-            <div class="dropdown">
-
-                <a href="./admin/profile.php">
-                    <i class='bx  bxs-user'  ></i> 
-                    Mon Profil
-                </a>
-
-                <a href="logout.php">
-                    <i class="fas fa-right-from-bracket"></i>
-                    Se déconnecter
-                </a>
-
+                    <a href="logout.php">
+                        <i class="fas fa-right-from-bracket"></i>
+                        Se déconnecter
+                    </a>
+                </div>
+                
             </div>
-            
-        </div>
+        <?php endif; ?>
 
     </div>
 
