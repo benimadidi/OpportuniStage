@@ -2,7 +2,7 @@
 <?php
 
 /* Parametres de connexion a la base */
-$DSN = 'mysql:host=localhost;dbname=OpportuniSatge';
+$DSN = 'mysql:host=localhost;dbname=OpportuniStage';
 $DB_USER = 'root';
 $DB_PASS = '';
 $options =[

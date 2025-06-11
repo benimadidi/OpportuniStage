@@ -6,14 +6,19 @@
 error_reporting(-1);
 ini_set('display_errors', 1);
 
+
+// Initialisation de la session
 session_start();
 
+// Recuperation des variables de session
 $session_name = $_SESSION['name'] ?? null;
-$alerts = $_SESSION['allerts'] ?? [];
-$active_form = $_SESSION['active_form'] ?? '';
+$alerts = $_SESSION['alerts'] ?? [];
+$active_form = $_SESSION['active-form'] ?? '';
 
+// Suppression des variables de session
 session_unset();
 
+// Enregistrement des variables de session
 if ($session_name !== null)
     $_SESSION['name'] = $session_name ;
 
@@ -48,17 +53,8 @@ if ($session_name !== null)
     <?php include './includes/load_header.php' ?>
 
     <!--////////////////////////////////////////////////////-->
-    <!-- Gestion des alertes -->
-    <?php if(!empty($alerts)) : ?>
-        <div class="alert-box">
-            <?php foreach($alerts as $alert) : ?>
-                <div class="alert <?= $alert['type'] ?>">
-                    <i class="bx <?= $alert['message'] === 'success' ? 'bxs-check-circle' : 'bxs-x-circle'; ?>"></i>
-                    <p><?= $alert['message'] ?></p>
-                </div>
-            <?php endforeach; ?>
-        </div>
-    <?php endif; ?>
+    <!--alerts-->
+    <?php include './includes/alerts.php' ?>
 
     <!--////////////////////////////////////////////////////-->
     <!-- page de connexion -->
@@ -97,7 +93,7 @@ if ($session_name !== null)
             
             <h2>S'inscrire</h2>
 
-            <form action="auth_process.php" method="POST">
+            <form action="./controllers/auth_process.php" method="POST">
 
             <div class="input-box">
                 <input type="text" name="name" placeholder="Nom complet / Entreprise" required>
