@@ -27,6 +27,12 @@ menuIcon.addEventListener('click', () => {
     navbar.classList.toggle('active');
 });
 
+/* La fermeture du menu de navigation en responsive */
+loginBtnModal.addEventListener('click', () => {
+    menuIcon.classList.remove('bxs-x');
+    navbar.classList.remove('active');
+});
+
 /* L'affichage du profil */
 if (avatarCircle)
     avatarCircle.addEventListener('click', () =>{
