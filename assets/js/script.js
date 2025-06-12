@@ -48,3 +48,18 @@ if (alertBox){
         setTimeout(() => alertBox.remove, 1000);
     }, 6000);
 }
+
+/* Scroll reveal*/
+let params = { 
+    reset: true,
+    distance: '60px',
+    duration: 1500,
+    delay: 200
+};
+ScrollReveal(params);
+
+ScrollReveal().reveal('.home-header-img, .home-student-content, .home-company-img', {origin : 'right'});
+ScrollReveal().reveal('.site-name, .reveal-top', {origin : 'top'});
+ScrollReveal().reveal('.home-header-content h1, .home-header-content p, .home-header-content .btn-home-header-content, .reveal-bottom', {origin : 'bottom'});
+ScrollReveal().reveal('.home-student-img, .home-company-content', {origin : 'left'});
+

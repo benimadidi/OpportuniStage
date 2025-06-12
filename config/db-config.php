@@ -2,7 +2,7 @@
 <?php
 
 /* Parametres de connexion a la base */
-$DSN = 'mysql:host=localhost;dbname=OpportuniStage';
+$DB_DSN = 'mysql:host=localhost;dbname=OpportuniStage';
 $DB_USER = 'root';
 $DB_PASS = '';
 $options =[
@@ -14,7 +14,7 @@ $options =[
 /* Connexion a la base */
 try{
 
-    $PDO = new PDO($DSN, $DB_USER, $DB_PASS, $options);
+    $PDO = new PDO($DB_DSN, $DB_USER, $DB_PASS, $options);
 }
 /* Gestion des erreurs */
 catch(PDOException $pe){

@@ -36,11 +36,11 @@ if ($session_name !== null)
         <title>OpportuniSatge</title>
 
         <!--////////////////////////////////////////////////////-->
-        <!--styles -->
-        <link rel="stylesheet" href="./assets/css/style.css">
+                    <!--styles -->
+        <link rel="stylesheet" href="assets/css/style.css">
 
         <!--////////////////////////////////////////////////////-->
-        <!--Icons-->
+                    <!--Icons-->
         <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
@@ -49,92 +49,87 @@ if ($session_name !== null)
     <body>
 
     <!--////////////////////////////////////////////////////-->
-    <!-- header -->
+                <!-- header -->
     <?php include './includes/load_header.php' ?>
 
     <!--////////////////////////////////////////////////////-->
-    <!--alerts-->
+                <!--alerts-->
     <?php include './includes/alerts.php' ?>
 
     <!--////////////////////////////////////////////////////-->
-    <!-- page de connexion -->
-     <div class="auth-modal <?= $active_form === 'register' ? 'show slide' : ($active_form === 'login' ? 'show' : ''); ?>">
+                <!-- Modal de connexion -->
+    <?php include './includes/auth_modal.php' ?>
 
-        <button type="button" class="close-btn-modal"><i class='bx  bxs-x' ></i></button>
-
-        <!--////////////////////////////////////////////////////-->
-        <!--Formulaire de connexion-->
-        <div class="form-box login">
-
-            <h2>Se connecter</h2>
-
-            <form action="./controllers/auth_process.php" method="POST">
-
-            <div class="input-box">
-                <input type="email" name="email" placeholder="Email" required>
-                <i class="bx  bxs-envelope"></i>
-            </div>
-
-            <div class="input-box">
-                <input type="password" name="password" placeholder="Mot de passe" required>
-                <i class='bx  bxs-lock'  ></i> 
-            </div>
-
-            <button type="submit" name="login-btn" class="btn">Se connecter</button>
-            <p>Vous n'avez pas de compte ? <a href="#" class="register-link">S'inscrire</a></p>
-
-            </form>
-
-        </div>
-
-        <!--////////////////////////////////////////////////////-->
-        <!--Formulaire d'inscription-->
-        <div class="form-box register">
-            
-            <h2>S'inscrire</h2>
-
-            <form action="./controllers/auth_process.php" method="POST">
-
-            <div class="input-box">
-                <input type="text" name="name" placeholder="Nom complet / Entreprise" required>
-                <i class='bx  bxs-user'  ></i> 
-            </div>    
-
-            <div class="input-box">
-                <input type="email" name="email" placeholder="Email" required>
-                <i class="bx  bxs-envelope"></i>
-            </div>    
-
-            <div class="input-box">
-                <input type="password" name="password" placeholder="Mot de passe" required>
-                <i class='bx  bxs-lock'  ></i> 
-            </div>
-
-            <!-- Rôles -->
-            <div class="input-box">
-                <select name="role" id="role" required>
-                    <option value="" disabled selected>Choisissez une option</option>
-                    <option value="student">Etudiant</option>
-                    <option value="company">Entreprise</option>
-                    <option value="admin">Admin</option>
-                </select>
-            </div>
-
-            <button type="submit" name="register-btn" class="btn">S'inscrire</button>
-            <p>Vous avez deja un compte ? <a href="#" class="login-link">Se connecter</a></p>
-
-            </form>
-
-        </div>
-
+    <!--////////////////////////////////////////////////////-->
+                <!-- Opportunistage-->
+    <div class="site-name">
+        <h1>Bienvenu(e) sur OpportuniStage</h1>
     </div>
 
     <!--////////////////////////////////////////////////////-->
-    <!-- footer -->
-    <?php include 'includes/footer.php' ?>
+                <!-- Section d'acceuil -->
+     <section class="home-header" id="home-header">
+
+        <div class="home-header-content">
+            <h1>Stages en entreprises innovantes</h1>
+            <p>Des opportunités à saisir !</p>
+
+            <a href="#home-student" class="btn-home-header-content">En savoir plus <i class="fa-regular fa-circle-down"></i></a>
+        </div>
+
+        <div class="home-header-img reveal-top">
+            <img src="assets/images/home.png" alt="">
+        </div>
+
+     </section>
+
+    <section class="home-student" id="home-student">
+
+        <div class="home-student-img">
+            <img src="assets/images/student.png" alt="">
+        </div>
+
+        <div class="home-student-content reveal-bottom">
+            <h2>Une plateforme simple et efficace pour les étudiants</h2>
+            <h3>Trouvez un stage en quelques clics</h3>
+            <p>Accédez à de nombreuses offres publiées par nos entreprises partenaires, filtrées selon votre filière ou vos préférences.</p>
+            <p>Postulez rapidement aux offres qui vous intéressent et suivez l’avancement de vos candidatures via votre espace personnel.</p>
+            <p>Recevez des notifications à chaque nouvelle réponse d’une entreprise ou mise à jour de votre statut.</p>
+        </div>
+
+    </section>
+    
+    <section class="home-company" id="home-company">
+
+        <div class="home-company-content">
+            <h2>Une plateforme claire et pratique pour les entreprises</h2>
+            <h3>Publiez vos offres et trouvez facilement vos futurs stagiaires</h3>
+            <p>Diffusez vos offres de stage en toute autonomie, avec la possibilité de cibler les profils d'étudiants selon leur domaine d'études.</p>
+            <p>Consultez et gérez les candidatures depuis votre tableau de bord dédié, avec un suivi simple et efficace des réponses.</p>
+            <p>Recevez des notifications en temps réel dès qu’un étudiant postule à une offre ou qu’une action est requise.</p>
+            <p>Gagnez du temps dans vos processus de recrutement tout en soutenant les jeunes talents.</p>
+        </div>
+
+        <div class="home-company-img reveal-top">
+            <img src="assets/images/company.png" alt="">
+        </div>
+
+    </section>
+    
+
 
     <!--////////////////////////////////////////////////////-->
-    <!--scripts-->
+                <!-- footer -->
+    <?php include 'includes/footer.php' ?>
+
+
+    <!--//////////////////////////////////////////////////////////-->
+                <!--Partie du scroll reveal-->
+    <script src="https://unpkg.com/scrollreveal"></script>
+
+
+    <!--////////////////////////////////////////////////////-->
+                <!--scripts-->
     <script src="./assets/js/script.js"></script>
 
     </body>

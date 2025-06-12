@@ -6,7 +6,7 @@
     <i class='bx  bxs-menu' id="menu-icon" ></i> 
 
     <nav class="navbar">
-        <a href="#home" class="active">Acceuil</a>
+        <a href="#home-header" class="active">Acceuil</a>
         <a href="./about.html">A propos</a>
         <a href="./contact.html">Contact</a>
 
