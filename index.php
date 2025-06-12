@@ -6,18 +6,21 @@
 error_reporting(-1);
 ini_set('display_errors', 1);
 
-
+/*-------------------------------------------------------*/
 // Initialisation de la session
 session_start();
 
+/*-------------------------------------------------------*/
 // Recuperation des variables de session
 $session_name = $_SESSION['name'] ?? null;
 $alerts = $_SESSION['alerts'] ?? [];
 $active_form = $_SESSION['active-form'] ?? '';
 
+/*-------------------------------------------------------*/
 // Suppression des variables de session
 session_unset();
 
+/*-------------------------------------------------------*/
 // Enregistrement des variables de session
 if ($session_name !== null)
     $_SESSION['name'] = $session_name ;
@@ -30,7 +33,7 @@ if ($session_name !== null)
     <head>
 
         <!--////////////////////////////////////////////////////-->
-        <!--Les metas données-->
+                    <!--Les metas données-->
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>OpportuniSatge</title>
@@ -52,13 +55,16 @@ if ($session_name !== null)
                 <!-- header -->
     <?php include './includes/load_header.php' ?>
 
+
     <!--////////////////////////////////////////////////////-->
                 <!--alerts-->
     <?php include './includes/alerts.php' ?>
 
+
     <!--////////////////////////////////////////////////////-->
                 <!-- Modal de connexion -->
     <?php include './includes/auth_modal.php' ?>
+
 
     <!--////////////////////////////////////////////////////-->
                 <!-- Opportunistage-->
@@ -66,9 +72,10 @@ if ($session_name !== null)
         <h1>Bienvenu(e) sur OpportuniStage</h1>
     </div>
 
+
     <!--////////////////////////////////////////////////////-->
-                <!-- Section d'acceuil -->
-     <section class="home-header" id="home-header">
+                <!-- Sections d'acceuil -->
+     <section class="home-header">
 
         <div class="home-header-content">
             <h1>Stages en entreprises innovantes</h1>
@@ -83,7 +90,7 @@ if ($session_name !== null)
 
      </section>
 
-    <section class="home-student" id="home-student">
+    <section class="home-student">
 
         <div class="home-student-img">
             <img src="assets/images/student.png" alt="">
@@ -99,7 +106,7 @@ if ($session_name !== null)
 
     </section>
     
-    <section class="home-company" id="home-company">
+    <section class="home-company">
 
         <div class="home-company-content">
             <h2>Une plateforme claire et pratique pour les entreprises</h2>
@@ -115,7 +122,6 @@ if ($session_name !== null)
         </div>
 
     </section>
-    
 
 
     <!--////////////////////////////////////////////////////-->

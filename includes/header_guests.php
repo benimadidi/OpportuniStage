@@ -1,4 +1,6 @@
 
+<!--////////////////////////////////////////////////////-->
+            <!-- Header de l'invité -->
 <header class="header">
     
     <a href="#" class="logo">OpportuniStage</a>

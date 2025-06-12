@@ -1,4 +1,6 @@
 
+<!--////////////////////////////////////////////////////-->
+            <!-- Header de l'etudiant -->
 <header class="header">
 
     <a href="#" class="logo">OpportuniStage</a>
@@ -6,9 +8,9 @@
     <i class='bx bxs-menu' id="menu-icon"></i>
 
     <nav class="navbar">
-        <a href="./student/dashboard.php" class="active">Tableau de bord</a>
-        <a href="./offers.php">Offres de stage</a>
-        <a href="./applications.php">Mes candidatures</a>
+        <a href="../student/" class="active">Tableau de bord</a>
+        <a href="../student/">Offres de stage</a>
+        <a href="../student/">Mes candidatures</a>
     </nav>
 
     <div class="user-auth">
@@ -19,7 +21,7 @@
                 <div class="avatar-circle"><?= strtoupper($session_name[0])?></div>
 
                 <div class="dropdown">
-                    <a href="./admin/profile.php">
+                    <a href="../student/">
                         <i class='bx  bxs-user'  ></i> 
                         Mon Profil
                     </a>

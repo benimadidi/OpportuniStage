@@ -1,4 +1,6 @@
 
+<!--////////////////////////////////////////////////////-->
+            <!-- Header de l'entreprise -->
 <header class="header">
 
     <a href="#" class="logo">OpportuniStage</a>
@@ -6,9 +8,9 @@
     <i class='bx   bxs-menu' id="menu-icon"></i>
 
     <nav class="navbar">
-        <a href="./company/dashboard.php" class="active">Tableau de bord</a>
-        <a href="./company/post_internship.php">Publier une offre</a>
-        <a href="./offers.php">Mes offres</a>
+        <a href="../company/" class="active">Tableau de bord</a>
+        <a href="../company/">Publier une offre</a>
+        <a href="../company/">Mes offres</a>
     </nav>
 
     <div class="user-auth">
@@ -19,7 +21,7 @@
                 <div class="avatar-circle"><?= strtoupper($session_name[0])?></div>
 
                 <div class="dropdown">
-                    <a href="./admin/profile.php">
+                    <a href="../company/">
                         <i class='bx  bxs-user'  ></i> 
                         Mon Profil
                     </a>

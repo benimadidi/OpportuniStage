@@ -1,4 +1,6 @@
 
+<!--////////////////////////////////////////////////////-->
+            <!-- Header de l'admin -->
 <header class="header">
 
     <a href="#" class="logo">OpportuniSatge</a>
@@ -6,10 +8,10 @@
     <i class='bx bxs-menu' id="menu-icon"></i>
 
     <nav class="navbar">
-        <a href="./admin/dashboard.php" class="active">Tableau de bord</a>
-        <a href="./admin/manage_users.php">Utilisateurs</a>
-        <a href="./admin/manage_offers.php">Offres</a>
-        <a href="./admin/settings.php">Paramètres</a>
+        <a href="../admin/" class="active">Tableau de bord</a>
+        <a href="../admin/">Utilisateurs</a>
+        <a href="../admin/">Offres</a>
+        <a href="../admin/">Paramètres</a>
     </nav>
 
     <div class="user-auth">

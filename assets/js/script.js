@@ -1,4 +1,6 @@
 
+/*-----------------------------------------------------------------------------------------------------*/
+/* Déclaration des variables */
 const authModal = document.querySelector('.auth-modal');
 const menuIcon = document.querySelector('#menu-icon');
 const navbar = document.querySelector('.navbar');
@@ -12,33 +14,39 @@ const avatarCircle = document.querySelector('.avatar-circle');
 
 const alertBox = document.querySelector('.alert-box');
 
+/*-----------------------------------------------------------------------------------------------------*/
 /* Le slide pour l'authentification */
 registerLink.addEventListener('click', () => {authModal.classList.add('slide')});
 loginLink.addEventListener('click', () => {authModal.classList.remove('slide')});
 
+/*-----------------------------------------------------------------------------------------------------*/
 /* L'affichage de l'authentification */
 if(loginBtnModal) 
     loginBtnModal.addEventListener('click', () => {authModal.classList.toggle('show')});
 closeBtnModal.addEventListener('click', () => {authModal.classList.remove('show', 'slide')});
 
+/*-----------------------------------------------------------------------------------------------------*/
 /* Le menu de navigation en responsive */
 menuIcon.addEventListener('click', () => {
     menuIcon.classList.toggle('bxs-x');
     navbar.classList.toggle('active');
 });
 
+/*-----------------------------------------------------------------------------------------------------*/
 /* La fermeture du menu de navigation en responsive */
 loginBtnModal.addEventListener('click', () => {
     menuIcon.classList.remove('bxs-x');
     navbar.classList.remove('active');
 });
 
+/*-----------------------------------------------------------------------------------------------------*/
 /* L'affichage du profil */
 if (avatarCircle)
     avatarCircle.addEventListener('click', () =>{
         profilBox.classList.toggle('show');
     });
 
+/*-----------------------------------------------------------------------------------------------------*/
 /* L'affichage de l'alerte */
 if (alertBox){
     setTimeout(() => alertBox.classList.add('show'), 50);
@@ -49,6 +57,7 @@ if (alertBox){
     }, 6000);
 }
 
+/*-----------------------------------------------------------------------------------------------------*/
 /* Scroll reveal*/
 let params = { 
     reset: true,
