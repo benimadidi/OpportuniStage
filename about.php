@@ -52,7 +52,7 @@ if ($session_name !== null)
     <body>
 
     <!--////////////////////////////////////////////////////-->
-                <!-- Header de l'invité -->
+                    <!-- Header de l'invité -->
     <header class="header">
         
         <a href="#" class="logo">OpportuniStage</a>
@@ -60,8 +60,8 @@ if ($session_name !== null)
         <i class='bx  bxs-menu' id="menu-icon" ></i> 
 
         <nav class="navbar">
-            <a href="#home-header" class="active">Acceuil</a>
-            <a href="about.php">À propos</a>
+            <a href="index.php" >Acceuil</a>
+            <a href="#about-header" class="active">À propos</a>
             <a href="contact.php">Contact</a>
 
             <button type="button" class="login-btn-modal">Se connecter</button>
@@ -69,7 +69,6 @@ if ($session_name !== null)
         </nav>
 
     </header>
-
 
 
     <!--////////////////////////////////////////////////////-->
@@ -85,62 +84,53 @@ if ($session_name !== null)
     <!--////////////////////////////////////////////////////-->
                 <!-- Opportunistage-->
     <div class="site-name">
-        <h1>Bienvenu(e) sur OpportuniStage</h1>
+        <h1>À propos d’OpportuniStage</h1>
     </div>
 
 
     <!--////////////////////////////////////////////////////-->
-                <!-- Sections d'acceuil -->
-     <section class="home-header" id="home-header">
+                <!-- Sections a propos -->
+    <section class="about-header" id="about-header">
 
-        <div class="home-header-content">
-            <h1>Stages en entreprises innovantes</h1>
-            <p>Des opportunités à saisir !</p>
+                <!--Header a propos-->
+        <div class="about-header-content">
+            <h2>À propos d’OpportuniStage</h2>
+            <h3>Un projet académique pour l’insertion des étudiants</h3>
+            <p>OpportuniStage est une initiative académique dédiée à favoriser l’insertion professionnelle des étudiants de l’enseignement supérieur. La plateforme permet aux étudiants de découvrir et de postuler à des offres de stage proposées par des entreprises engagées dans la formation des jeunes talents.</p>
+            <p>Pensé comme un outil moderne et dynamique, OpportuniStagestrong> facilite les échanges entre étudiants, entreprises et établissements d’enseignement, tout en centralisant les démarches liées aux stages.</p>
 
-            <a href="#home-student" class="btn-home-header-content">En savoir plus <i class="fa-regular fa-circle-down"></i></a>
-        </div>
-
-        <div class="home-header-img reveal-top">
-            <img src="assets/images/home.png" alt="">
-        </div>
-
-     </section>
-
-                <!--Acceuil etudiant-->
-    <section class="home-student" id="home-student">
-
-        <div class="home-student-img">
-            <img src="assets/images/student.png" alt="">
-        </div>
-
-        <div class="home-student-content reveal-bottom">
-            <h2>Une plateforme simple et efficace pour les étudiants</h2>
-            <h3>Trouvez un stage en quelques clics</h3>
-            <p>Accédez à de nombreuses offres publiées par nos entreprises partenaires, filtrées selon votre filière ou vos préférences.</p>
-            <p>Postulez rapidement aux offres qui vous intéressent et suivez l’avancement de vos candidatures via votre espace personnel.</p>
-            <p>Recevez des notifications à chaque nouvelle réponse d’une entreprise ou mise à jour de votre statut.</p>
+            <a href="#about-missions" class="btn-about-content"><i class="fa-regular fa-circle-down"></i></a>
         </div>
 
     </section>
 
-                <!--Acceuil entreprise-->
-    <section class="home-company">
+                <!--Missions a propos-->
+    <section class="about-missions" id="about-missions">
+        <h2>Nos Missions ?</h2>
 
-        <div class="home-company-content">
-            <h2>Une plateforme claire et pratique pour les entreprises</h2>
-            <h3>Publiez vos offres et trouvez facilement vos futurs stagiaires</h3>
-            <p>Diffusez vos offres de stage en toute autonomie, avec la possibilité de cibler les profils d'étudiants selon leur domaine d'études.</p>
-            <p>Consultez et gérez les candidatures depuis votre tableau de bord dédié, avec un suivi simple et efficace des réponses.</p>
-            <p>Recevez des notifications en temps réel dès qu’un étudiant postule à une offre ou qu’une action est requise.</p>
-            <p>Gagnez du temps dans vos processus de recrutement tout en soutenant les jeunes talents.</p>
-        </div>
+        <div class="about-mission-container">
 
-        <div class="home-company-img reveal-top">
-            <img src="assets/images/company.png" alt="">
+            <div class="about-mission-box">
+                <i class="fa-solid fa-share-nodes" style="color:#4FB0E3;"></i> 
+                <h3>Matching</h3>
+                <p>Mettre en relation les étudiants et les entreprises pour faciliter l’accès à des stages enrichissants et pertinents selon le parcours académique.</p>
+            </div>
+
+            <div class="about-mission-box">
+                <i class="fa-solid fa-suitcase" style="color:#2ECC71"></i>
+                <h3>Visibilité</h3>
+                <p>Offrir une vitrine numérique aux entreprises afin qu’elles puissent présenter leurs offres de stages aux étudiants de manière simple et ciblée.</p>
+            </div>
+
+            <div class="about-mission-box">
+                <i class="fa-solid fa-comment-dots" style="color:#E74C3C"></i>
+                <h3>Services</h3>
+                <p>Accompagner les utilisateurs dans leurs démarches : publication d’offres, gestion des candidatures, et accès aux informations essentielles du processus.</p>
+            </div>
+
         </div>
 
     </section>
-
 
     <!--////////////////////////////////////////////////////-->
                 <!-- footer -->

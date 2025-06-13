@@ -1,9 +1,5 @@
 <?php
 
-/* Gestion de l'affichage des erreurs */
-error_reporting(-1);
-ini_set('display_errors', 1);
-
 /* Recuperation des variables de session */
 $user_role = $_SESSION['role'] ?? '';
 
@@ -22,6 +18,6 @@ switch ($user_role) {
         break;
 
     default:
-        include 'header_guests.php';
+        include './index.php';
         break;
 }

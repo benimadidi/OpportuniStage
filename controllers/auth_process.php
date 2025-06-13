@@ -1,9 +1,5 @@
 <?php
 
-/* Gestion de l'affichage des erreurs */
-error_reporting(-1);
-ini_set('display_errors', 1);
-
 /* Initialisation de la session */
 session_start();
 

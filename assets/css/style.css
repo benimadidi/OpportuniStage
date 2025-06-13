@@ -349,7 +349,7 @@ section{
 }
 
 /*-------------------------------------------------------------------------*/
-/*Opportunistage*/
+/*site-name*/
 .site-name{
     position: absolute;
     inset: 0;
@@ -426,6 +426,135 @@ section{
 }
 
 /*-------------------------------------------------------------------------*/
+/*about sections*/
+.about-header-content{
+    text-align: center;
+}
+
+.about-header-content h2{
+    font-size: 3.5rem;
+    line-height: 1.2;
+    margin-bottom: .5rem;
+}
+
+.about-header-content h3{
+    color: var(--primary-color);
+    font-size: 2rem;
+}
+
+.about-header-content p{
+    font-size: 1.6rem;
+    margin: 2rem 0;
+}
+
+.about-header-content .btn-about-content{
+    display: inline-block;
+    padding: 1rem 2.8rem;
+    background-color: var(--primary-color);
+    border-radius: 7rem;
+    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.3);
+    font-size:  1.6rem;
+    color: var(--off-white-text) ;
+    letter-spacing: .1rem;
+    font-weight: 600;
+    transition: .5s ease;
+    margin-bottom: 2rem;
+}
+
+.about-header-content .btn-about-content:hover{
+    background-color: var(--text-color);
+}
+
+.about-missions h2{
+    margin-bottom: 4rem;
+    font-size: 3.5rem;
+    text-align: center;
+}
+
+.about-mission-container{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    align-items: center;
+    gap: 2.5rem;
+}
+
+.about-mission-box{
+    width: 100%;
+    height: 100%;
+    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.3);
+    border-radius: 1rem;
+    background-color: var(--card-background);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    padding: 2rem 4rem;
+}
+
+.about-mission-box i{
+    font-size: 2.5rem;
+    color: var(--primary-color);
+}
+
+.about-mission-box h3{
+    font-size: 2rem;
+}
+
+.about-mission-box p{
+    font-size: 1.2rem;
+    margin: .5rem 0 1rem;
+}
+
+/*-------------------------------------------------------------------------*/
+/*contact section*/
+.contact{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 14rem;
+}
+
+.contact-img img{
+    width: 35vw;
+}
+
+.contact-content h2{
+    font-size: 4.5rem;
+    text-align: left;
+}
+
+.contact-content h3{
+    font-size: 2.6rem;
+    color: var(--primary-color);
+    margin-bottom: 1.6rem;
+}
+
+.contact-content p{
+    font-size: 1.6rem;
+    margin: 2rem 0 3rem;
+}
+
+.contact-container .contact-box{
+    display: flex;
+    align-items: center;
+    gap: 4.5rem;
+}
+
+.contact-container .contact-box i{
+    font-size: 2.5rem;
+    text-align: left;
+}
+
+.contact-container .contact-box p a{
+    color: var(--text-color);
+}
+
+.contact-container .contact-box p a:hover{
+    color: var(--primary-color);
+}
+
+/*-------------------------------------------------------------------------*/
 /*footer*/
 footer{
     display: flex;
@@ -470,6 +599,10 @@ footer p a:hover{
         padding: 10% 3% 2rem;
     }
 
+    .about-missions{
+        padding: 7rem;
+    }
+
     footer{
         padding: 2rem 3%;
     }
@@ -477,6 +610,8 @@ footer p a:hover{
 }
 
 @media screen and (max-width : 768px) {
+    /*-------------------------------------------------------------------------*/
+    /*navbar*/
     #menu-icon{
         display: block;
         z-index: 2000;
@@ -525,6 +660,8 @@ footer p a:hover{
         z-index: 2500;
     }
 
+    /*-------------------------------------------------------------------------*/
+    /*Authentification*/
     .auth-modal {
         width: 90%;
         height: auto;
@@ -576,14 +713,20 @@ footer p a:hover{
         font-size: 3rem;
     }
 
+    /*-------------------------------------------------------------------------*/
+    /*Alert*/
     .alert-box{
         width: 60%;
     }
 
+    /*-------------------------------------------------------------------------*/
+    /*site-name*/
     .site-name{
         font-size: 2rem;
     }
 
+    /*-------------------------------------------------------------------------*/
+    /*home sections*/
     .home-header, .home-company{
         flex-direction: column-reverse;
     }
@@ -600,4 +743,30 @@ footer p a:hover{
         flex-direction: column;
     }
 
+    /*-------------------------------------------------------------------------*/
+    /*about sections*/
+    .about-missions h2{
+        margin-bottom: 3rem;
+    }
+
+    .about-mission-container{
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    /*-------------------------------------------------------------------------*/
+    /*contact section*/
+    .contact{
+        flex-direction: column;
+    }
+
+    .contact-img img{
+        width: 70vw;
+    }
+
+}
+
+@media screen and (max-width : 617px){
+    .about-mission-container{
+        grid-template-columns: 1fr;
+    }
 }

@@ -52,7 +52,7 @@ if ($session_name !== null)
     <body>
 
     <!--////////////////////////////////////////////////////-->
-                <!-- Header de l'invité -->
+                    <!-- Header de l'invité -->
     <header class="header">
         
         <a href="#" class="logo">OpportuniStage</a>
@@ -60,16 +60,15 @@ if ($session_name !== null)
         <i class='bx  bxs-menu' id="menu-icon" ></i> 
 
         <nav class="navbar">
-            <a href="#home-header" class="active">Acceuil</a>
+            <a href="index.php" >Acceuil</a>
             <a href="about.php">À propos</a>
-            <a href="contact.php">Contact</a>
+            <a href="#contact" class="active">Contact</a>
 
             <button type="button" class="login-btn-modal">Se connecter</button>
 
         </nav>
 
     </header>
-
 
 
     <!--////////////////////////////////////////////////////-->
@@ -85,58 +84,44 @@ if ($session_name !== null)
     <!--////////////////////////////////////////////////////-->
                 <!-- Opportunistage-->
     <div class="site-name">
-        <h1>Bienvenu(e) sur OpportuniStage</h1>
+        <h1>Nous Contacter</h1>
     </div>
 
 
     <!--////////////////////////////////////////////////////-->
-                <!-- Sections d'acceuil -->
-     <section class="home-header" id="home-header">
+                <!-- Sections a propos -->
+    <section class="contact" id="contact">
 
-        <div class="home-header-content">
-            <h1>Stages en entreprises innovantes</h1>
-            <p>Des opportunités à saisir !</p>
-
-            <a href="#home-student" class="btn-home-header-content">En savoir plus <i class="fa-regular fa-circle-down"></i></a>
+        <div class="contact-img">
+            <img src="assets/images/contact.png" alt="">
         </div>
 
-        <div class="home-header-img reveal-top">
-            <img src="assets/images/home.png" alt="">
-        </div>
+        <div class="contact-content">
+            <h2>Contactez-nous !</h2>
+            <h3>OpportuniStage</h3>
 
-     </section>
+            <div class="contact-container">
+                <div class="contact-box">
+                    <i class="fa-solid fa-house-chimney"></i>
+                    <p>
+                        Université Protestante du Congo (UPC)<br>
+                        12, Avenue de la Connaissance<br>
+                        1000 Kinshasa | RDC
+                    </p>
+                </div>
 
-                <!--Acceuil etudiant-->
-    <section class="home-student" id="home-student">
+                <div class="contact-box">
+                    <i class="fa-solid fa-envelope"></i>
+                    <p><a href="mailto:benimadidi100@gmail.com" title="Contactez l'administrateur">contact@opportunistage.cd</a></p>
+                </div>
+            
+                <div class="contact-box">
+                    <i class="fa-solid fa-mobile" style="padding-left: .4rem;"></i>
+                    <p><a href="tel:+243977564418">+243 977 564 418</a></p>
+                </div>
+            </div> 
 
-        <div class="home-student-img">
-            <img src="assets/images/student.png" alt="">
-        </div>
 
-        <div class="home-student-content reveal-bottom">
-            <h2>Une plateforme simple et efficace pour les étudiants</h2>
-            <h3>Trouvez un stage en quelques clics</h3>
-            <p>Accédez à de nombreuses offres publiées par nos entreprises partenaires, filtrées selon votre filière ou vos préférences.</p>
-            <p>Postulez rapidement aux offres qui vous intéressent et suivez l’avancement de vos candidatures via votre espace personnel.</p>
-            <p>Recevez des notifications à chaque nouvelle réponse d’une entreprise ou mise à jour de votre statut.</p>
-        </div>
-
-    </section>
-
-                <!--Acceuil entreprise-->
-    <section class="home-company">
-
-        <div class="home-company-content">
-            <h2>Une plateforme claire et pratique pour les entreprises</h2>
-            <h3>Publiez vos offres et trouvez facilement vos futurs stagiaires</h3>
-            <p>Diffusez vos offres de stage en toute autonomie, avec la possibilité de cibler les profils d'étudiants selon leur domaine d'études.</p>
-            <p>Consultez et gérez les candidatures depuis votre tableau de bord dédié, avec un suivi simple et efficace des réponses.</p>
-            <p>Recevez des notifications en temps réel dès qu’un étudiant postule à une offre ou qu’une action est requise.</p>
-            <p>Gagnez du temps dans vos processus de recrutement tout en soutenant les jeunes talents.</p>
-        </div>
-
-        <div class="home-company-img reveal-top">
-            <img src="assets/images/company.png" alt="">
         </div>
 
     </section>
