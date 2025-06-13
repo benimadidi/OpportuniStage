@@ -69,5 +69,6 @@ ScrollReveal(params);
 
 ScrollReveal().reveal('.site-name, .reveal-top, .about-header-content h2, .about-header-content h3, .about-missions h2', {origin : 'top'});
 ScrollReveal().reveal('.home-header-content h1, .home-header-content p, .home-header-content .btn-home-header-content, .reveal-bottom, .about-header-content p, .about-header-content a, .about-mission-box', {origin : 'bottom'});
-ScrollReveal().reveal('.home-student-img, .home-company-content', {origin : 'left'});
+ScrollReveal().reveal('.home-student-img, .home-company-content, .contact-content', {origin : 'left'});
+ScrollReveal().reveal('.contact-img', {origin : 'right'});
 
