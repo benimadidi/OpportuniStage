@@ -12,11 +12,10 @@ if (isset($_POST['register-btn'])) {
     $user_name = htmlspecialchars($_POST['name']);
     $user_email = htmlspecialchars($_POST['email']);
     $user_password = password_hash($_POST['password'], PASSWORD_DEFAULT); 
-    $user_confirm_password = password_hash($_POST['password-confirm'], PASSWORD_DEFAULT);
     $user_role = htmlspecialchars($_POST['role']);
 
     //Verifier si le mot de passe confirmé est le bon
-    if ($user_passwor !== $user_confirm_password){
+    if ($_POST['password'] !== $_POST['password-confirm']) {
         $_SESSION['alerts'][] = [
             'type' => 'error',
             'message' => 'Les mots de passe ne correspondent pas'

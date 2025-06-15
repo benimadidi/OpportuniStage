@@ -54,7 +54,7 @@
         </div>
 
         <div class="input-box">
-            <input type="password" name="confirm-password" placeholder="Confirmer votre mot de passe" required>
+            <input type="password" name="password-confirm" placeholder="Confirmer votre mot de passe" required>
             <i class='bx  bxs-lock'  ></i> 
         </div>
 
