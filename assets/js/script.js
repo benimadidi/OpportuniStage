@@ -16,14 +16,17 @@ const alertBox = document.querySelector('.alert-box');
 
 /*-----------------------------------------------------------------------------------------------------*/
 /* Le slide pour l'authentification */
-registerLink.addEventListener('click', () => {authModal.classList.add('slide')});
-loginLink.addEventListener('click', () => {authModal.classList.remove('slide')});
+if(authModal){
+    registerLink.addEventListener('click', () => {authModal.classList.add('slide')});
+    loginLink.addEventListener('click', () => {authModal.classList.remove('slide')});
+}
 
 /*-----------------------------------------------------------------------------------------------------*/
 /* L'affichage de l'authentification */
-if(loginBtnModal) 
+if(loginBtnModal){
     loginBtnModal.addEventListener('click', () => {authModal.classList.toggle('show')});
-closeBtnModal.addEventListener('click', () => {authModal.classList.remove('show', 'slide')});
+    closeBtnModal.addEventListener('click', () => {authModal.classList.remove('show', 'slide')});
+}
 
 /*-----------------------------------------------------------------------------------------------------*/
 /* Le menu de navigation en responsive */
@@ -34,14 +37,15 @@ menuIcon.addEventListener('click', () => {
 
 /*-----------------------------------------------------------------------------------------------------*/
 /* La fermeture du menu de navigation en responsive */
-loginBtnModal.addEventListener('click', () => {
-    menuIcon.classList.remove('bxs-x');
-    navbar.classList.remove('active');
-});
+if(loginBtnModal)
+    loginBtnModal.addEventListener('click', () => {
+        menuIcon.classList.remove('bxs-x');
+        navbar.classList.remove('active');
+    });
 
 /*-----------------------------------------------------------------------------------------------------*/
 /* L'affichage du profil */
-if (avatarCircle)
+if(profilBox)
     avatarCircle.addEventListener('click', () =>{
         profilBox.classList.toggle('show');
     });
@@ -54,7 +58,7 @@ if (alertBox){
     setTimeout(() =>{
         alertBox.classList.remove('show');
         setTimeout(() => alertBox.remove, 1000);
-    }, 6000);
+    }, 3000);
 }
 
 /*-----------------------------------------------------------------------------------------------------*/

@@ -1,23 +1,96 @@
 
 -- ///////////////////////////////////////////////////////////////////////////////
+-- DÉBUT DE LA TRANSACTION
+-- //////////////////////////////////////////////////////////////////////////////
+START TRANSACTION;
+
+
+-- ///////////////////////////////////////////////////////////////////////////////
 -- Base de données
 -- ///////////////////////////////////////////////////////////////////////////////
 DROP DATABASE IF EXISTS `OpportuniStage`;
 CREATE DATABASE `OpportuniStage`;
 USE `OpportuniStage`;
 
+
 -- ///////////////////////////////////////////////////////////////////////////////
 -- Tables
 -- ///////////////////////////////////////////////////////////////////////////////
+CREATE TABLE `users`(
+    `user_id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    `user_name` VARCHAR(255) NOT NULL,
+    `user_email` VARCHAR(255) NOT NULL UNIQUE,
+    `user_password` VARCHAR(255) NOT NULL,
+    `user_role` ENUM('admin', 'student', 'company') NOT NULL
 
---Test pour authentification
-CREATE TABLE users(
-    user_id INT NOT NULL PRIMARY KEY auto_increment,
-    user_name VARCHAR(255) NOT NULL,
-    user_email VARCHAR(255) NOT NULL UNIQUE,
-    user_password VARCHAR(255) NOT NULL,
-    user_role ENUM('admin', 'student', 'company')
-);
+)
+ENGINE = InnoDB
+CHARACTER SET utf8mb4
+COLLATE utf8mb4_unicode_ci;
 
-INSERT INTO users (user_name, user_email, user_password, user_role)
-VALUES ("Toussaint Madidi", "benimadidi100@gmail.com", "123456", "student");
+CREATE TABLE `companies`(
+    `company_id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    `company_user_id` INT NOT NULL,
+    `company_name` VARCHAR(255) DEFAULT NULL, 
+    `company_phone_number` VARCHAR(20) DEFAULT NULL,
+    `company_sector` ENUM(
+        "administration",
+        "agriculture",
+        "construction",
+        "communication",
+        "commerce",
+        "education",
+        "energy",
+        "finance",
+        "health",
+        "hospitality",
+        "industry",
+        "it",
+        "law",
+        "telecom",
+        "transport"
+    ) DEFAULT NULL,
+    `company_size` ENUM(
+        "micro",
+        "small",
+        "medium",
+        "large"
+    ) DEFAULT NULL,
+    `company_description` TEXT DEFAULT NULL,
+    `company_website` VARCHAR(255) DEFAULT NULL,
+    `company_address` VARCHAR(255) DEFAULT NULL,
+    `company_created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (`company_user_id`) REFERENCES `users`(`user_id`)
+)
+ENGINE = InnoDB
+CHARACTER SET utf8mb4
+COLLATE utf8mb4_unicode_ci;
+
+
+
+
+-- ///////////////////////////////////////////////////////////////////////////////
+-- Enregistrements
+-- ///////////////////////////////////////////////////////////////////////////////
+
+
+-- ///////////////////////////////////////////////////////////////////////////////
+-- Index
+-- ///////////////////////////////////////////////////////////////////////////////
+
+
+-- ///////////////////////////////////////////////////////////////////////////////
+-- Auto-incrémentation
+-- ///////////////////////////////////////////////////////////////////////////////
+
+
+-- ///////////////////////////////////////////////////////////////////////////////
+-- Clés étrangères
+-- ///////////////////////////////////////////////////////////////////////////////
+
+
+-- ///////////////////////////////////////////////////////////////////////////////
+-- FIN DE LA TRANSACTION
+-- ///////////////////////////////////////////////////////////////////////////////
+COMMIT;

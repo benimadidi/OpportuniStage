@@ -12,7 +12,7 @@ if (isset($_POST['register-btn'])) {
     $user_name = htmlspecialchars($_POST['name']);
     $user_email = htmlspecialchars($_POST['email']);
     $user_password = password_hash($_POST['password'], PASSWORD_DEFAULT); 
-    $user_role = htmlspecialchars($_POST['role']);
+    $user_role = $_POST['role'];
 
     //Verifier si le mot de passe confirmé est le bon
     if ($_POST['password'] !== $_POST['password-confirm']) {
@@ -55,6 +55,8 @@ if (isset($_POST['register-btn'])) {
         $insert->bindParam(':user_role', $user_role, PDO::PARAM_STR);
         $insert->execute();
 
+        //Enregistrer l'utilisateur dans la session
+        $_SESSION['user-id'] = $PDO->lastInsertId(); 
         $_SESSION['name'] = $user_name;
         $_SESSION['role'] = $user_role;
         $_SESSION['alerts'][] = [
@@ -106,6 +108,7 @@ if (isset($_POST['login-btn'])) {
 
     // Vérifier si le mot de passe est correct
     if ($user_data && password_verify($user_password, $user_data['user_password'])) {
+        $_SESSION['user-id'] = $user_data['user_id'];
         $_SESSION['name'] = $user_data['user_name'];
         $_SESSION['role'] = $user_data['user_role'];
         $_SESSION['alerts'][] = [

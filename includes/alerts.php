@@ -8,7 +8,7 @@
             <?php foreach($alerts as $alert) : ?>
                 
                 <div class="alert <?= $alert['type'] ?>">
-                    <i class="bx <?= $alert['message'] === 'success' ? 'bxs-check-circle' : 'bxs-x-circle'; ?>"></i>
+                    <i class="bx <?= $alert['type'] === 'success' ? 'bxs-check-circle' : 'bxs-x-circle'; ?>"></i>
                     <p><?= $alert['message'] ?></p>
                 </div>
 
