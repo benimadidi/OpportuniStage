@@ -60,6 +60,7 @@ CREATE TABLE `companies`(
     `company_website` VARCHAR(255) DEFAULT NULL,
     `company_address` VARCHAR(255) DEFAULT NULL,
     `company_created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `company_updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
     FOREIGN KEY (`company_user_id`) REFERENCES `users`(`user_id`)
 )

@@ -11,10 +11,18 @@ ini_set('display_errors', 1);
 session_start();
 
 /*-------------------------------------------------------*/
-// Recuperation des variables de 
+// Recuperation des variables de session
 $session_name = $_SESSION['name'] ?? null;
 $alerts = $_SESSION['alerts'] ?? [];
 $session_id = $_SESSION['user-id'] ?? null;
+
+$company_name = $_SESSION['company-name'] ?? $session_name;
+$company_tel = $_SESSION['company-tel'] ?? '';
+$company_sector = $_SESSION['company-sector'] ?? null;
+$company_size = $_SESSION['company-size'] ?? '';
+$company_description = $_SESSION['company-description'] ?? '';
+$company_website = $_SESSION['company-website'] ?? '';
+$company_address = $_SESSION['company-address'] ?? '';
 
 /*-------------------------------------------------------*/
 // Suppression des variables de session
@@ -26,6 +34,19 @@ if ($session_name !== null)
     $_SESSION['name'] = $session_name ;
 if ($session_id > 0)
     $_SESSION['user-id'] = $session_id;
+    $_SESSION['company-name'] = $company_name;
+if ($company_tel !== null)
+    $_SESSION['company-tel'] = $company_tel;
+if ($company_sector !== null)
+    $_SESSION['company-sector'] = $company_sector;
+if ($company_size !== null)
+    $_SESSION['company-size'] = $company_size;
+if ($company_description !== null)
+    $_SESSION['company-description'] = $company_description;
+if ($company_website !== null)
+    $_SESSION['company-website'] = $company_website;
+if ($company_address !== null)
+    $_SESSION['company-address'] = $company_address; 
 
 ?>
 
