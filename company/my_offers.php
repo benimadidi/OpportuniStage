@@ -16,13 +16,11 @@ $session_name = $_SESSION['name'] ?? null;
 $alerts = $_SESSION['alerts'] ?? [];
 $session_id = $_SESSION['user-id'] ?? null;
 
-$company_name = $_SESSION['company-name'] ?? $session_name;
-$company_tel = $_SESSION['company-tel'] ?? '';
-$company_sector = $_SESSION['company-sector'] ?? null;
-$company_size = $_SESSION['company-size'] ?? '';
-$company_description = $_SESSION['company-description'] ?? '';
-$company_website = $_SESSION['company-website'] ?? '';
-$company_address = $_SESSION['company-address'] ?? '';
+$offers = $_SESSION['offers'] ?? [];
+
+/*-------------------------------------------------------*/
+/*Recuperation des offres de l'utilisateur*/
+require_once '../controllers/my_offers_process.php';
 
 /*-------------------------------------------------------*/
 // Suppression des variables de session
@@ -34,19 +32,9 @@ if ($session_name !== null)
     $_SESSION['name'] = $session_name ;
 if ($session_id > 0)
     $_SESSION['user-id'] = $session_id;
-    $_SESSION['company-name'] = $company_name;
-if ($company_tel !== null)
-    $_SESSION['company-tel'] = $company_tel;
-if ($company_sector !== null)
-    $_SESSION['company-sector'] = $company_sector;
-if ($company_size !== null)
-    $_SESSION['company-size'] = $company_size;
-if ($company_description !== null)
-    $_SESSION['company-description'] = $company_description;
-if ($company_website !== null)
-    $_SESSION['company-website'] = $company_website;
-if ($company_address !== null)
-    $_SESSION['company-address'] = $company_address; 
+
+if ($offers !== null)
+    $_SESSION['offers'] = $offers;
 
 ?>
 
@@ -83,8 +71,8 @@ if ($company_address !== null)
             <i class='bx   bxs-menu' id="menu-icon"></i>
 
             <nav class="navbar">
-                <a href="#" class="active">Tableau de bord</a>
-                <a href="my_offers.php">Mes offres</a>
+                <a href="dashboard.php">Tableau de bord</a>
+                <a href="#" class="active">Mes offres</a>
                 <a href="offer.php">Publier une offre</a>
             </nav>
 
@@ -126,12 +114,49 @@ if ($company_address !== null)
         <?php include '../includes/alerts.php' ?>
 
 
+        <!--////////////////////////////////////////////////////-->
+                    <!-- Formulaire de publication -->
+        <section class="view-offer">
 
+            <h2>Mes offres</h2>
 
+            <?php if (count($offers) === 0): ?>
+
+                <div class="no-offer">Aucune offre publiée pour le moment.</div>
+
+            <?php else: ?>
+
+                <div class="offer-box">
+
+                    <?php foreach ($offers as $offer) : ?>
+
+                        <div class="offer-card">
+
+                            <div class="offer-card-header">
+                                <h6><?php echo htmlspecialchars(ucfirst($offer['offer_title'])); ?></h6>
+                                <div class="offer-status">Publiée</div>
+                            </div>
+
+                            <p><?php echo htmlspecialchars(ucfirst($offer['offer_description'])); ?></p>
+
+                            <div class="offer-card-action">
+                                <a href="offer_details.php?id=<?php echo $offer['offer_id']; ?>" class="offer-details">Voir l'offre</a>
+                                <a href="">Supprimer</a>
+                            </div>
+
+                        </div>
+
+                    <?php endforeach; ?>
+
+                </div>
+
+            <?php endif; ?>
+
+        </section>
 
 
         <!--////////////////////////////////////////////////////-->
-                <!-- footer -->
+                    <!-- footer -->
         <?php include '../includes/footer.php' ?>
 
 
