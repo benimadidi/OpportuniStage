@@ -78,45 +78,59 @@ if ($offer_id){
                 'full-time' => 'Temps plein',
                 'part-time' => 'Temps partiel'
             ];
+
+            //Formater la date en francais 
+            $date = new DateTime($offer['offer_deadline']);
+            $formatter = new IntlDateFormatter(
+                'fr_FR',
+                IntlDateFormatter::LONG,
+                IntlDateFormatter::NONE,
+                'Africa/Kinshasa',
+                IntlDateFormatter::GREGORIAN,
+                'd MMMM yyyy'
+            );
+            $date_fr = $formatter->format($date);
         ?>
 
-        <section class="offer-details-page">
+        <section class="offer-details">
 
             <?php if ($offer): ?>
 
-                <div class="offer-details-card">
+                <div class="offer-details-container">
 
-                    <h2><?php echo htmlspecialchars($offer['offer_title']); ?></h2>
+                    <h2><?php echo htmlspecialchars(ucfirst($offer['offer_title'])); ?></h2>
 
-                    <p><strong>Description :</strong> <?php echo htmlspecialchars($offer['offer_description']); ?></p>
+                    <div class="offer-details-box">
+                        
+                        <p><span>Lieu :</span> <?php echo htmlspecialchars($offer['offer_location']); ?></p>
+                        <p>
+                            <span>Secteur :</span>
+                            <?php
+                                $sector = $offer['offer_sector'] ?? '';
+                                echo htmlspecialchars($sectors[$sector] ?? $sector); 
+                            ?>
+                        </p>
 
-                    <p><strong>Lieu :</strong> <?php echo htmlspecialchars($offer['offer_location']); ?></p>
+                        <p>
+                            <span>Type :</span>
+                            <?php 
+                                $type = $offer['offer_type'] ?? '';
+                                echo htmlspecialchars($types[$type] ?? $type);
+                            ?>
+                        </p>
+                        <p><span>Durée :</span> <?php echo htmlspecialchars($offer['offer_duration']); ?> semaine<?php echo $offer['offer_duration'] > 1 ? 's' : ''; ?></p>
+                        <p><span>Date limite :</span> <?php echo htmlspecialchars($date_fr); ?></p>
+                        <p><span>Profil recherché :</span> <?php echo htmlspecialchars($offer['offer_profile']); ?></p>
+                        <p style="margin-bottom: 4rem;"><span>Rémunération :</span> <?php echo htmlspecialchars($offer['offer_remuneration']); ?></p>
 
-                    <p><strong>Secteur :</strong>
-                    <?php
-                        $sector = $offer['offer_sector'] ?? '';
-                        echo htmlspecialchars($sectors[$sector] ?? $sector); 
-                    ?></p>
+                    </div>
 
-                    <p><strong>Type :</strong>
-                    <?php 
-                        $type = $offer['offer_type'] ?? '';
-                        echo htmlspecialchars($types[$type] ?? $type);
-                    ?></p>
-
-                    <p><strong>Durée :</strong> <?php echo htmlspecialchars($offer['offer_duration']); ?></p>
-                    
-                    <p><strong>Date limite :</strong> <?php echo htmlspecialchars($offer['offer_deadline']); ?></p>
-
-                    <p><strong>Profil recherché :</strong> <?php echo htmlspecialchars($offer['offer_profile']); ?></p>
-
-                    <p><strong>Rémunération :</strong> <?php echo htmlspecialchars($offer['offer_remuneration']); ?></p>
 
                 </div>
 
             <?php else: ?>
 
-                <div class="alert alert-error">Offre introuvable.</div>
+                <div class="alert error">Offre introuvable.</div>
 
             <?php endif; ?>
 

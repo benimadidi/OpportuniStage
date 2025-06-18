@@ -141,7 +141,7 @@ if ($offers !== null)
 
                             <div class="offer-card-action">
                                 <a href="offer_details.php?id=<?php echo $offer['offer_id']; ?>" class="offer-details">Voir l'offre</a>
-                                <a href="">Supprimer</a>
+                                <a href="drop_offer.php?id=<?php echo $offer['offer_id']; ?>" class="offer-delete">Supprimer</a>
                             </div>
 
                         </div>

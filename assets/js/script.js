@@ -71,8 +71,8 @@ let params = {
 };
 ScrollReveal(params);
 
-ScrollReveal().reveal('.site-name, .reveal-top, .about-header-content h2, .about-header-content h3, .about-missions h2', {origin : 'top'});
-ScrollReveal().reveal('.home-header-content h1, .home-header-content p, .home-header-content .btn-home-header-content, .reveal-bottom, .about-header-content p, .about-header-content a, .about-mission-box', {origin : 'bottom'});
-ScrollReveal().reveal('.home-student-img, .home-company-content, .contact-content', {origin : 'left'});
+ScrollReveal().reveal('.site-name, .reveal-top, .about-header-content h2, .about-header-content h3, .about-missions h2, .add-offer h2, .view-offer h2', {origin : 'top'});
+ScrollReveal().reveal('.home-header-content h1, .home-header-content p, .home-header-content .btn-home-header-content, .reveal-bottom, .about-header-content p, .about-header-content a, .about-mission-box, .add-offer form .add-offer-btn, .view-offer .offer-box .offer-card', {origin : 'bottom'});
+ScrollReveal().reveal('.home-student-img, .home-company-content, .contact-content, .add-offer form .add-offer-input-box, .view-offer .no-offer', {origin : 'left'});
 ScrollReveal().reveal('.contact-img', {origin : 'right'});
 

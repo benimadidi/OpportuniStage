@@ -513,7 +513,7 @@ section{
     border-radius: 2rem;
     background-color: var(--card-background);
     padding: 2.5rem 2rem;
-    margin-bottom: 2rem;
+    margin-bottom: 5rem;
     box-shadow: 0 0 1rem rgba(0, 0, 0, 0.3);
 }
 
@@ -582,11 +582,44 @@ section{
     background-color: var(--text-color);
     color: var(--off-white-text);
 }
-/* *{
-    border: 1px solid red;
-} */
 
+/*-------------------------------------------------------------------------*/
+/*Afficher details offre*/
+.offer-details{
+    padding: 5rem 4rem;
+}
 
+.offer-details h2{
+    font-size: 4.5rem;
+    margin-bottom: 6.5rem;
+    text-align: center;   
+}
+
+.offer-details .offer-details-box{
+    font-size: 2rem;
+}
+
+.offer-details .offer-details-box p{
+    margin-bottom: 2rem;
+    font-size: 2rem;
+    font-weight: 400;
+}
+
+.offer-details .offer-details-box p span{
+    font-size: 2.3rem;
+    font-weight: 600;
+}
+
+.offer-details a{
+    padding: 1rem 2.8rem;
+    background-color: var(--primary-color);
+    border-radius: 4rem;
+    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.3);
+    font-size:  1.6rem;
+    text-align: center;
+    color: var(--off-white-text);
+    margin-bottom: 0;
+}
 /*-------------------------------------------------------------------------*/
 /*site-name*/
 .site-name{
