@@ -11,10 +11,15 @@ ini_set('display_errors', 1);
 session_start();
 
 /*-------------------------------------------------------*/
+// Inclure le fichier de configuration
+require_once '../config/db-config.php';
+
+/*-------------------------------------------------------*/
 // Recuperation des variables de session
 $session_name = $_SESSION['name'] ?? null;
 $alerts = $_SESSION['alerts'] ?? [];
 $session_id = $_SESSION['user-id'] ?? null;
+
 
 /*-------------------------------------------------------*/
 // Suppression des variables de session
@@ -30,9 +35,10 @@ if ($session_id > 0)
 /*-------------------------------------------------------*/
 // Initialiser les infos de l'entreprise a null
 $company = null ;
+$offers = [];
+$last_publication = null;
 
 if ($session_id){
-    require_once '../config/db-config.php';
 
     //Récupérer les donnees de l'entreprise 
     $query_company = "SELECT * FROM companies WHERE company_user_id = :user_id";
@@ -40,6 +46,38 @@ if ($session_id){
     $result -> bindParam(":user_id", $session_id, PDO::PARAM_INT);
     $result -> execute();
     $company = $result -> fetch(PDO::FETCH_ASSOC);
+
+    //Recuperer la derniere publication
+    $query_last_publication = "SELECT offer_created_at FROM offers 
+                               WHERE offer_company_id = :company_id 
+                               ORDER BY offer_id DESC LIMIT 1";
+    $result_last_publication = $PDO -> prepare($query_last_publication);
+    $result_last_publication -> bindParam(":company_id", $company['company_id'], PDO::PARAM_INT);
+    $result_last_publication -> execute();
+    $last_publication = $result_last_publication -> fetch(PDO::FETCH_ASSOC);
+}
+
+if ($company){
+    $company_id = $company['company_id'];
+
+    //Recuperer les 4 dernieres offres 
+    $query = "SELECT * FROM offers 
+              WHERE offer_company_id = :company_id 
+              ORDER BY offer_id DESC 
+              LIMIT 3"; 
+
+    $result = $PDO -> prepare($query);
+    $result -> bindParam(":company_id", $company_id, PDO::PARAM_INT);
+    $result -> execute();
+    $offers = $result -> fetchAll(PDO::FETCH_ASSOC);
+
+    //Compter toutes les offres publiees
+    $query_all_offers = "SELECT COUNT(offer_id) AS total FROM offers WHERE offer_company_id = :company_id";
+    $result_all_offers = $PDO -> prepare($query_all_offers);
+    $result_all_offers -> bindParam(":company_id", $company_id, PDO::PARAM_INT);
+    $result_all_offers -> execute();
+    $all_offers = $result_all_offers -> fetch(PDO::FETCH_ASSOC);
+    $total_offers = $all_offers['total'];
 }
 
 ?>
@@ -119,9 +157,131 @@ if ($session_id){
                     <!--alerts-->
         <?php include '../includes/alerts.php' ?>
 
+        <!--////////////////////////////////////////////////////-->
+        <!-- Gerer la correspondance des langues -->
+        <?php
+            // correspondance secteur anglais => français
+            $sectors = [
+                'administration' => 'Administration publique',
+                'agriculture' => 'Agriculture / Agroalimentaire',
+                'construction' => 'Construction / BTP',
+                'communication' => 'Communication / Marketing',
+                'commerce' => 'Commerce / Distribution',
+                'education' => 'Éducation / Formation',
+                'energy' => 'Énergie / Environnement',
+                'finance' => 'Finance / Banque / Assurance',
+                'health' => 'Santé / Médical',
+                'hospitality' => 'Hôtellerie / Restauration',
+                'industry' => 'Industrie / Production',
+                'it' => 'Informatique / TIC',
+                'law' => 'Juridique / Droit',
+                'telecom' => 'Télécommunications',
+                'transport' => 'Transport / Logistique'
+            ];
 
+            //Formater la date en francais 
+            $date = new DateTime($last_publication['offer_created_at']);
+            $formatter = new IntlDateFormatter(
+                'fr_FR',
+                IntlDateFormatter::LONG,
+                IntlDateFormatter::NONE,
+                'Africa/Kinshasa',
+                IntlDateFormatter::GREGORIAN,
+                'd MMMM yyyy'
+            );
+            $date_fr = $formatter->format($date);
 
+        ?>
 
+        <!--////////////////////////////////////////////////////-->
+                    <!--Dashboard-->              
+        <section class="dashboard">
+
+            <div class="dashboard-card-header">
+
+                <div class="dashboard-card-box">
+                    <i class="fa-solid fa-briefcase"></i>
+                    <h4>Offre<?php if ($total_offers > 1) echo 's' ?? ''; ?> publiée<?php if ($total_offers > 1) echo 's' ?? ''; ?></h4>
+                    <p><?php echo $total_offers; ?></p>
+                </div>
+
+                <div class="dashboard-card-box">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    <h4>Candidatures reçues</h4>
+                    <p>12</p>
+                </div>
+
+                <div class="dashboard-card-box">
+                    <i class="fa-solid fa-calendar-days"></i>
+                    <h4>Dernière publication</h4>
+                    <p>Le <?php echo $date_fr ?? 'Aucune offre publiée'  ?></p>
+                </div>
+
+            </div>
+
+            <!--Dernières offres publiees-->
+            <div class="dashboard-card-container">
+
+                <div class="dashboard-card-content left">
+
+                    <h2>Dernières offres publiées</h2>
+
+                    <?php if (count($offers) === 0): ?>
+
+                        <div class="no-offer">Aucune offre publiée pour le moment.</div>
+
+                    <?php else: ?>
+
+                        <?php foreach ($offers as $offer): ?>
+
+                            <div class="dashboard-card">
+
+                                <div class="dashboard-card-box">
+
+                                    <h4><?php echo htmlspecialchars($offer['offer_title']); ?></h4>
+                                    <div class="dashboard-card-layer">
+                                        <h5>
+                                            <span>Secteur</span> : 
+                                            <?php 
+                                                $sector = $offer['offer_sector'];
+                                                echo htmlspecialchars($sectors[$sector]); 
+                                            ?>
+                                        </h5>
+                                        <p class="type">stage</p>
+                                    </div>
+
+                                </div>
+
+                                <div class="dashboard-card-box aside">
+                                    <a href="offer_details.php?id=<?php echo $offer['offer_id']; ?>">Voir</a>
+                                    <a href="drop_offer.php?id=<?php echo $offer['offer_id']; ?>" class="delete-btn">Supprimer</a>
+                                </div>
+
+                            </div>
+
+                        <?php endforeach; ?>
+
+                    <?php endif; ?>
+
+                </div>
+
+                <div class="dashboard-card-content right">
+                    
+                    <div class="aside-card-box" >
+                        <i class="fa-solid fa-plus"></i>
+                        <a href="offer.php">Publier une nouvelle offre</a>
+                    </div>
+
+                    <div class="aside-card-box">
+                        <i class='bx  bxs-user'  ></i>
+                        <a href="edit_profil.php">Modifier le profil entreprise</a>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
 
 
         <!--////////////////////////////////////////////////////-->

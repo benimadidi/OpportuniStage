@@ -350,10 +350,213 @@ section{
 }
 
 /*-------------------------------------------------------------------------*/
+/*tableau de bord entreprise*/
+.dashboard{
+    width: 100%;
+    padding: 3rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+}
+.dashboard .dashboard-card-header{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3rem;
+}
+
+.dashboard-card-header .dashboard-card-box{
+    padding: 3rem 1rem;
+    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.3);
+    border-radius: 1rem;
+    background-color: var(--card-background);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+}
+
+.dashboard-card-header .dashboard-card-box i{
+    color: var(--primary-color);
+    font-size: 4rem;
+    margin-bottom: 1rem;
+}
+
+.dashboard-card-header .dashboard-card-box h4{
+    font-size: 2.5rem;
+    font-weight: 600;
+}
+
+.dashboard-card-header .dashboard-card-box p{
+    font-size: 2.5rem;
+    color: var(--primary-color);
+}
+
+.dashboard-card-container{
+    display: flex;
+    justify-content: center;
+    margin-top: 3rem;
+    gap: 3rem;
+}
+
+.dashboard-card-content h2{
+    font-size: 3.5rem;
+    margin : 0 0 2.5rem 2.5rem ;
+    text-align: left;
+}
+
+.dashboard-card-content.left {
+    width: 70%;
+    padding: 3rem;
+    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.3);
+    border-radius: 1rem;
+    background-color: var(--card-background);
+}
+
+.dashboard-card-content .dashboard-card{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: .1rem solid #1095e775;
+    padding: 2rem;
+    box-shadow: 0 0 .2rem rgba(0, 0, 0, 0.3);
+    border-radius: .8rem;
+    margin-bottom: 2rem;
+}
+
+.dashboard-card .dashboard-card-box{
+    width: 25rem;
+    max-width: 25rem;
+}
+    
+
+.dashboard-card-box h4{
+    display: block;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 1.8rem;
+}
+
+.dashboard-card-box .dashboard-card-layer {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1.5rem;
+    margin-top: 1rem;
+    font-size: 1.5rem;
+    width: 100%;
+    overflow: hidden; 
+}
+
+.dashboard-card-box .dashboard-card-layer h5 {
+    flex: 1;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+/* Optionnel : ajustement individuel */
+.dashboard-card-box .dashboard-card-layer span {
+    font-size: 2rem;
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+.dashboard-card-box .dashboard-card-layer p {
+    font-size: 2rem;
+    color: var(--secondary-color);
+    margin-left: .3rem;
+}
+
+.dashboard-card-box .dashboard-card-layer h5 {
+    font-size: 1.5rem;
+    font-weight: normal;
+    margin: 0;
+}
+
+.dashboard-card-content .no-offer{
+    font-size: 2.5rem;
+    text-align: center;
+    font-weight: 600;
+    margin-top: 10rem ;
+    color: var(--primary-color)
+}
+
+.dashboard-card .dashboard-card-box.aside{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2.5rem;
+}
+
+.dashboard-card-box a{
+    font-size: 1.2rem;
+    color: var(--text-color);
+    font-weight: 500;
+    border: .1rem solid var(--text-color);
+    border-radius: .5rem;
+    padding: .8rem;
+    transition: 0.3s ease;
+}
+
+.dashboard-card-box a:hover{
+    background-color: var(--text-color);
+    color: var(--background-color);
+}
+
+.dashboard-card-box.aside .delete-btn{
+    color: var(--error-color);
+    border: .1rem solid var(--error-color);
+    transition: .3s ease;
+}
+
+ .dashboard-card-box.aside .delete-btn:hover{
+    background-color: var(--error-color);
+    color: var(--background-color);
+}
+
+.aside-card-box {
+    display: flex;
+    align-items: center; 
+    padding: 5rem;
+    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.3);
+    border-radius: 1rem;
+    background-color: var(--card-background);
+    margin-bottom: 4rem;
+}
+
+.aside-card-box i {
+    font-size: 2rem;
+    margin-right: 3rem;
+    padding: 2.5rem;
+    border-radius: 50%;
+    color: var(--primary-color);
+    background-color: var(--secondary-color);
+}
+
+.aside-card-box a {
+    font-size: 1.6rem;
+    color: var(--primary-color);
+    font-weight: 700;
+    padding: 0;      
+    margin: 0;       
+    text-decoration: none;
+    transition: .3s ease;
+}
+
+.aside-card-box a:hover{
+    color: var(--secondary-color);
+}
+
+
+/*-------------------------------------------------------------------------*/
 /*Modifier profil*/
 .edit-profil h2{
-    font-size: 4.5rem;
-    margin-bottom: 9rem;
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
     text-align: center;
 }
 
@@ -1141,6 +1344,45 @@ footer p a:hover{
 
     .contact-img img{
         width: 70vw;
+    }
+
+    /*-------------------------------------------------------------------------*/
+    /*dashboard company*/
+    .dashboard .dashboard-card-header{
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard-card-container{
+        flex-direction: column-reverse;
+    }
+
+    .dashboard-card-content.left {
+        width: 100%;
+    }
+
+    .dashboard-card-content h2{
+        font-size: 3rem;
+        margin-bottom: 2.5rem;
+        text-align: center;
+    }
+
+    .dashboard-card .dashboard-card-box{
+        width: 25rem;
+        max-width: 25rem;
+    }
+        
+
+    .dashboard-card-box h4{
+        display: block;
+        max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-size: 1.8rem;
+    }
+
+    .dashboard-card-content .no-offer{
+        margin-top: 3rem;
     }
 
 }
