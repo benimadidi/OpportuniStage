@@ -97,14 +97,14 @@ if ($company_address !== null)
                         <div class="avatar-circle"><?= strtoupper($session_name[0])?></div>
 
                         <div class="dropdown">
-                            <a href="../company/profil.php">
+                            <a href="profil.php?">
                                 <i class='bx  bxs-user'  ></i> 
                                 Mon Profil
                             </a>
 
                             <a href="../company/edit_profil.php">
                                 <i class="fa-solid fa-pen-to-square"></i>
-                                Modifier le profil
+                                Mettre a jour le profil
                             </a>
 
                             <a href="../logout.php">

@@ -71,7 +71,7 @@ if (isset($_POST['add-offer-btn'])){
 
     $insert -> execute();
 
-    //Afficher un message de confirmation
+    //Enregistrer les donnees utilisateur dans la session
     $_SESSION['alerts'][] = [
         'type' => 'success',
         'message' => 'Offre Publiée avec succès'

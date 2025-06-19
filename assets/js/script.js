@@ -30,10 +30,12 @@ if(loginBtnModal){
 
 /*-----------------------------------------------------------------------------------------------------*/
 /* Le menu de navigation en responsive */
-menuIcon.addEventListener('click', () => {
-    menuIcon.classList.toggle('bxs-x');
-    navbar.classList.toggle('active');
-});
+if (menuIcon){
+    menuIcon.addEventListener('click', () => {
+        menuIcon.classList.toggle('bxs-x');
+        navbar.classList.toggle('active');
+    });
+}
 
 /*-----------------------------------------------------------------------------------------------------*/
 /* La fermeture du menu de navigation en responsive */
@@ -71,8 +73,8 @@ let params = {
 };
 ScrollReveal(params);
 
-ScrollReveal().reveal('.site-name, .reveal-top, .about-header-content h2, .about-header-content h3, .about-missions h2, .add-offer h2, .view-offer h2', {origin : 'top'});
-ScrollReveal().reveal('.home-header-content h1, .home-header-content p, .home-header-content .btn-home-header-content, .reveal-bottom, .about-header-content p, .about-header-content a, .about-mission-box, .add-offer form .add-offer-btn, .view-offer .offer-box .offer-card', {origin : 'bottom'});
-ScrollReveal().reveal('.home-student-img, .home-company-content, .contact-content, .add-offer form .add-offer-input-box, .view-offer .no-offer', {origin : 'left'});
+ScrollReveal().reveal('.site-name, .reveal-top, .about-header-content h2, .about-header-content h3, .about-missions h2, .add-offer h2, .view-offer h2, .offer-details-container h2, .profil-info h2, .edit-profil h2', {origin : 'top'});
+ScrollReveal().reveal('.home-header-content h1, .home-header-content p, .home-header-content .btn-home-header-content, .reveal-bottom, .about-header-content p, .about-header-content a, .about-mission-box, .add-offer form .add-offer-btn, .view-offer .offer-box .offer-card, .offer-details a, .profil-info .profil-info-container, .edit-profil .edit-profil-input-box, .edit-profil .edit-profil-btn', {origin : 'bottom'});
+ScrollReveal().reveal('.home-student-img, .home-company-content, .contact-content, .add-offer form .add-offer-input-box, .view-offer .no-offer,  .offer-details-box p', {origin : 'left'});
 ScrollReveal().reveal('.contact-img', {origin : 'right'});
 

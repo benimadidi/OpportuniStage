@@ -50,6 +50,7 @@ if ($offer_id){
         <!--////////////////////////////////////////////////////-->
                     <!--alerts-->
         <?php include '../includes/alerts.php' ?>
+        
 
         <!--////////////////////////////////////////////////////-->
         <!-- Gerer la correspondance des langues -->

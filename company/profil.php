@@ -1,0 +1,214 @@
+
+<?php
+
+/*-------------------------------------------------------*/
+/* Gestion de l'affichage des erreurs */ 
+error_reporting(-1);
+ini_set('display_errors', 1);
+
+/*-------------------------------------------------------*/
+// Initialisation de la session
+session_start();
+
+/*-------------------------------------------------------*/
+// Recuperation des variables de session
+$session_name = $_SESSION['name'] ?? null;
+$alerts = $_SESSION['alerts'] ?? [];
+$session_id = $_SESSION['user-id'] ?? null;
+
+/*-------------------------------------------------------*/
+// Suppression des variables de session
+session_unset();
+
+/*-------------------------------------------------------*/
+// Enregistrement des variables de session
+if ($session_name !== null)
+    $_SESSION['name'] = $session_name ;
+if ($session_id > 0)
+    $_SESSION['user-id'] = $session_id;
+
+/*-------------------------------------------------------*/
+// Recuperation de l'id de l'utilisateur
+$user_id = $_SESSION['user-id'] ?? null;
+$user = null ;
+$company = null;
+
+if ($user_id){
+    require_once '../config/db-config.php';
+
+    //Récupérer les données de l'utilisateur
+    $query_user = "SELECT * FROM users WHERE user_id = :user_id";
+    $result = $PDO -> prepare($query_user);
+    $result -> bindParam(":user_id", $user_id, PDO::PARAM_INT);
+    $result -> execute();
+    $user = $result -> fetch(PDO::FETCH_ASSOC);
+
+    //écupérer les donnees de l'entreprise 
+    $query_company = "SELECT * FROM companies WHERE company_user_id = :user_id";
+    $result = $PDO -> prepare($query_company);
+    $result -> bindParam(":user_id", $user_id, PDO::PARAM_INT);
+    $result -> execute();
+    $company = $result -> fetch(PDO::FETCH_ASSOC);
+}
+
+
+
+?>
+
+<!DOCTYPE html>
+<html lang="fr">
+
+    <head>
+
+        <!--////////////////////////////////////////////////////-->
+                    <!--Les metas données-->
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>OpportuniSatge</title>
+
+        <!--////////////////////////////////////////////////////-->
+                    <!--styles -->
+        <link rel="stylesheet" href="../assets/css/style.css">
+
+        <!--////////////////////////////////////////////////////-->
+                    <!--Icons-->
+        <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    </head>
+
+    <body>
+
+        <!--////////////////////////////////////////////////////-->
+                    <!--alerts-->
+        <?php include '../includes/alerts.php' ?>
+
+        <!--////////////////////////////////////////////////////-->
+        <!-- Gerer la correspondance des langues -->
+        <?php
+            // correspondance secteur anglais => français
+            $sectors = [
+                'administration' => 'Administration publique',
+                'agriculture' => 'Agriculture / Agroalimentaire',
+                'construction' => 'Construction / BTP',
+                'communication' => 'Communication / Marketing',
+                'commerce' => 'Commerce / Distribution',
+                'education' => 'Éducation / Formation',
+                'energy' => 'Énergie / Environnement',
+                'finance' => 'Finance / Banque / Assurance',
+                'health' => 'Santé / Médical',
+                'hospitality' => 'Hôtellerie / Restauration',
+                'industry' => 'Industrie / Production',
+                'it' => 'Informatique / TIC',
+                'law' => 'Juridique / Droit',
+                'telecom' => 'Télécommunications',
+                'transport' => 'Transport / Logistique'
+            ];
+
+            // Correspondance taille 
+            $sizes = [
+                'micro' => 'Micro-entreprise (moins de 10 personnes)',
+                'small' => 'Petite entreprise (10 à 50 personnes)',
+                'medium' => 'Moyenne entreprise (50 à 250 personnes)',
+                'large' => 'Grande entreprise (plus de 250 personnes)'
+            ];
+
+            //Formater la date en francais 
+            $date = new DateTime($company['company_created_at']);
+            $formatter = new IntlDateFormatter(
+                'fr_FR',
+                IntlDateFormatter::LONG,
+                IntlDateFormatter::NONE,
+                'Africa/Kinshasa',
+                IntlDateFormatter::GREGORIAN,
+                'd MMMM yyyy'
+            );
+            $date_fr = $formatter->format($date);
+
+        ?>
+
+        <section class="profil-info">
+            <h2>Mon profil</h2>
+
+            <div class="profil-info-container">
+
+                <div class="profil-info-box heading">
+                    <div class="avatar-circle"><?= strtoupper($user['user_name'][0])?></div>
+                    <h3 class="profil-info-name"><?php echo ucfirst(htmlspecialchars($company['company_name'])); ?></h3>
+                </div>
+
+                <div class="profil-info-box">
+                    <i class="bx  bxs-envelope" title="Email"></i>
+                    <p><?php echo htmlspecialchars($user['user_email']); ?></p>
+                </div>
+
+                <div class="profil-info-box">
+                    <i class='bxr  bxs-phone' title="Numéro de télépone" ></i> 
+                    <p><?php echo htmlspecialchars($company['company_phone_number'] ?? '"Non mentionné'); ?></p>
+                </div>
+
+                <div class="profil-info-box">
+                    <i class='bx bxs-briefcase' title="Secteur d'activité"></i>
+                    <p>
+                        <?php
+                            $sector = $company['company_sector'];
+                            echo htmlspecialchars( $sectors[$sector] ?? '"Non mentionné'); 
+                        ?>
+                    </p>
+                </div>
+
+                <div class="profil-info-box">
+                    <i class="fa-solid fa-maximize" title="Taille de l'entreprise"></i>
+                    <p>
+                        <?php 
+                            $size = $company['company_size'];
+                            echo htmlspecialchars($sizes[$size] ?? '"Non mentionné');
+                        ?>
+                    </p>
+                </div>
+
+
+                <div class="profil-info-box">
+                    <i class='bx bxs-building' title="Description"></i>
+                    <p><?php echo ucfirst(htmlspecialchars($company['company_description'] ?? 'Pas de description')) ; ?></p>
+                </div>
+
+                <div class="profil-info-box">
+                    <i class='bxr  bxs-link' title="Site web" ></i> 
+                    <a href="<?php echo htmlspecialchars($company['company_website'] ?? '') ; ?>" target="_blank"><?php echo htmlspecialchars($company['company_website'] ?? 'Pas de site') ; ?></a>
+                </div>
+
+                <div class="profil-info-box">
+                    <i class="fa-solid fa-map-location-dot" title="Adresse"></i>
+                    <p><?php echo htmlspecialchars($company['company_address'] ?? "Non mentionné") ; ?></a>
+                </div>
+
+                <div class="profil-info-box last">
+                    <i class='bx bxs-calendar' title="Date de création"></i> 
+                    <p>Créé le <?php echo htmlspecialchars($date_fr ?? '') ; ?></p>
+                </div>
+                
+                <a href="edit_profil_2.php" class="edit-prpfil-btn">Modifier le profil</a>
+
+            </div>
+
+        </section>
+
+
+        <!--////////////////////////////////////////////////////-->
+                    <!-- footer -->
+        <?php include '../includes/footer.php' ?>
+
+
+        <!--//////////////////////////////////////////////////////////-->
+                    <!--Partie du scroll reveal-->
+        <script src="https://unpkg.com/scrollreveal"></script>
+
+
+        <!--////////////////////////////////////////////////////-->
+                    <!--scripts-->
+        <script src="../assets/js/script.js"></script>
+
+    </body>
+
+</html>

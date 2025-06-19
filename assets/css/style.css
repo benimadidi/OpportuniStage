@@ -391,7 +391,7 @@ section{
 }
 
 .edit-profil form .edit-profil-btn{
-    margin-top: 2rem 0;
+    margin-top: 2rem ;
     width: 100%;
     height: 4.5rem;
     background-color: var(--primary-color);
@@ -419,6 +419,103 @@ section{
     color: var(--text-color);
     padding: 1rem 4.5rem  1rem 2rem;
     border-radius: .8rem;
+}
+
+/*-------------------------------------------------------------------------*/
+/*Voir profil*/
+.profil-info h2{
+    padding-left: 3rem;
+    font-size: 4.5rem;
+    margin-bottom: 5rem;
+    text-align: left;
+}
+
+.profil-info .profil-info-container{
+    width: 70%;
+    border: .1rem solid var(--card-background);
+    box-shadow: 0 0 .5rem rgba(0, 0, 0, 0.3);
+    border-radius: .8rem;
+    padding: 3rem;
+    margin-bottom: 3rem;
+} 
+
+.profil-info .profil-info-container .profil-info-box .avatar-circle{
+    width: 6.5rem;
+    height: 6.5rem;
+    flex-shrink: 0;
+    background-color: var(--text-color);
+    border-radius: 50%;
+    line-height: 6.5rem;
+    text-align: center;
+    font-size: 2.5rem;
+    color: var(--off-white-text);
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.profil-info .profil-info-container .profil-info-box.heading{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 2rem;
+    margin-bottom: 2.5rem
+}
+
+.profil-info .profil-info-container .profil-info-box h3{
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    letter-spacing: .1rem;
+}
+
+.profil-info .profil-info-container .profil-info-box {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.profil-info .profil-info-container .profil-info-box i{
+    font-size: 2.5rem;
+    color: var(--text-color);
+    border-radius: 50%; 
+}
+
+.profil-info .profil-info-container .profil-info-box p{
+    font-size: 2rem;
+    color: var(--text-color);
+}
+
+.profil-info .profil-info-container .profil-info-box.last{
+    margin-bottom: 4rem;
+}
+
+.profil-info .profil-info-container .profil-info-box a{
+    font-size: 2rem;
+    color: var(--text-color);
+    transition: .3s ease;
+}
+
+.profil-info .profil-info-container .profil-info-box a:hover{
+    color: var(--primary-color);
+}
+
+.profil-info .profil-info-container .edit-prpfil-btn{
+    padding: .8rem 1.3rem;
+    height: 4.5rem;
+    background-color: var(--primary-color);
+    color: var(--off-white-text);
+    border-radius: 4rem;
+    border: none;
+    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.3);
+    font-size: 2rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: .3s ease;
+}
+
+.profil-info .profil-info-container .edit-prpfil-btn:hover{
+    background-color: var(--text-color);
 }
 
 /*-------------------------------------------------------------------------*/
@@ -990,6 +1087,17 @@ footer p a:hover{
     .alert-box{
         width: 60%;
     }
+
+    /*-------------------------------------------------------------------------*/
+    /*Voir profil*/
+    .profil-info h2{
+        text-align: center;
+    }
+
+    .profil-info .profil-info-container{
+        width: 100%;
+    } 
+
 
     /*-------------------------------------------------------------------------*/
     /*site-name*/

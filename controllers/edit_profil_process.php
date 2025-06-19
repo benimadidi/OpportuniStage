@@ -75,13 +75,6 @@ if(isset($_POST["edit-profil-btn"])){
     $update->execute();
 
     //Enregistrer les donnees utilisateur dans la session
-    $_SESSION['company-name'] = $company_name;
-    $_SESSION['company-tel'] = $company_tel;
-    $_SESSION['company-sector'] = $company_sector;
-    $_SESSION['company-size'] = $company_size;
-    $_SESSION['company-description'] = $company_description;
-    $_SESSION['company-website'] = $company_website;
-    $_SESSION['company-address'] = $company_address;
     $_SESSION['alerts'][] = [
         'type' => 'success',
         'message' => 'Profil modifié'
