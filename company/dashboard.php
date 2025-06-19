@@ -16,14 +16,6 @@ $session_name = $_SESSION['name'] ?? null;
 $alerts = $_SESSION['alerts'] ?? [];
 $session_id = $_SESSION['user-id'] ?? null;
 
-$company_name = $_SESSION['company-name'] ?? $session_name;
-$company_tel = $_SESSION['company-tel'] ?? '';
-$company_sector = $_SESSION['company-sector'] ?? null;
-$company_size = $_SESSION['company-size'] ?? '';
-$company_description = $_SESSION['company-description'] ?? '';
-$company_website = $_SESSION['company-website'] ?? '';
-$company_address = $_SESSION['company-address'] ?? '';
-
 /*-------------------------------------------------------*/
 // Suppression des variables de session
 session_unset();
@@ -34,19 +26,21 @@ if ($session_name !== null)
     $_SESSION['name'] = $session_name ;
 if ($session_id > 0)
     $_SESSION['user-id'] = $session_id;
-    $_SESSION['company-name'] = $company_name;
-if ($company_tel !== null)
-    $_SESSION['company-tel'] = $company_tel;
-if ($company_sector !== null)
-    $_SESSION['company-sector'] = $company_sector;
-if ($company_size !== null)
-    $_SESSION['company-size'] = $company_size;
-if ($company_description !== null)
-    $_SESSION['company-description'] = $company_description;
-if ($company_website !== null)
-    $_SESSION['company-website'] = $company_website;
-if ($company_address !== null)
-    $_SESSION['company-address'] = $company_address; 
+
+/*-------------------------------------------------------*/
+// Initialiser les infos de l'entreprise a null
+$company = null ;
+
+if ($session_id){
+    require_once '../config/db-config.php';
+
+    //Récupérer les donnees de l'entreprise 
+    $query_company = "SELECT * FROM companies WHERE company_user_id = :user_id";
+    $result = $PDO -> prepare($query_company);
+    $result -> bindParam(":user_id", $session_id, PDO::PARAM_INT);
+    $result -> execute();
+    $company = $result -> fetch(PDO::FETCH_ASSOC);
+}
 
 ?>
 
@@ -94,7 +88,7 @@ if ($company_address !== null)
 
                     <div class="profile-box">
                         
-                        <div class="avatar-circle"><?= strtoupper($session_name[0])?></div>
+                        <div class="avatar-circle"><?= strtoupper($company['company_name'][0])?></div>
 
                         <div class="dropdown">
                             <a href="profil.php?">

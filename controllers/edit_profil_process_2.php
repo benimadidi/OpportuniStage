@@ -27,7 +27,23 @@ if(isset($_POST["edit-profil-btn"])){
         exit();
     }
 
-    //Verifier si l'utlisateur existe 
+    //Verifier si l'email est déjà utilisé par un autre utilisateur
+    $query = "SELECT user_email FROM users WHERE user_email = :user_email AND user_id != :user_id";
+    $check_email = $PDO->prepare($query);
+    $check_email->bindParam(':user_email', $user_new_email, PDO::PARAM_STR);
+    $check_email->bindParam(':user_id', $_SESSION['user-id'], PDO::PARAM_INT);
+    $check_email->execute();
+
+    if ($check_email->rowCount() > 0) {
+        $_SESSION['alerts'][] = [
+            'type' => 'error',
+            'message' => 'Email déjà utilisé'
+        ];
+        header('Location: ../company/edit_profil_2.php');
+        exit();
+    }
+
+    // Mettre a jour le profil 
     $check_query = "SELECT user_id FROM users WHERE user_id = :user_id";
     $check = $PDO->prepare($check_query);
     $check -> bindParam(':user_id', $_SESSION['user-id'], PDO::PARAM_INT); 

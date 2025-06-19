@@ -51,8 +51,6 @@ if ($user_id){
     $company = $result -> fetch(PDO::FETCH_ASSOC);
 }
 
-
-
 ?>
 
 <!DOCTYPE html>
@@ -133,7 +131,7 @@ if ($user_id){
             <div class="profil-info-container">
 
                 <div class="profil-info-box heading">
-                    <div class="avatar-circle"><?= strtoupper($user['user_name'][0])?></div>
+                    <div class="avatar-circle"><?= strtoupper($company['company_name'][0])?></div>
                     <h3 class="profil-info-name"><?php echo ucfirst(htmlspecialchars($company['company_name'])); ?></h3>
                 </div>
 

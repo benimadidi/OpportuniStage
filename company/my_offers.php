@@ -36,6 +36,21 @@ if ($session_id > 0)
 if ($offers !== null)
     $_SESSION['offers'] = $offers;
 
+/*-------------------------------------------------------*/
+// Initialiser les infos de l'entreprise a null
+$company = null ;
+
+if ($session_id){
+    require_once '../config/db-config.php';
+
+    //Récupérer les donnees de l'entreprise 
+    $query_company = "SELECT * FROM companies WHERE company_user_id = :user_id";
+    $result = $PDO -> prepare($query_company);
+    $result -> bindParam(":user_id", $session_id, PDO::PARAM_INT);
+    $result -> execute();
+    $company = $result -> fetch(PDO::FETCH_ASSOC);
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -82,7 +97,7 @@ if ($offers !== null)
 
                     <div class="profile-box">
                         
-                        <div class="avatar-circle"><?= strtoupper($session_name[0])?></div>
+                        <div class="avatar-circle"><?= strtoupper($company['company_name'][0])?></div>
 
                         <div class="dropdown">
                             <a href="profil.php?">

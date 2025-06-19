@@ -16,9 +16,6 @@ $session_name = $_SESSION['name'] ?? null;
 $alerts = $_SESSION['alerts'] ?? [];
 $session_id = $_SESSION['user-id'] ?? null;
 
-$company_sector = $_SESSION['company-sector'] ?? null;
-$company_address = $_SESSION['company-address'] ?? '';
-
 /*-------------------------------------------------------*/
 // Suppression des variables de session
 session_unset();
@@ -30,10 +27,20 @@ if ($session_name !== null)
 if ($session_id > 0)
     $_SESSION['user-id'] = $session_id;
 
-if ($company_sector !== null)
-    $_SESSION['company-sector'] = $company_sector;
-if ($company_address !== null)
-    $_SESSION['company-address'] = $company_address; 
+/*-------------------------------------------------------*/
+// Initialiser les infos de l'entreprise a null
+$company = null ;
+
+if ($session_id){
+    require_once '../config/db-config.php';
+
+    //Récupérer les donnees de l'entreprise 
+    $query_company = "SELECT * FROM companies WHERE company_user_id = :user_id";
+    $result = $PDO -> prepare($query_company);
+    $result -> bindParam(":user_id", $session_id, PDO::PARAM_INT);
+    $result -> execute();
+    $company = $result -> fetch(PDO::FETCH_ASSOC);
+}
 
 ?>
 
@@ -82,7 +89,7 @@ if ($company_address !== null)
 
                     <div class="profile-box">
                         
-                        <div class="avatar-circle"><?= strtoupper($session_name[0])?></div>
+                        <div class="avatar-circle"><?= strtoupper($company['company_name'][0])?></div>
 
                         <div class="dropdown">
                             <a href="profil.php?">
@@ -134,28 +141,28 @@ if ($company_address !== null)
 
                 <div class="add-offer-input-box">
                     <label for="offer-location">Lieu de l'offre</label>
-                    <input type="text" name="offer-location" id="offer-location" value="<?php echo htmlspecialchars($company_address); ?>" required>
+                    <input type="text" name="offer-location" id="offer-location" value="<?php echo htmlspecialchars($company['company_address']); ?>" required>
                 </div>
 
                 <div class="add-offer-input-box">
                     <label for="offer-sector">Secteur d'activité</label>
                     <select name="offer-sector" id="offer-sector">
-                        <option value="" disabled <?php if (empty($company_sector)) echo 'selected'; ?>>-- Sélectionner un secteur --</option>
-                        <option value="administration" <?php if (($company_sector ?? '') === 'administration') echo 'selected'; ?>>Administration publique</option>
-                        <option value="agriculture" <?php if (($company_sector ?? '') === 'agriculture') echo 'selected'; ?>>Agriculture / Agroalimentaire</option>
-                        <option value="construction" <?php if (($company_sector ?? '') === 'construction') echo 'selected'; ?>>Construction / BTP</option>
-                        <option value="communication" <?php if (($company_sector ?? '') === 'communication') echo 'selected'; ?>>Communication / Marketing</option>
-                        <option value="commerce" <?php if (($company_sector ?? '') === 'commerce') echo 'selected'; ?>>Commerce / Distribution</option>
-                        <option value="education" <?php if (($company_sector ?? '') === 'education') echo 'selected'; ?>>Éducation / Formation</option>
-                        <option value="energy" <?php if (($company_sector ?? '') === 'energy') echo 'selected'; ?>>Énergie / Environnement</option>
-                        <option value="finance" <?php if (($company_sector ?? '') === 'finance') echo 'selected'; ?>>Finance / Banque / Assurance</option>
-                        <option value="health" <?php if (($company_sector ?? '') === 'health') echo 'selected'; ?>>Santé / Médical</option>
-                        <option value="hospitality" <?php if (($company_sector ?? '') === 'hospitality') echo 'selected'; ?>>Hôtellerie / Restauration</option>
-                        <option value="industry" <?php if (($company_sector ?? '') === 'industry') echo 'selected'; ?>>Industrie / Production</option>
-                        <option value="it" <?php if (($company_sector ?? '') === 'it') echo 'selected'; ?>>Informatique / TIC</option>
-                        <option value="law" <?php if (($company_sector ?? '') === 'law') echo 'selected'; ?>>Juridique / Droit</option>
-                        <option value="telecom" <?php if (($company_sector ?? '') === 'telecom') echo 'selected'; ?>>Télécommunications</option>
-                        <option value="transport" <?php if (($company_sector ?? '') === 'transport') echo 'selected'; ?>>Transport / Logistique</option>
+                        <option value="" disabled <?php if (empty($company['company_sector'])) echo 'selected'; ?>>-- Sélectionner un secteur --</option>
+                        <option value="administration" <?php if (($company['company_sector'] ?? '') === 'administration') echo 'selected'; ?>>Administration publique</option>
+                        <option value="agriculture" <?php if (($company['company_sector'] ?? '') === 'agriculture') echo 'selected'; ?>>Agriculture / Agroalimentaire</option>
+                        <option value="construction" <?php if (($company['company_sector'] ?? '') === 'construction') echo 'selected'; ?>>Construction / BTP</option>
+                        <option value="communication" <?php if (($company['company_sector'] ?? '') === 'communication') echo 'selected'; ?>>Communication / Marketing</option>
+                        <option value="commerce" <?php if (($company['company_sector'] ?? '') === 'commerce') echo 'selected'; ?>>Commerce / Distribution</option>
+                        <option value="education" <?php if (($company['company_sector'] ?? '') === 'education') echo 'selected'; ?>>Éducation / Formation</option>
+                        <option value="energy" <?php if (($company['company_sector'] ?? '') === 'energy') echo 'selected'; ?>>Énergie / Environnement</option>
+                        <option value="finance" <?php if (($company['company_sector'] ?? '') === 'finance') echo 'selected'; ?>>Finance / Banque / Assurance</option>
+                        <option value="health" <?php if (($company['company_sector'] ?? '') === 'health') echo 'selected'; ?>>Santé / Médical</option>
+                        <option value="hospitality" <?php if (($company['company_sector'] ?? '') === 'hospitality') echo 'selected'; ?>>Hôtellerie / Restauration</option>
+                        <option value="industry" <?php if (($company['company_sector'] ?? '') === 'industry') echo 'selected'; ?>>Industrie / Production</option>
+                        <option value="it" <?php if (($company['company_sector'] ?? '') === 'it') echo 'selected'; ?>>Informatique / TIC</option>
+                        <option value="law" <?php if (($company['company_sector'] ?? '') === 'law') echo 'selected'; ?>>Juridique / Droit</option>
+                        <option value="telecom" <?php if (($company['company_sector'] ?? '') === 'telecom') echo 'selected'; ?>>Télécommunications</option>
+                        <option value="transport" <?php if (($company['company_sector'] ?? '') === 'transport') echo 'selected'; ?>>Transport / Logistique</option>
                     </select>
                 </div>
 
