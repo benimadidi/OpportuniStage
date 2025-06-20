@@ -20,7 +20,6 @@ $session_name = $_SESSION['name'] ?? null;
 $alerts = $_SESSION['alerts'] ?? [];
 $session_id = $_SESSION['user-id'] ?? null;
 
-
 /*-------------------------------------------------------*/
 // Suppression des variables de session
 session_unset();
@@ -43,8 +42,17 @@ if ($session_id){
     $result -> bindParam(":user_id", $session_id, PDO::PARAM_INT);
     $result -> execute();
     $student = $result -> fetch(PDO::FETCH_ASSOC);
-}
 
+    //Recuperer les offres de toutes les entrepries
+    $query = "SELECT offers.*, companies.company_name
+              FROM offers
+              JOIN companies ON companies.company_id = offers.offer_company_id
+              ORDER BY offers.offer_created_at DESC";
+    $result_offers = $PDO->prepare($query);
+    $result_offers->execute();
+    $offers = $result_offers->fetchAll(PDO::FETCH_ASSOC);
+
+}
 ?>
 
 <!DOCTYPE html>
@@ -75,8 +83,7 @@ if ($session_id){
                     <!--alerts-->
         <?php include '../includes/alerts.php' ?>
 
-
-        <!--////////////////////////////////////////////////////-->
+<!--////////////////////////////////////////////////////-->
                     <!-- Header de l'etudiant -->
         <header class="header">
 
@@ -85,8 +92,8 @@ if ($session_id){
             <i class='bx bxs-menu' id="menu-icon"></i>
 
             <nav class="navbar">
-                <a href="#" class="active">Tableau de bord</a>
-                <a href="../student/offers.php">Offres de stage</a>
+                <a href="../student/dashboard.php">Tableau de bord</a>
+                <a href="#" class="active">Offres de stage</a>
                 <a href="../student/">Mes candidatures</a>
             </nav>
 
@@ -122,7 +129,44 @@ if ($session_id){
         </header>
 
 
+        <!--////////////////////////////////////////////////////-->
+                    <!-- offres de toutes les entreprises -->
+        
+        <section class="view-offer">
 
+            <h2>Offres de stage</h2>
+
+            <?php if (count($offers) === 0): ?>
+
+                <div class="no-offer">Aucune offre publiée pour le moment.</div>
+
+            <?php else: ?>
+
+                <div class="offer-box">
+
+                    <?php foreach ($offers as $offer) : ?>
+
+                        <div class="offer-card-content">
+                            <h4><?php echo htmlspecialchars($offer['offer_title']) ?></h4>
+                            <p><?php echo htmlspecialchars($offer['company_name']) ?></p>
+                            <p><?php echo htmlspecialchars($offer['offer_description']) ?></p>
+                            <p>
+                                <i class="fa-solid fa-location-dot"></i>
+                                <?php echo htmlspecialchars($offer['offer_location']) ?>
+                            </p>
+                        </div>
+
+                        <div class="offer-card-action">
+                            <a href="postuler.php?offer_id=<?= $offer['offer_id'] ?>" class="btn-apply">Postuler</a>
+                        </div>
+
+                    <?php endforeach; ?>
+
+                </div>
+
+            <?php endif; ?>
+
+        </section>
 
         <!--////////////////////////////////////////////////////-->
                     <!-- footer -->

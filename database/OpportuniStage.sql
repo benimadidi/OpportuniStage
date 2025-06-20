@@ -134,7 +134,7 @@ CREATE TABLE `students` (
     `student_phone_number` VARCHAR(20) DEFAULT NULL,
     `student_birthdate` DATE DEFAULT NULL,
     `student_about` TEXT DEFAULT NULL,
-    `student_cv` VARCHAR(255) DEFAULT NULL,          -- chemin/nom fichier CV uploadé
+    `student_cv` VARCHAR(255) DEFAULT NULL,      
     `student_created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     `student_updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
