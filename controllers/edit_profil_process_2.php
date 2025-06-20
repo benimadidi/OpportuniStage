@@ -23,7 +23,7 @@ if(isset($_POST["edit-profil-btn"])){
         ];
         $_SESSION['active-form'] = 'register';
 
-        header('Location: ../company/edit_profil_2.php');
+        header('Location: ../includes/edit_profil_2.php');
         exit();
     }
 
@@ -39,7 +39,7 @@ if(isset($_POST["edit-profil-btn"])){
             'type' => 'error',
             'message' => 'Email déjà utilisé'
         ];
-        header('Location: ../company/edit_profil_2.php');
+        header('Location: ../includes/edit_profil_2.php');
         exit();
     }
 
@@ -67,17 +67,35 @@ if(isset($_POST["edit-profil-btn"])){
             'type' => 'success',
             'message' => 'Profil modifié'
         ];
-        header('Location: ../company/dashboard.php');
-        exit();
+
+        //redirection en fonction du role
+        $query_role = "SELECT user_role FROM users WHERE user_id = :user_id";
+        $result = $PDO -> prepare($query_role);
+        $result -> bindParam(':user_id', $_SESSION['user-id'], PDO::PARAM_INT);
+        $result -> execute();
+        $role = $result -> fetch(PDO::FETCH_ASSOC);
+
+        if ($role['user_role'] == 'student') {
+
+            header('Location: ../student/dashboard.php');
+            exit();
+        } 
+        else if ($role['user_role'] == 'company') {
+
+            header('Location: ../company/dashboard.php');
+            exit();
+        }
+        
     }
-    
+
 }
 else{
     $_SESSION['alerts'][] = [
         'type' => 'error',
         'message' => "Une erreur s'est produite"
     ];
-    header('Location: ../company/edit_profil_2.php');
+    $go_back = $_SERVER['HTTP_REFERER'] ?? '../index.php';
+    header("Location: $referer");
     exit();
 }
 

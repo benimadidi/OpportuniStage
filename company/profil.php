@@ -43,7 +43,7 @@ if ($user_id){
     $result -> execute();
     $user = $result -> fetch(PDO::FETCH_ASSOC);
 
-    //écupérer les donnees de l'entreprise 
+    //récupérer les donnees de l'entreprise 
     $query_company = "SELECT * FROM companies WHERE company_user_id = :user_id";
     $result = $PDO -> prepare($query_company);
     $result -> bindParam(":user_id", $user_id, PDO::PARAM_INT);
@@ -125,14 +125,17 @@ if ($user_id){
 
         ?>
 
+        <!--////////////////////////////////////////////////////-->
+                    <!--Infos de l'utilisateur-->
         <section class="profil-info">
+
             <h2>Mon profil</h2>
 
             <div class="profil-info-container">
 
                 <div class="profil-info-box heading">
-                    <div class="avatar-circle"><?= strtoupper($company['company_name'][0])?></div>
-                    <h3 class="profil-info-name"><?php echo ucfirst(htmlspecialchars($company['company_name'])); ?></h3>
+                    <div class="avatar-circle"><?= strtoupper($company['company_name'][0] ?? $session_name[0] ?? '')?></div>
+                    <h3 class="profil-info-name"><?php echo ucfirst(htmlspecialchars($company['company_name'] ?? $session_name)); ?></h3>
                 </div>
 
                 <div class="profil-info-box">
@@ -142,7 +145,7 @@ if ($user_id){
 
                 <div class="profil-info-box">
                     <i class='bxr  bxs-phone' title="Numéro de télépone" ></i> 
-                    <p><?php echo htmlspecialchars($company['company_phone_number'] ?? '"Non mentionné'); ?></p>
+                    <p><?php echo htmlspecialchars($company['company_phone_number'] ?? '"Non renseigné'); ?></p>
                 </div>
 
                 <div class="profil-info-box">
@@ -150,7 +153,7 @@ if ($user_id){
                     <p>
                         <?php
                             $sector = $company['company_sector'];
-                            echo htmlspecialchars( $sectors[$sector] ?? '"Non mentionné'); 
+                            echo htmlspecialchars( $sectors[$sector] ?? '"Non renseigné'); 
                         ?>
                     </p>
                 </div>
@@ -160,7 +163,7 @@ if ($user_id){
                     <p>
                         <?php 
                             $size = $company['company_size'];
-                            echo htmlspecialchars($sizes[$size] ?? '"Non mentionné');
+                            echo htmlspecialchars($sizes[$size] ?? '"Non renseigné');
                         ?>
                     </p>
                 </div>
@@ -173,12 +176,12 @@ if ($user_id){
 
                 <div class="profil-info-box">
                     <i class='bxr  bxs-link' title="Site web" ></i> 
-                    <a href="<?php echo htmlspecialchars($company['company_website'] ?? '') ; ?>" target="_blank"><?php echo htmlspecialchars($company['company_website'] ?? 'Pas de site') ; ?></a>
+                    <a href="<?php echo htmlspecialchars($company['company_website'] ?? '') ; ?>" target="_blank"><?php echo htmlspecialchars($company['company_website'] ?? 'Non renseigné') ; ?></a>
                 </div>
 
                 <div class="profil-info-box">
                     <i class="fa-solid fa-map-location-dot" title="Adresse"></i>
-                    <p><?php echo htmlspecialchars($company['company_address'] ?? "Non mentionné") ; ?></a>
+                    <p><?php echo htmlspecialchars($company['company_address'] ?? "Non renseigné") ; ?></a>
                 </div>
 
                 <div class="profil-info-box last">
@@ -186,7 +189,7 @@ if ($user_id){
                     <p>Créé le <?php echo htmlspecialchars($date_fr ?? '') ; ?></p>
                 </div>
                 
-                <a href="edit_profil_2.php" class="edit-prpfil-btn">Modifier le profil</a>
+                <a href="../includes/edit_profil_2.php" class="edit-prpfil-btn">Modifier les informations du compte</a>
 
             </div>
 

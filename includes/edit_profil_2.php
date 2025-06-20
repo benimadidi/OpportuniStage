@@ -73,7 +73,7 @@ if ($session_id > 0)
 
         <section class="edit-profil">
 
-            <h2>Modifier votre profil</h2>
+            <h2>Modifier les informations du compte</h2>
 
             <form action="../controllers/edit_profil_process_2.php" method="POST">
 

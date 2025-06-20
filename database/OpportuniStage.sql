@@ -109,7 +109,42 @@ CHARACTER SET utf8mb4
 COLLATE utf8mb4_unicode_ci;
 
 
+CREATE TABLE `students` (
+    `student_id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    `student_user_id` INT NOT NULL,
+    `student_name` VARCHAR(255) NOT NULL,
+    `student_university` VARCHAR(255) NOT NULL,
+    `student_field` ENUM(
+        'computer_science',
+        'engineering',
+        'management',
+        'law',
+        'economics',
+        'medicine',
+        'communication',
+        'social_sciences'
+    ) NOT NULL,
+    `student_level` ENUM(
+        'licence_1',
+        'licence_2',
+        'licence_3',
+        'master_1',
+        'master_2'
+    ) NOT NULL,
+    `student_phone_number` VARCHAR(20) DEFAULT NULL,
+    `student_birthdate` DATE DEFAULT NULL,
+    `student_about` TEXT DEFAULT NULL,
+    `student_cv` VARCHAR(255) DEFAULT NULL,          -- chemin/nom fichier CV uploadé
+    `student_created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `student_updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
+    FOREIGN KEY (`student_user_id`) REFERENCES `users`(`user_id`)
+)
+ENGINE=InnoDB
+CHARACTER SET utf8mb4
+COLLATE utf8mb4_unicode_ci;
+
+SELECT * FROM students;
 
 -- ///////////////////////////////////////////////////////////////////////////////
 -- Enregistrements
