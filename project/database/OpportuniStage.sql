@@ -62,7 +62,7 @@ CREATE TABLE `companies`(
     `company_created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     `company_updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
-    FOREIGN KEY (`company_user_id`) REFERENCES `users`(`user_id`)
+    FOREIGN KEY (`company_user_id`) REFERENCES `users`(`user_id`) ON DELETE CASCADE
 )
 ENGINE = InnoDB
 CHARACTER SET utf8mb4
@@ -102,7 +102,7 @@ CREATE TABLE `offers`(
     `offer_created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     `offer_updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
-    FOREIGN KEY (`offer_company_id`) REFERENCES `companies`(`company_id`)
+    FOREIGN KEY (`offer_company_id`) REFERENCES `companies`(`company_id`) ON DELETE CASCADE
 )
 ENGINE = InnoDB
 CHARACTER SET utf8mb4
@@ -138,13 +138,28 @@ CREATE TABLE `students` (
     `student_created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     `student_updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
-    FOREIGN KEY (`student_user_id`) REFERENCES `users`(`user_id`)
+    FOREIGN KEY (`student_user_id`) REFERENCES `users`(`user_id`) ON DELETE CASCADE
+)
+ENGINE = InnoDB
+CHARACTER SET utf8mb4
+COLLATE utf8mb4_unicode_ci;
+
+CREATE TABLE `applications` (
+    `application_id` INT AUTO_INCREMENT PRIMARY KEY,
+    `application_student_id` INT NOT NULL,
+    `application_offer_id` INT NOT NULL,
+    `application_created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
+    
+    FOREIGN KEY (`application_student_id`) REFERENCES `students`(`student_id`) ON DELETE CASCADE,
+    FOREIGN KEY (`application_offer_id`) REFERENCES `offers`(`offer_id`) ON DELETE CASCADE,
+
+    UNIQUE (`application_student_id`, `application_offer_id`)
+
 )
 ENGINE=InnoDB
 CHARACTER SET utf8mb4
 COLLATE utf8mb4_unicode_ci;
 
-SELECT * FROM students;
 
 -- ///////////////////////////////////////////////////////////////////////////////
 -- Enregistrements

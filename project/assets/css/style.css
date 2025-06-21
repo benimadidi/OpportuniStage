@@ -8,6 +8,9 @@
     --secondary-color: #4FB0E3;
     --published-bg: #D4F8E8;
     --success-color: #2ECC71;
+    --waiting-bg: #C8bAF075;
+    --waiting-color: #6756BB;
+    --rejected-bg: #FDECEA;
     --error-color: #E74C3C;
     --off-white-text: #F0F2F5;
     --text-color: #2C3E50;
@@ -802,7 +805,7 @@ section{
 }
 
 /*-------------------------------------------------------------------------*/
-/*Afficher offre companies*/
+/*Afficher offre company*/
 .view-offer h2{
     font-size: 4.5rem;
     margin-bottom: 9rem;
@@ -863,7 +866,6 @@ section{
 }
 
 .view-offer .offer-box .offer-card .offer-card-action a{
-    background-color: var(--primary-color);
     color: var(--off-white-text);
     font-size:1.6rem;
     border-radius: 1rem ;
@@ -878,16 +880,120 @@ section{
 }
 
 .view-offer .offer-box .offer-card .offer-card-action .offer-details{
-    background-color: var(--card-background);
+    border: .1rem solid var(--text-color);
     color: var(--text-color);
     border-radius: 1rem ;
     padding: 1rem 2rem;
-    cursor: pointer;
     transition: .3s ease;
 }
 
 .view-offer .offer-box .offer-card .offer-card-action .offer-details:hover{
     background-color: var(--text-color);
+    color: var(--off-white-text);
+}
+
+.view-offer .offer-box .offer-card .offer-card-action .offer-delete{
+    border: .1rem solid var(--error-color);
+    color: var(--error-color);
+}
+
+.view-offer .offer-box .offer-card .offer-card-action .offer-delete:hover{
+    background-color: var(--error-color);
+    color: var(--off-white-text);
+}
+
+/*-------------------------------------------------------------------------*/
+/*Afficher companies*/
+.view-offer .offer-box-companies {
+    display: flex;
+    flex-wrap: wrap; 
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 3rem;
+    border-radius: 2rem;
+    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.3);
+    background-color: var(--card-background);
+    padding: 2.5rem 2rem;
+}
+
+.view-offer .offer-box-companies .offer-companies-card {
+    flex: 1 1 65%;
+    min-width: 20rem;
+}
+
+.view-offer .offer-box-companies .offer-companies-card h4 {
+    font-size: 3rem;
+    font-weight: 600;
+    margin-bottom: 0;
+}
+
+.view-offer .offer-box-companies .offer-companies-card .company-name {
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    word-break: break-word;
+    white-space: normal;
+}
+
+.view-offer .offer-box-companies .offer-companies-card p {
+    font-size: 1.3rem;
+    margin-bottom: 0;
+}
+
+.view-offer .offer-box-companies .offer-companies-card p i {
+    margin: 0 .8rem;
+}
+
+.offer-box-companies .offer-card-action{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    row-gap: 5rem;
+}
+
+.offer-box-companies .offer-card-action p{
+    font-size: 1.6rem;
+    margin-right: 1rem;
+    padding: 1rem 2rem;
+    border-radius: 1rem;
+}
+
+.offer-box-companies .offer-card-action p.accepted-status{
+    color: var(--success-color);
+    background-color: var(--published-bg);
+}
+
+.offer-box-companies .offer-card-action p.waiting-status {
+    color: var(--waiting-color);
+    background-color: var(--waiting-bg);
+}
+
+.offer-box-companies .offer-card-action p.rejected-status{
+    color: var(--error-color);
+    background-color: var(--rejected-bg);  
+} 
+
+.offer-box-companies .offer-card-action a {
+    color: var(--text-color);
+    font-size: 1.6rem;
+    border-radius: 1rem;
+    border: .1rem solid var(--text-color);
+    padding: 1rem 2rem;
+    margin-right: 2rem;
+    transition: .3s ease;
+}
+
+.offer-box-companies .offer-card-action a:hover {
+    background-color: var(--text-color);
+    color: var(--off-white-text);
+}
+
+.offer-box-companies .offer-card-action a.drop-application{
+    border: .1rem solid var(--error-color);
+    color: var(--error-color);
+}
+
+.offer-box-companies .offer-card-action a.drop-application:hover{
+    background-color: var(--error-color);
     color: var(--off-white-text);
 }
 
@@ -918,6 +1024,13 @@ section{
     font-weight: 600;
 }
 
+.offer-details .offer-action-btn{
+    width: 40%;
+    display: flex;
+    align-items: center;
+    gap: 4rem;
+}
+
 .offer-details a{
     padding: 1rem 2.8rem;
     background-color: var(--primary-color);
@@ -927,7 +1040,13 @@ section{
     text-align: center;
     color: var(--off-white-text);
     margin-bottom: 0;
+    transition: .3s ease;
 }
+
+.offer-details a:hover{
+    background-color: var(--text-color);
+}
+
 /*-------------------------------------------------------------------------*/
 /*site-name*/
 .site-name{
@@ -1391,6 +1510,12 @@ footer p a:hover{
 
     .dashboard-card-content .no-offer{
         margin-top: 3rem;
+    }
+
+    /*-------------------------------------------------------------------------*/
+    /*view offer*/
+    .offer-details .offer-action-btn{
+        width: 100%;
     }
 
 }

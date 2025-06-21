@@ -43,15 +43,19 @@ if ($session_id){
     $result -> execute();
     $student = $result -> fetch(PDO::FETCH_ASSOC);
 
-    //Recuperer les offres de toutes les entrepries
-    $query = "SELECT offers.*, companies.company_name
-              FROM offers
-              JOIN companies ON companies.company_id = offers.offer_company_id
-              ORDER BY offers.offer_created_at DESC";
-    $result_offers = $PDO->prepare($query);
-    $result_offers->execute();
-    $offers = $result_offers->fetchAll(PDO::FETCH_ASSOC);
+    $student_id = $student['student_id'];
 
+    //recuperer les candidatures de l'etudiant
+    $query_application = "SELECT applications.*, offers.*, companies.company_name
+                          FROM applications
+                          JOIN offers ON offers.offer_id = applications.application_offer_id
+                          JOIN companies ON companies.company_id = offers.offer_company_id
+                          WHERE applications.application_student_id = :student_id
+                          ORDER BY applications.application_created_at DESC";
+    $result_applications = $PDO -> prepare($query_application);
+    $result_applications -> bindParam(":student_id", $student_id, PDO::PARAM_INT);
+    $result_applications -> execute();
+    $applications = $result_applications -> fetchAll(PDO::FETCH_ASSOC);
 }
 ?>
 
@@ -83,7 +87,7 @@ if ($session_id){
                     <!--alerts-->
         <?php include '../includes/alerts.php' ?>
 
-<!--////////////////////////////////////////////////////-->
+        <!--////////////////////////////////////////////////////-->
                     <!-- Header de l'etudiant -->
         <header class="header">
 
@@ -93,8 +97,8 @@ if ($session_id){
 
             <nav class="navbar">
                 <a href="../student/dashboard.php">Tableau de bord</a>
-                <a href="#" class="active">Offres de stage</a>
-                <a href="../student/">Mes candidatures</a>
+                <a href="../student/offers.php">Offres de stage</a>
+                <a href="#" class="active">Mes candidatures</a>
             </nav>
 
             <div class="user-auth">
@@ -128,45 +132,90 @@ if ($session_id){
 
         </header>
 
+        <!--////////////////////////////////////////////////////-->
+        <!-- Gerer la correspondance des langues -->
+        <?php foreach($applications as $application) : ?>
+
+            <?php
+            
+                //Formater la date en francais 
+                $date = new DateTime($application['application_created_at']);
+                $formatter = new IntlDateFormatter(
+                    'fr_FR',
+                    IntlDateFormatter::LONG,
+                    IntlDateFormatter::NONE,
+                    'Africa/Kinshasa',
+                    IntlDateFormatter::GREGORIAN,
+                    'd MMMM yyyy'
+                );
+                $date_fr = $formatter -> format($date);
+            ?>
+
+        <?php endforeach; ?>
+
 
         <!--////////////////////////////////////////////////////-->
-                    <!-- offres de toutes les entreprises -->
-        
+                    <!-- mes candidatures -->
         <section class="view-offer">
 
-            <h2>Offres de stage</h2>
+            <h2>Mes candidatures</h2>
 
-            <?php if (count($offers) === 0): ?>
+            <?php if (count($applications) === 0): ?>
 
-                <div class="no-offer">Aucune offre publiée pour le moment.</div>
+                <div class="no-offer">Aucune candidature pour le moment.</div>
 
             <?php else: ?>
 
-                <div class="offer-box">
+                <?php foreach ($applications as $application) : ?>
 
-                    <?php foreach ($offers as $offer) : ?>
+                    <div class="offer-box-companies">
 
-                        <div class="offer-card-content">
-                            <h4><?php echo htmlspecialchars($offer['offer_title']) ?></h4>
-                            <p><?php echo htmlspecialchars($offer['company_name']) ?></p>
-                            <p><?php echo htmlspecialchars($offer['offer_description']) ?></p>
-                            <p>
+                        <div class="offer-companies-card">
+                            <h4><?php echo htmlspecialchars($application['offer_title'] ?? null) ?></h4>
+                            <p class="company-name"><?php echo htmlspecialchars($application['company_name'] ?? null) ?></p>
+                            <p class="offer-description"><?php echo htmlspecialchars($application['offer_description'] ?? null) ?></p>
+                            <p style="margin-top: .6rem;">candidature soumise <span style="font-weight: 600">le <?php echo htmlspecialchars($date_fr ?? null) ?></span></p>
+                            <p style="margin-top: .8rem;">
                                 <i class="fa-solid fa-location-dot"></i>
-                                <?php echo htmlspecialchars($offer['offer_location']) ?>
+                                <?php echo htmlspecialchars($application['offer_location'] ?? null) ?>
                             </p>
                         </div>
 
+                        <!--////////////////////////////////////////////////////-->
+                            <!-- status de la candidature -->
+                        <?php 
+                            foreach($applications as $application){ 
+                                $status = $application['application_status'];
+                                $class_status = [
+                                    'rejected' => 'rejected-status',
+                                    'waiting' => 'waiting-status',
+                                    'accepted' => 'accepted-status'
+                                ];
+
+                                $status_text = [
+                                    'rejected' => 'Rejetée',
+                                    'waiting' => 'En attente',
+                                    'accepted' => 'Acceptée'
+                                ];
+                            }
+                            
+                        ?>
+
                         <div class="offer-card-action">
-                            <a href="postuler.php?offer_id=<?= $offer['offer_id'] ?>" class="btn-apply">Postuler</a>
+                            <p class="<?php echo $class_status[$status] ?? 'waiting-status' ?>">
+                                <?php echo $status_text[$status] ?? 'En attente' ?>
+                            </p>
+                            <a href="drop_application.php?id=<?= $application['application_id'] ?>" class="drop-application">Supprimer</a>
                         </div>
 
-                    <?php endforeach; ?>
+                    </div>
 
-                </div>
+                <?php endforeach; ?>
 
             <?php endif; ?>
 
-        </section>
+        </section>        
+
 
         <!--////////////////////////////////////////////////////-->
                     <!-- footer -->

@@ -238,7 +238,7 @@ if ($company){
 
                                 <div class="dashboard-card-box">
 
-                                    <h4><?php echo htmlspecialchars($offer['offer_title']); ?></h4>
+                                    <h4><?php echo ucfirst(htmlspecialchars($offer['offer_title'])); ?></h4>
                                     <div class="dashboard-card-layer">
                                         <h5>
                                             <span>Secteur</span> : 

@@ -7,6 +7,27 @@ error_reporting(-1);
 ini_set('display_errors', 1);
 
 /*-------------------------------------------------------*/
+// Initialisation de la session
+session_start();
+
+/*-------------------------------------------------------*/
+// Recuperation des variables de session
+$session_name = $_SESSION['name'] ?? null;
+$alerts = $_SESSION['alerts'] ?? [];
+$session_id = $_SESSION['user-id'] ?? null;
+
+/*-------------------------------------------------------*/
+// Suppression des variables de session
+session_unset();
+
+/*-------------------------------------------------------*/
+// Enregistrement des variables de session
+if ($session_name !== null)
+    $_SESSION['name'] = $session_name ;
+if ($session_id > 0)
+    $_SESSION['user-id'] = $session_id;
+
+/*-------------------------------------------------------*/
 // Recuperation de l'id de l'offre
 $offer_id = $_GET['id'] ?? null;
 $offer = null ;
@@ -14,7 +35,11 @@ $offer = null ;
 if ($offer_id){
     require_once '../config/db-config.php';
 
-    $sql = "SELECT * FROM offers WHERE offer_id = :offer_id";
+    $sql = "SELECT offers.*, companies.company_name
+            FROM offers
+            JOIN companies
+            ON companies.company_id = offers.offer_company_id
+            WHERE offer_id = :offer_id";
     $result = $PDO -> prepare($sql);
     $result -> bindParam(":offer_id", $offer_id, PDO::PARAM_INT);
     $result -> execute();
@@ -50,7 +75,7 @@ if ($offer_id){
         <!--////////////////////////////////////////////////////-->
                     <!--alerts-->
         <?php include '../includes/alerts.php' ?>
-        
+     
 
         <!--////////////////////////////////////////////////////-->
         <!-- Gerer la correspondance des langues -->
@@ -103,6 +128,7 @@ if ($offer_id){
 
                     <div class="offer-details-box">
                         
+                        <p><span>Entreprise :</span> <?php echo htmlspecialchars($offer['company_name']); ?></p>
                         <p><span>Lieu :</span> <?php echo htmlspecialchars($offer['offer_location']); ?></p>
                         <p>
                             <span>Secteur :</span>
@@ -122,7 +148,8 @@ if ($offer_id){
                         <p><span>Durée :</span> <?php echo htmlspecialchars($offer['offer_duration']); ?> semaine<?php echo $offer['offer_duration'] > 1 ? 's' : ''; ?></p>
                         <p><span>Date limite :</span> <?php echo htmlspecialchars($date_fr); ?></p>
                         <p><span>Profil recherché :</span> <?php echo htmlspecialchars($offer['offer_profile']); ?></p>
-                        <p style="margin-bottom: 4rem;"><span>Rémunération :</span> <?php echo htmlspecialchars($offer['offer_remuneration']); ?></p>
+                        <p><span>Rémunération/Semaine :</span> <?php echo htmlspecialchars($offer['offer_remuneration']); ?></p>
+                        <p><span>Description :</span> <?php echo htmlspecialchars($offer['offer_description']); ?></p>
 
                     </div>
 
@@ -135,7 +162,10 @@ if ($offer_id){
 
             <?php endif; ?>
 
-            <a href="my_offers.php" class="btn">Retour à mes offres</a>
+            <div class="offer-action-btn">
+                <a href="offers.php" class="btn">Retour aux offres</a>
+                <a href="../controllers/offer_details_process.php?id=<?= $offer['offer_id'] ?>" class="btn">Postuler</a>
+            </div>
 
         </section>
 
