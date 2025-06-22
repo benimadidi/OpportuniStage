@@ -17,15 +17,8 @@ $alerts = $_SESSION['alerts'] ?? [];
 $session_id = $_SESSION['user-id'] ?? null;
 
 /*-------------------------------------------------------*/
-// Suppression des variables de session
-session_unset();
-
-/*-------------------------------------------------------*/
-// Enregistrement des variables de session
-if ($session_name !== null)
-    $_SESSION['name'] = $session_name ;
-if ($session_id > 0)
-    $_SESSION['user-id'] = $session_id;
+// Suppression des variables d'alerts
+unset($_SESSION['alerts']);
 
 /*-------------------------------------------------------*/
 // Initialiser les infos de l'entreprise a null
@@ -141,7 +134,7 @@ if ($session_id){
 
                 <div class="add-offer-input-box">
                     <label for="offer-location">Lieu de l'offre</label>
-                    <input type="text" name="offer-location" id="offer-location" value="<?php echo htmlspecialchars($company['company_address']); ?>" required>
+                    <input type="text" name="offer-location" id="offer-location" value="<?php echo htmlspecialchars($company['company_address'] ?? ''); ?>" required>
                 </div>
 
                 <div class="add-offer-input-box">

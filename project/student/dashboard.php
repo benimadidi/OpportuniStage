@@ -22,15 +22,8 @@ $session_id = $_SESSION['user-id'] ?? null;
 
 
 /*-------------------------------------------------------*/
-// Suppression des variables de session
-session_unset();
-
-/*-------------------------------------------------------*/
-// Enregistrement des variables de session
-if ($session_name !== null)
-    $_SESSION['name'] = $session_name ;
-if ($session_id > 0)
-    $_SESSION['user-id'] = $session_id;
+// Suppression des variables d'alerts
+unset($_SESSION['alerts']);
 
 /*-------------------------------------------------------*/
 // Initialiser les infos de l'etudiant a null
@@ -87,7 +80,7 @@ if ($session_id){
             <nav class="navbar">
                 <a href="#" class="active">Tableau de bord</a>
                 <a href="../student/offers.php">Offres de stage</a>
-                <a href="../student/">Mes candidatures</a>
+                <a href="../student/my_applications.php">Mes candidatures</a>
             </nav>
 
             <div class="user-auth">

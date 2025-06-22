@@ -41,7 +41,7 @@ if (isset($_POST['register-btn'])) {
         $_SESSION['active-form'] = 'register';
 
         header('Location: ../index.php');
-        exit();
+        exit(); 
 
     } else {
         // Enregistrement utilisateur              test avec une petite bd
@@ -49,14 +49,37 @@ if (isset($_POST['register-btn'])) {
                   VALUES (:user_name, :user_email, :user_password, :user_role)";
         $insert = $PDO->prepare($query);
                         // test
-        $insert->bindParam(':user_name', $user_name, PDO::PARAM_STR);
-        $insert->bindParam(':user_email', $user_email, PDO::PARAM_STR);
-        $insert->bindParam(':user_password', $user_password, PDO::PARAM_STR);
-        $insert->bindParam(':user_role', $user_role, PDO::PARAM_STR);
-        $insert->execute();
+        $insert -> bindParam(':user_name', $user_name, PDO::PARAM_STR);
+        $insert -> bindParam(':user_email', $user_email, PDO::PARAM_STR);
+        $insert -> bindParam(':user_password', $user_password, PDO::PARAM_STR);
+        $insert -> bindParam(':user_role', $user_role, PDO::PARAM_STR);
+        $insert -> execute();
+
+        $user_id = $PDO->lastInsertId();
+
+        // Insérer dans la table correspondante
+        if ($user_role === 'student') {
+            $stmt = $PDO->prepare("INSERT INTO students (student_user_id, student_name) VALUES (:user_id, :name)");
+            $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+            $stmt->bindParam(':name', $user_name, PDO::PARAM_STR);
+            $stmt->execute();
+
+            // Récupérer l'id specifique
+            $student_id = $PDO->lastInsertId();
+            $_SESSION['student-id'] = $student_id;
+
+        } elseif ($user_role === 'company') {
+            $stmt = $PDO->prepare("INSERT INTO companies (company_user_id, company_name) VALUES (:user_id, :name)");
+            $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+            $stmt->bindParam(':name', $user_name, PDO::PARAM_STR);
+            $stmt->execute();
+
+            $company_id = $PDO->lastInsertId();
+            $_SESSION['company-id'] = $company_id;
+        }
 
         //Enregistrer l'utilisateur dans la session
-        $_SESSION['user-id'] = $PDO->lastInsertId(); 
+        $_SESSION['user-id'] = $user_id; 
         $_SESSION['name'] = $user_name;
         $_SESSION['role'] = $user_role;
         $_SESSION['alerts'][] = [
@@ -68,11 +91,11 @@ if (isset($_POST['register-btn'])) {
         // Redirection selon rôle
         switch ($user_role) {
             case 'student':
-                header('Location: ../student/dashboard.php');
+                header('Location: ../student/edit_profil.php');
                 break;
 
             case 'company':
-                header('Location: ../company/dashboard.php');
+                header('Location: ../company/edit_profil.php');
                 break;
 
             case 'admin':
@@ -108,8 +131,43 @@ if (isset($_POST['login-btn'])) {
 
     // Vérifier si le mot de passe est correct
     if ($user_data && password_verify($user_password, $user_data['user_password'])) {
+        //charger les donnees selon le role 
+        switch ($user_data['user_role']) {
+            case 'student':
+                $sql = "SELECT student_id, student_name FROM students WHERE student_user_id = :user_id";
+                $result = $PDO -> prepare($sql);
+                $result -> bindParam(':user_id', $user_data['user_id'], PDO::PARAM_INT);
+                $result -> execute();
+                $student = $result -> fetch(PDO::FETCH_ASSOC);
+
+                if ($student) {
+                    $_SESSION['student-id'] = $student['student_id'];
+                    $_SESSION['name'] = $student['student_name'];
+                }
+
+                break;
+
+            case 'company':
+                $sql = "SELECT company_id, company_name FROM companies WHERE company_user_id = :user_id";
+                $result = $PDO -> prepare($sql);
+                $result -> bindParam(':user_id', $user_data['user_id'], PDO::PARAM_INT);
+                $result -> execute();
+                $company = $result->fetch(PDO::FETCH_ASSOC);
+
+                if ($company) {
+                    $_SESSION['company-id'] = $company['company_id'];
+                    $_SESSION['name'] = $company['company_name'];
+                }
+
+                break;
+
+            case 'admin':
+                $_SESSION['admin-id'] = $user_data['user_id']; 
+                break;
+        }
+
+        // Enregistrer l'utilisateur dans la session
         $_SESSION['user-id'] = $user_data['user_id'];
-        $_SESSION['name'] = $user_data['user_name'];
         $_SESSION['role'] = $user_data['user_role'];
         $_SESSION['alerts'][] = [
             'type' => 'success',

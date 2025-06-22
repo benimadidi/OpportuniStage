@@ -18,25 +18,18 @@ require_once '../config/db-config.php';
 // Recuperation des variables de session
 $session_name = $_SESSION['name'] ?? null;
 $alerts = $_SESSION['alerts'] ?? [];
-$session_id = $_SESSION['user-id'] ?? null;
+$session_id = $_SESSION['student-id'] ?? null;
 
 /*-------------------------------------------------------*/
-// Suppression des variables de session
-session_unset();
-
-/*-------------------------------------------------------*/
-// Enregistrement des variables de session
-if ($session_name !== null)
-    $_SESSION['name'] = $session_name ;
-if ($session_id > 0)
-    $_SESSION['user-id'] = $session_id;
+// Suppression des variables d'alerts
+unset($_SESSION['alerts']);
 
 /*-------------------------------------------------------*/
 // Initialiser les infos de l'etudiant a null
 $student = null;
 
 if ($session_id){
-    //Récupérer les donnees de l'entreprise 
+    //Récupérer les donnees de l'etudiant 
     $query_student = "SELECT * FROM students WHERE student_user_id = :user_id";
     $result = $PDO -> prepare($query_student);
     $result -> bindParam(":user_id", $session_id, PDO::PARAM_INT);
@@ -106,7 +99,7 @@ if ($session_id){
                 <?php if(!empty($session_name)) : ?>
                     <div class="profile-box">
                         
-                        <div class="avatar-circle"><?= strtoupper($student['student_name'][0] ?? $session_nameb[0])?></div>
+                        <div class="avatar-circle"><?= strtoupper($student['student_name'][0] ?? $session_name[0])?></div>
 
                         <div class="dropdown">
                             <a href="../student/profil.php">

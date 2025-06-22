@@ -20,17 +20,9 @@ $session_name = $_SESSION['name'] ?? null;
 $alerts = $_SESSION['alerts'] ?? [];
 $session_id = $_SESSION['user-id'] ?? null;
 
-
 /*-------------------------------------------------------*/
-// Suppression des variables de session
-session_unset();
-
-/*-------------------------------------------------------*/
-// Enregistrement des variables de session
-if ($session_name !== null)
-    $_SESSION['name'] = $session_name ;
-if ($session_id > 0)
-    $_SESSION['user-id'] = $session_id;
+// Suppression des variables d'alerts
+unset($_SESSION['alerts']);
 
 /*-------------------------------------------------------*/
 // Initialiser les infos de l'entreprise a null
@@ -77,7 +69,18 @@ if ($company){
     $result_all_offers -> bindParam(":company_id", $company_id, PDO::PARAM_INT);
     $result_all_offers -> execute();
     $all_offers = $result_all_offers -> fetch(PDO::FETCH_ASSOC);
-    $total_offers = $all_offers['total'];
+    $total_offers = $all_offers['total'] ?? 0;
+
+    //Compter le nombre de candidatures recues
+    $query_count_apps = "SELECT COUNT(*) AS total FROM applications 
+                         JOIN offers ON offers.offer_id = applications.application_offer_id
+                         WHERE offers.offer_company_id = :company_id";
+    $result_count_apps = $PDO -> prepare($query_count_apps);
+    $result_count_apps -> bindParam(":company_id", $company_id, PDO::PARAM_INT);
+    $result_count_apps -> execute();
+    $count_apps = $result_count_apps -> fetch(PDO::FETCH_ASSOC);
+    $total_apps = $count_apps['total'];
+
 }
 
 ?>
@@ -180,17 +183,18 @@ if ($company){
             ];
 
             //Formater la date en francais 
-            $date = new DateTime($last_publication['offer_created_at']);
-            $formatter = new IntlDateFormatter(
-                'fr_FR',
-                IntlDateFormatter::LONG,
-                IntlDateFormatter::NONE,
-                'Africa/Kinshasa',
-                IntlDateFormatter::GREGORIAN,
-                'd MMMM yyyy'
-            );
-            $date_fr = $formatter->format($date);
-
+            if (!empty($last_publication['offer_created_at'])){
+                $date = new DateTime($last_publication['offer_created_at']);
+                $formatter = new IntlDateFormatter(
+                    'fr_FR',
+                    IntlDateFormatter::LONG,
+                    IntlDateFormatter::NONE,
+                    'Africa/Kinshasa',
+                    IntlDateFormatter::GREGORIAN,
+                    'd MMMM yyyy'
+                );
+                $date_fr = $formatter->format($date);
+            }
         ?>
 
         <!--////////////////////////////////////////////////////-->
@@ -199,22 +203,26 @@ if ($company){
 
             <div class="dashboard-card-header">
 
-                <div class="dashboard-card-box">
-                    <i class="fa-solid fa-briefcase"></i>
-                    <h4>Offre<?php if ($total_offers > 1) echo 's' ?? ''; ?> publiée<?php if ($total_offers > 1) echo 's' ?? ''; ?></h4>
-                    <p><?php echo $total_offers; ?></p>
-                </div>
+                <a href="my_offers.php">
+                    <div class="dashboard-card-box">
+                        <i class="fa-solid fa-briefcase"></i>
+                        <h4>Offre<?php if ($total_offers > 1) echo 's' ?? ''; ?> publiée<?php if ($total_offers > 1) echo 's' ?? ''; ?></h4>
+                        <p><?php echo $total_offers; ?></p>
+                    </div>
+                </a>
 
-                <div class="dashboard-card-box">
-                    <i class="fa-solid fa-triangle-exclamation"></i>
-                    <h4>Candidatures reçues</h4>
-                    <p>12</p>
-                </div>
+                <a href="applications_received.php">
+                    <div class="dashboard-card-box">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                        <h4>Candidature<?php if ($total_apps > 1) echo 's' ?? ''; ?> reçue<?php if ($total_apps > 1) echo 's' ?? ''; ?></h4>
+                        <p><?php echo $total_apps ?? 0; ?></p>
+                    </div>
+                </a>
 
                 <div class="dashboard-card-box">
                     <i class="fa-solid fa-calendar-days"></i>
                     <h4>Dernière publication</h4>
-                    <p>Le <?php echo $date_fr ?? 'Aucune offre publiée'  ?></p>
+                    <p class="last-publication"><?php if (!empty($last_publication['offer_created_at'])) echo 'Le ' ?? ''  ?><?php echo $date_fr ?? 'Aucune offre publiée'  ?></p>
                 </div>
 
             </div>
@@ -247,7 +255,6 @@ if ($company){
                                                 echo htmlspecialchars($sectors[$sector]); 
                                             ?>
                                         </h5>
-                                        <p class="type">stage</p>
                                     </div>
 
                                 </div>
@@ -267,15 +274,19 @@ if ($company){
 
                 <div class="dashboard-card-content right">
                     
-                    <div class="aside-card-box" >
-                        <i class="fa-solid fa-plus"></i>
-                        <a href="offer.php">Publier une nouvelle offre</a>
-                    </div>
+                    <a href="offer.php">
+                        <div class="aside-card-box" >
+                            <i class="fa-solid fa-plus"></i>
+                            <p>Publier une nouvelle offre</p>
+                        </div>
+                    </a>
 
-                    <div class="aside-card-box">
-                        <i class='bx  bxs-user'  ></i>
-                        <a href="edit_profil.php">Modifier le profil entreprise</a>
-                    </div>
+                    <a href="edit_profil.php">
+                        <div class="aside-card-box">
+                            <i class='bx  bxs-user'  ></i>
+                            <p>Modifier le profil entreprise</p>
+                        </div>
+                    </a>
 
                 </div>
 

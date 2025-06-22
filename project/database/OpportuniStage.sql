@@ -148,6 +148,7 @@ CREATE TABLE `applications` (
     `application_id` INT AUTO_INCREMENT PRIMARY KEY,
     `application_student_id` INT NOT NULL,
     `application_offer_id` INT NOT NULL,
+    `application_status` ENUM('waiting', 'accepted', 'refused') DEFAULT 'waiting',
     `application_created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
     
     FOREIGN KEY (`application_student_id`) REFERENCES `students`(`student_id`) ON DELETE CASCADE,

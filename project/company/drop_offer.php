@@ -17,7 +17,7 @@ $offer_id = $_GET['id'] ?? null;
 if ($offer_id){
     require_once '../config/db-config.php';
 
-    //Verifier si l'offre existe
+    //Verifier si l'offre existe et si elle appartient a l'entreprise
     $sql = "SELECT * FROM offers WHERE offer_id = :offer_id";
     $result = $PDO -> prepare($sql);
     $result -> bindParam(":offer_id", $offer_id, PDO::PARAM_INT);

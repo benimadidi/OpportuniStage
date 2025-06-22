@@ -10,37 +10,32 @@ ini_set('display_errors', 1);
 session_start();
 
 /*-------------------------------------------------------*/
+// Inclure le fichier de configuration
+require_once '../config/db-config.php';
+
+/*-------------------------------------------------------*/
 // Recuperation des variables de session
-$session_id = $_SESSION['user-id'] ?? null;
+$session_id = $_SESSION['student-id'] ?? null;
 $session_name = $_SESSION['name'] ?? null;
 $alerts = $_SESSION['alerts'] ?? [];
 
 /*-------------------------------------------------------*/
-// Recuperation de l'id de l'utilisateur
-$user_id = $session_id;
+// Initialiser les infos de l'etudiant a null
 $student = null;
+$session_user_id = $_SESSION['user-id'] ?? null;
 
-if ($user_id) {
-    require_once '../config/db-config.php';
-
+if ($session_user_id){
     //Récupérer les donnees de l'etudiant 
     $query_student = "SELECT * FROM students WHERE student_user_id = :user_id";
-    $result = $PDO->prepare($query_student);
-    $result->bindParam(":user_id", $user_id, PDO::PARAM_INT);
-    $result->execute();
-    $student = $result->fetch(PDO::FETCH_ASSOC);
+    $result = $PDO -> prepare($query_student);
+    $result -> bindParam(":user_id", $session_user_id, PDO::PARAM_INT);
+    $result -> execute();
+    $student = $result -> fetch(PDO::FETCH_ASSOC);
 }
 
 /*-------------------------------------------------------*/
-// Suppression des variables de session
-session_unset();
-
-/*-------------------------------------------------------*/
-// Enregistrement des variables de session
-if ($session_name !== null)
-    $_SESSION['name'] = $session_name;
-if ($session_id > 0)
-    $_SESSION['user-id'] = $session_id;
+// Suppression des variables d'alerts
+unset($_SESSION['alerts']);
 
 ?>
 

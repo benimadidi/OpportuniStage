@@ -17,15 +17,8 @@ $alerts = $_SESSION['alerts'] ?? [];
 $session_id = $_SESSION['user-id'] ?? null;
 
 /*-------------------------------------------------------*/
-// Suppression des variables de session
-session_unset();
-
-/*-------------------------------------------------------*/
-// Enregistrement des variables de session
-if ($session_name !== null)
-    $_SESSION['name'] = $session_name ;
-if ($session_id > 0)
-    $_SESSION['user-id'] = $session_id;
+// Suppression des variables d'alerts
+unset($_SESSION['alerts']);
 
 /*-------------------------------------------------------*/
 // Recuperation de l'id de l'utilisateur
@@ -140,12 +133,12 @@ if ($user_id){
 
                 <div class="profil-info-box">
                     <i class="bx  bxs-envelope" title="Email"></i>
-                    <p><?php echo htmlspecialchars($user['user_email']); ?></p>
+                    <p><?php echo htmlspecialchars($user['user_email'] ?? 'Non renseigné'); ?></p>
                 </div>
 
                 <div class="profil-info-box">
                     <i class='bxr  bxs-phone' title="Numéro de télépone" ></i> 
-                    <p><?php echo htmlspecialchars($company['company_phone_number'] ?? '"Non renseigné'); ?></p>
+                    <p><?php echo htmlspecialchars($company['company_phone_number'] ?? 'Non renseigné'); ?></p>
                 </div>
 
                 <div class="profil-info-box">
@@ -153,7 +146,7 @@ if ($user_id){
                     <p>
                         <?php
                             $sector = $company['company_sector'];
-                            echo htmlspecialchars( $sectors[$sector] ?? '"Non renseigné'); 
+                            echo htmlspecialchars( $sectors[$sector] ?? 'Non renseigné'); 
                         ?>
                     </p>
                 </div>
@@ -163,7 +156,7 @@ if ($user_id){
                     <p>
                         <?php 
                             $size = $company['company_size'];
-                            echo htmlspecialchars($sizes[$size] ?? '"Non renseigné');
+                            echo htmlspecialchars($sizes[$size] ?? 'Non renseigné');
                         ?>
                     </p>
                 </div>

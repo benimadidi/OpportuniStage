@@ -12,18 +12,11 @@ session_start();
 // Recuperation des variables de session
 $session_name = $_SESSION['name'] ?? null;
 $alerts = $_SESSION['alerts'] ?? [];
-$session_id = $_SESSION['user-id'] ?? null;
+$session_id = $_SESSION['student-id'] ?? null;
 
 /*-------------------------------------------------------*/
-// Suppression des variables de session
-session_unset();
-
-/*-------------------------------------------------------*/
-// Enregistrement des variables de session
-if ($session_name !== null)
-    $_SESSION['name'] = $session_name;
-if ($session_id > 0)
-    $_SESSION['user-id'] = $session_id;
+// Suppression des variables d'alerts
+unset($_SESSION['alerts']);
 
 /*-------------------------------------------------------*/
 // Recuperation de l'id de l'utilisateur
@@ -169,7 +162,7 @@ if ($user_id){
 
                 <div class="profil-info-box">
                     <i class="fa-solid fa-cake-candles" title="Date de naissance"></i>
-                    <p>Le <?= htmlspecialchars($date_birth ?? 'Non renseigné') ?></p>
+                    <p><?php  echo $date_birth ? 'Le ' : '';  ?> <?= htmlspecialchars($date_birth ?? 'Non renseigné') ?></p>
                 </div>
 
                 <div class="profil-info-box description-box">

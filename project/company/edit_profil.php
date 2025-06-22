@@ -34,15 +34,8 @@ if ($user_id){
 }
 
 /*-------------------------------------------------------*/
-// Suppression des variables de session
-session_unset();
-
-/*-------------------------------------------------------*/
-// Enregistrement des variables de session
-if ($session_name !== null)
-    $_SESSION['name'] = $session_name ;
-if ($session_id > 0)
-    $_SESSION['user-id'] = $session_id;
+// Suppression des variables d'alerts
+unset($_SESSION['alerts']);
 
 ?>
 
@@ -82,17 +75,17 @@ if ($session_id > 0)
 
                 <div class="edit-profil-input-box">
                     <label for="company-name">Nom de l'entreprise</label>
-                    <input type="text" name="company-name" id="company-name" value="<?php echo htmlspecialchars($company['company_name'] ?? ''); ?>" required>
+                    <input type="text" name="company-name" id="company-name" value="<?php echo htmlspecialchars($company['company_name'] ?? $session_name); ?>" >
                 </div>
 
                 <div class="edit-profil-input-box">
                     <label for="company-tel">Numéro de téléphone</label>
-                    <input type="tel" name="company-tel" id="company-tel" value="<?php echo htmlspecialchars($company['company_phone_number'] ?? ''); ?> " required>
+                    <input type="tel" name="company-tel" id="company-tel" value="<?php echo htmlspecialchars($company['company_phone_number'] ?? ''); ?> " >
                 </div>
 
                 <div class="edit-profil-input-box">
                     <label for="company-sector">Activité principale</label>
-                    <select name="company-sector" id="company-sector" required>
+                    <select name="company-sector" id="company-sector" >
                         <option value="" disabled <?php if (empty($company['company_sector'])) echo 'selected'; ?>>Selectionnez votre domaine d'activité</option>
                         <option value="administration" <?php if (($company['company_sector'] ?? '') === 'administration') echo 'selected'; ?>>Administration publique</option>
                         <option value="agriculture" <?php if (($company['company_sector'] ?? '') === 'agriculture') echo 'selected'; ?>>Agriculture / Agroalimentaire</option>
@@ -115,7 +108,7 @@ if ($session_id > 0)
                 <div class="edit-profil-input-box">
 
                     <label for="company-size">Taille</label>
-                    <select name="company-size" id="company-size" required>
+                    <select name="company-size" id="company-size" >
                         <option value="micro" <?php if (($company['company_size'] ?? '' ) === 'micro') echo 'selected'; ?>>Micro-entreprise (moins de 10 personnes)</option>
                         <option value="small" <?php if (($company['company_size'] ?? '' ) === 'small') echo 'selected'; ?>>Petite entreprise (10 à 50 personnes)</option>
                         <option value="medium" <?php if (($company['company_size'] ?? '' ) === 'medium') echo 'selected'; ?>>Moyenne entreprise (50 à 250 personnes)</option>
@@ -126,17 +119,17 @@ if ($session_id > 0)
 
                 <div class="edit-profil-input-box">
                     <label for="company-description">Description</label>
-                    <textarea name="company-description" id="company-description" cols="30" rows="10" required><?php echo htmlspecialchars($company['company_description'] ?? ''); ?></textarea>
+                    <textarea name="company-description" id="company-description" cols="30" rows="10" ><?php echo htmlspecialchars($company['company_description'] ?? ''); ?></textarea>
                 </div>
 
                 <div class="edit-profil-input-box">
                     <label for="company-website">Site web</label>
-                    <input type="text" name="company-website" id="company-website" placeholder="https://www.masociete.cd" value="<?php echo htmlspecialchars($company['company_website'] ?? ''); ?>" required>
+                    <input type="text" name="company-website" id="company-website" placeholder="https://www.masociete.cd" value="<?php echo htmlspecialchars($company['company_website'] ?? ''); ?>" >
                 </div>
 
                 <div class="edit-profil-input-box">
                     <label for="company-address">Adresse</label>
-                    <input type="text" name="company-address" id="company-addres" value="<?php echo htmlspecialchars($company['company_address'] ?? ''); ?>" required>
+                    <input type="text" name="company-address" id="company-addres" value="<?php echo htmlspecialchars($company['company_address'] ?? ''); ?>" >
                 </div>
 
                 <button type="submit" name="edit-profil-btn" class="edit-profil-btn">Modifier</button>

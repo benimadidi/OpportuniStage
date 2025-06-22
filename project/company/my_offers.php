@@ -23,18 +23,8 @@ $offers = $_SESSION['offers'] ?? [];
 require_once '../controllers/my_offers_process.php';
 
 /*-------------------------------------------------------*/
-// Suppression des variables de session
-session_unset();
-
-/*-------------------------------------------------------*/
-// Enregistrement des variables de session
-if ($session_name !== null)
-    $_SESSION['name'] = $session_name ;
-if ($session_id > 0)
-    $_SESSION['user-id'] = $session_id;
-
-if ($offers !== null)
-    $_SESSION['offers'] = $offers;
+// Suppression des variables d'alerts
+unset($_SESSION['alerts']);
 
 /*-------------------------------------------------------*/
 // Initialiser les infos de l'entreprise a null
