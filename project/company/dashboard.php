@@ -74,7 +74,8 @@ if ($company){
     //Compter le nombre de candidatures recues
     $query_count_apps = "SELECT COUNT(*) AS total FROM applications 
                          JOIN offers ON offers.offer_id = applications.application_offer_id
-                         WHERE offers.offer_company_id = :company_id";
+                         WHERE offers.offer_company_id = :company_id
+                         AND application_status NOT IN ('accepted', 'refused')";
     $result_count_apps = $PDO -> prepare($query_count_apps);
     $result_count_apps -> bindParam(":company_id", $company_id, PDO::PARAM_INT);
     $result_count_apps -> execute();
@@ -211,7 +212,7 @@ if ($company){
                     </div>
                 </a>
 
-                <a href="applications_received.php">
+                <a href="applications_received.php?company_id=<?php echo $company['company_id']; ?>">
                     <div class="dashboard-card-box">
                         <i class="fa-solid fa-triangle-exclamation"></i>
                         <h4>Candidature<?php if ($total_apps > 1) echo 's' ?? ''; ?> reçue<?php if ($total_apps > 1) echo 's' ?? ''; ?></h4>

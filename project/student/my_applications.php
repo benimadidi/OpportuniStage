@@ -18,7 +18,7 @@ require_once '../config/db-config.php';
 // Recuperation des variables de session
 $session_name = $_SESSION['name'] ?? null;
 $alerts = $_SESSION['alerts'] ?? [];
-$session_id = $_SESSION['student-id'] ?? null;
+$session_id = $_SESSION['user-id'] ?? null;
 
 /*-------------------------------------------------------*/
 // Suppression des variables d'alerts
@@ -125,26 +125,6 @@ if ($session_id){
 
         </header>
 
-        <!--////////////////////////////////////////////////////-->
-        <!-- Gerer la correspondance des langues -->
-        <?php foreach($applications as $application) : ?>
-
-            <?php
-            
-                //Formater la date en francais 
-                $date = new DateTime($application['application_created_at']);
-                $formatter = new IntlDateFormatter(
-                    'fr_FR',
-                    IntlDateFormatter::LONG,
-                    IntlDateFormatter::NONE,
-                    'Africa/Kinshasa',
-                    IntlDateFormatter::GREGORIAN,
-                    'd MMMM yyyy'
-                );
-                $date_fr = $formatter -> format($date);
-            ?>
-
-        <?php endforeach; ?>
 
 
         <!--////////////////////////////////////////////////////-->
@@ -161,6 +141,36 @@ if ($session_id){
 
                 <?php foreach ($applications as $application) : ?>
 
+                    <?php
+                        /*-------------------------------------------------------------------------*/
+                        //Formater la date en francais 
+                        $date = new DateTime($application['application_created_at']);
+                        $formatter = new IntlDateFormatter(
+                            'fr_FR',
+                            IntlDateFormatter::LONG,
+                            IntlDateFormatter::NONE,
+                            'Africa/Kinshasa',
+                            IntlDateFormatter::GREGORIAN,
+                            'd MMMM yyyy'
+                        );
+                        $date_fr = $formatter -> format($date);
+
+                        /*-------------------------------------------------------------------------*/
+                        // Déterminer le statut
+                        $status = $application['application_status'];
+                        $class_status = [
+                            'refused' => 'rejected-status',
+                            'waiting' => 'waiting-status',
+                            'accepted' => 'accepted-status'
+                        ];
+                        $status_text = [
+                            'refused' => 'Rejetée',
+                            'waiting' => 'En attente',
+                            'accepted' => 'Acceptée'
+                        ];
+
+                    ?>
+
                     <div class="offer-box-companies">
 
                         <div class="offer-companies-card">
@@ -173,26 +183,6 @@ if ($session_id){
                                 <?php echo htmlspecialchars($application['offer_location'] ?? null) ?>
                             </p>
                         </div>
-
-                        <!--////////////////////////////////////////////////////-->
-                            <!-- status de la candidature -->
-                        <?php 
-                            foreach($applications as $application){ 
-                                $status = $application['application_status'];
-                                $class_status = [
-                                    'rejected' => 'rejected-status',
-                                    'waiting' => 'waiting-status',
-                                    'accepted' => 'accepted-status'
-                                ];
-
-                                $status_text = [
-                                    'rejected' => 'Rejetée',
-                                    'waiting' => 'En attente',
-                                    'accepted' => 'Acceptée'
-                                ];
-                            }
-                            
-                        ?>
 
                         <div class="offer-card-action">
                             <p class="<?php echo $class_status[$status] ?? 'waiting-status' ?>">

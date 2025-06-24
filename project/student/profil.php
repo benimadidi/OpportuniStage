@@ -12,7 +12,8 @@ session_start();
 // Recuperation des variables de session
 $session_name = $_SESSION['name'] ?? null;
 $alerts = $_SESSION['alerts'] ?? [];
-$session_id = $_SESSION['student-id'] ?? null;
+$session_id = $_SESSION['user-id'] ?? null;
+$session_role = $_SESSION['role'] ?? null;
 
 /*-------------------------------------------------------*/
 // Suppression des variables d'alerts
@@ -20,26 +21,33 @@ unset($_SESSION['alerts']);
 
 /*-------------------------------------------------------*/
 // Recuperation de l'id de l'utilisateur
-$user_id = $_SESSION['user-id'] ?? null;
+$is_owner = false;
 $user = null;
 $student = null;
 
-if ($user_id){
+$displayed_id = isset($_GET['id']) ? intval($_GET['id']) : $session_id;
+
+if ($displayed_id){
     require_once '../config/db-config.php';
 
     //Récupérer les données de l'utilisateur
     $query_user = "SELECT * FROM users WHERE user_id = :user_id";
     $result = $PDO->prepare($query_user);
-    $result->bindParam(":user_id", $user_id, PDO::PARAM_INT);
-    $result->execute();
-    $user = $result->fetch(PDO::FETCH_ASSOC);
+    $result -> bindParam(":user_id", $displayed_id, PDO::PARAM_INT);
+    $result -> execute();
+    $user = $result -> fetch(PDO::FETCH_ASSOC);
 
     //Récupérer les données de l'étudiant
     $query_student = "SELECT * FROM students WHERE student_user_id = :user_id";
-    $result = $PDO->prepare($query_student);
-    $result->bindParam(":user_id", $user_id, PDO::PARAM_INT);
-    $result->execute();
-    $student = $result->fetch(PDO::FETCH_ASSOC);
+    $result = $PDO -> prepare($query_student);
+    $result -> bindParam(":user_id", $displayed_id, PDO::PARAM_INT);
+    $result -> execute();
+    $student = $result -> fetch(PDO::FETCH_ASSOC);
+
+    //Verifier si c'est bien le propritaire qui est connecté
+    if ($session_id && $session_role == 'student' && $student){
+        $is_owner = ($student['student_user_id'] == $session_id);
+    }
 }
 
 ?>
@@ -179,7 +187,9 @@ if ($user_id){
                     <?php endif; ?>
                 </div>
 
-                <a href="../includes/edit_profil_2.php" class="edit-prpfil-btn">Modifier les informations du compte</a>
+                <?php if ($is_owner) :?>
+                    <a href="../includes/edit_profil_2.php" class="edit-prpfil-btn">Modifier les informations du compte</a>
+                <?php endif; ?>
 
             </div>
 

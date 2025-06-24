@@ -15,6 +15,7 @@ session_start();
 $session_name = $_SESSION['name'] ?? null;
 $alerts = $_SESSION['alerts'] ?? [];
 $session_id = $_SESSION['user-id'] ?? null;
+$session_role = $_SESSION['role'] ?? null;
 
 /*-------------------------------------------------------*/
 // Suppression des variables d'alerts
@@ -22,26 +23,33 @@ unset($_SESSION['alerts']);
 
 /*-------------------------------------------------------*/
 // Recuperation de l'id de l'utilisateur
-$user_id = $_SESSION['user-id'] ?? null;
 $user = null ;
 $company = null;
+$is_owner = false;
 
-if ($user_id){
+$displayed_id = isset($_GET['id']) ? intval($_GET['id']) : $session_id;
+
+if ($displayed_id){
     require_once '../config/db-config.php';
 
     //Récupérer les données de l'utilisateur
     $query_user = "SELECT * FROM users WHERE user_id = :user_id";
     $result = $PDO -> prepare($query_user);
-    $result -> bindParam(":user_id", $user_id, PDO::PARAM_INT);
+    $result -> bindParam(":user_id", $displayed_id, PDO::PARAM_INT);
     $result -> execute();
     $user = $result -> fetch(PDO::FETCH_ASSOC);
 
     //récupérer les donnees de l'entreprise 
     $query_company = "SELECT * FROM companies WHERE company_user_id = :user_id";
     $result = $PDO -> prepare($query_company);
-    $result -> bindParam(":user_id", $user_id, PDO::PARAM_INT);
+    $result -> bindParam(":user_id", $displayed_id, PDO::PARAM_INT);
     $result -> execute();
     $company = $result -> fetch(PDO::FETCH_ASSOC);
+
+    //Verifier si c'est bien le propritaire qui est connecté
+    if ($session_id && $session_role == 'company' && $company){
+        $is_owner = ($company['company_user_id'] == $session_id);
+    }
 }
 
 ?>
@@ -105,16 +113,18 @@ if ($user_id){
             ];
 
             //Formater la date en francais 
-            $date = new DateTime($company['company_created_at']);
-            $formatter = new IntlDateFormatter(
-                'fr_FR',
-                IntlDateFormatter::LONG,
-                IntlDateFormatter::NONE,
-                'Africa/Kinshasa',
-                IntlDateFormatter::GREGORIAN,
-                'd MMMM yyyy'
-            );
-            $date_fr = $formatter->format($date);
+            if ($company && !empty($company['company_created_at'])){
+                $date = new DateTime($company['company_created_at']);
+                $formatter = new IntlDateFormatter(
+                    'fr_FR',
+                    IntlDateFormatter::LONG,
+                    IntlDateFormatter::NONE,
+                    'Africa/Kinshasa',
+                    IntlDateFormatter::GREGORIAN,
+                    'd MMMM yyyy'
+                );
+                $date_fr = $formatter->format($date);     
+            }
 
         ?>
 
@@ -182,7 +192,9 @@ if ($user_id){
                     <p>Créé le <?php echo htmlspecialchars($date_fr ?? '') ; ?></p>
                 </div>
                 
-                <a href="../includes/edit_profil_2.php" class="edit-prpfil-btn">Modifier les informations du compte</a>
+                <?php if ($is_owner) :?>
+                    <a href="../includes/edit_profil_2.php" class="edit-prpfil-btn">Modifier les informations du compte</a>
+                <?php endif; ?>
 
             </div>
 

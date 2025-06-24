@@ -1042,6 +1042,16 @@ section{
     font-weight: 400;
 }
 
+.offer-details .offer-details-box p .company-link{
+    color: var(--text-color);
+    transition: .3s ease;
+    
+}
+
+.offer-details .offer-details-box p .company-link:hover{
+    color: var(--secondary-color);
+}
+
 .offer-details .offer-details-box p span{
     font-size: 2.3rem;
     font-weight: 600;
@@ -1054,7 +1064,7 @@ section{
     gap: 4rem;
 }
 
-.offer-details a{
+.offer-details .btn{
     padding: 1rem 2.8rem;
     background-color: var(--primary-color);
     border-radius: 4rem;
@@ -1066,7 +1076,7 @@ section{
     transition: .3s ease;
 }
 
-.offer-details a:hover{
+.offer-details .btn:hover{
     background-color: var(--text-color);
 }
 
