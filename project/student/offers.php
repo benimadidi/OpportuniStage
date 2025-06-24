@@ -140,9 +140,9 @@ if ($session_id){
                     <div class="offer-box-companies">
 
                         <div class="offer-companies-card">
-                            <h4><?php echo htmlspecialchars($offer['offer_title'] ?? null) ?></h4>
-                            <p class="company-name"><?php echo htmlspecialchars($offer['company_name'] ?? null) ?></p>
-                            <p class="offer-description"><?php echo htmlspecialchars($offer['offer_description'] ?? null) ?></p>
+                            <h4><?php echo htmlspecialchars($offer['offer_title'] ?? '') ?></h4>
+                            <p class="company-name"><?php echo htmlspecialchars($offer['company_name'] ?? '') ?></p>
+                            <p><?php echo htmlspecialchars($offer['offer_description'] ?? '') ?></p>
                             <p style="margin-top: .8rem;">
                                 <i class="fa-solid fa-location-dot"></i>
                                 <?php echo htmlspecialchars($offer['offer_location'] ?? null) ?>

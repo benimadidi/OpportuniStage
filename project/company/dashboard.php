@@ -52,7 +52,7 @@ if ($session_id){
 if ($company){
     $company_id = $company['company_id'];
 
-    //Recuperer les 4 dernieres offres 
+    //Recuperer les 3 dernieres offres 
     $query = "SELECT * FROM offers 
               WHERE offer_company_id = :company_id 
               ORDER BY offer_id DESC 
@@ -161,6 +161,7 @@ if ($company){
                     <!--alerts-->
         <?php include '../includes/alerts.php' ?>
 
+
         <!--////////////////////////////////////////////////////-->
         <!-- Gerer la correspondance des langues -->
         <?php
@@ -214,7 +215,7 @@ if ($company){
 
                 <a href="applications_received.php?company_id=<?php echo $company['company_id']; ?>">
                     <div class="dashboard-card-box">
-                        <i class="fa-solid fa-triangle-exclamation"></i>
+                        <i class="fa-solid fa-user-tie"></i>
                         <h4>Candidature<?php if ($total_apps > 1) echo 's' ?? ''; ?> reçue<?php if ($total_apps > 1) echo 's' ?? ''; ?></h4>
                         <p><?php echo $total_apps ?? 0; ?></p>
                     </div>
@@ -228,14 +229,14 @@ if ($company){
 
             </div>
 
-            <!--Dernières offres publiees-->
+            <!--content-->
             <div class="dashboard-card-container">
 
                 <div class="dashboard-card-content left">
 
-                    <h2>Dernières offres publiées</h2>
+                    <h2>Dernière<?php if ($total_offers > 1) echo 's' ?? ''; ?> offre<?php if ($total_offers > 1) echo 's' ?? ''; ?> publiée<?php if ($total_offers > 1) echo 's' ?? ''; ?></h2>
 
-                    <?php if (count($offers) === 0): ?>
+                    <?php if ($total_offers === 0): ?>
 
                         <div class="no-offer">Aucune offre publiée pour le moment.</div>
 
@@ -285,7 +286,7 @@ if ($company){
                     <a href="edit_profil.php">
                         <div class="aside-card-box">
                             <i class='bx  bxs-user'  ></i>
-                            <p>Modifier le profil entreprise</p>
+                            <p>Mettre à jour le profil</p>
                         </div>
                     </a>
 

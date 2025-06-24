@@ -30,12 +30,50 @@ unset($_SESSION['alerts']);
 $student = null;
 
 if ($session_id){
-    //Récupérer les donnees de l'entreprise 
+    //Récupérer les donnees de l'etudiant 
     $query_student = "SELECT * FROM students WHERE student_user_id = :user_id";
     $result = $PDO -> prepare($query_student);
     $result -> bindParam(":user_id", $session_id, PDO::PARAM_INT);
     $result -> execute();
     $student = $result -> fetch(PDO::FETCH_ASSOC);
+
+    //Afficher le nombre de candidatures envoyees
+    $query_application = "SELECT COUNT(application_id) AS total FROM applications 
+                          JOIN offers ON offers.offer_id = applications.application_offer_id
+                          WHERE applications.application_student_id = :student_id";
+    $count_application = $PDO -> prepare($query_application);
+    $count_application -> bindParam(":student_id", $student['student_id'], PDO::PARAM_INT);
+    $count_application -> execute();
+    $applications = $count_application -> fetch(PDO::FETCH_ASSOC);
+    $count_application = $applications['total'];
+
+    //Recuperer le 3 dernieres offres
+    $query = "SELECT offers.*, companies.company_name
+              FROM offers
+              JOIN companies ON companies.company_id = offers.offer_company_id
+              ORDER BY offers.offer_created_at DESC
+              LIMIT 3";
+    $result_offers = $PDO->prepare($query);
+    $result_offers -> execute();
+    $offers = $result_offers -> fetchAll(PDO::FETCH_ASSOC);
+
+    //compter le nombre d'offres
+    $query_offers = "SELECT COUNT(offer_id) AS total FROM offers ";
+    $count_offers = $PDO -> prepare($query_offers);
+    $count_offers -> execute();
+    $count_offers = $count_offers -> fetch(PDO::FETCH_ASSOC);
+    $count_offers = $count_offers['total'];
+
+    //recuperer la date de la derniere candidature
+    $query_last_apps = "SELECT application_created_at FROM applications
+                        WHERE application_student_id = :student_id
+                        ORDER BY application_created_at DESC
+                        LIMIT 1";
+    $result_last_apps = $PDO -> prepare($query_last_apps);
+    $result_last_apps -> bindParam(":student_id", $student['student_id'], PDO::PARAM_INT);
+    $result_last_apps -> execute();
+    $last_apps = $result_last_apps -> fetch(PDO::FETCH_ASSOC);
+
 }
 
 ?>
@@ -68,6 +106,25 @@ if ($session_id){
                     <!--alerts-->
         <?php include '../includes/alerts.php' ?>
 
+        <!--////////////////////////////////////////////////////-->
+        <!-- Gerer la correspondance des langues -->
+         <?php
+            //Formater la date en francais 
+            if (!empty($last_apps['application_created_at'])){
+                $date = new DateTime($last_apps['application_created_at']);
+                $formatter = new IntlDateFormatter(
+                    'fr_FR',
+                    IntlDateFormatter::LONG,
+                    IntlDateFormatter::NONE,
+                    'Africa/Kinshasa',
+                    IntlDateFormatter::GREGORIAN,
+                    'd MMMM yyyy'
+                );
+                $date_fr = $formatter->format($date);
+            }
+         ?>
+
+
 
         <!--////////////////////////////////////////////////////-->
                     <!-- Header de l'etudiant -->
@@ -88,7 +145,7 @@ if ($session_id){
                 <?php if(!empty($session_name)) : ?>
                     <div class="profile-box">
                         
-                        <div class="avatar-circle"><?= strtoupper($student['student_name'][0] ?? $session_nameb[0])?></div>
+                        <div class="avatar-circle"><?= strtoupper($student['student_name'][0] ?? $session_name[0])?></div>
 
                         <div class="dropdown">
                             <a href="../student/profil.php">
@@ -114,7 +171,97 @@ if ($session_id){
 
         </header>
 
+        <!--////////////////////////////////////////////////////-->
+                    <!-- dashboard content -->
+        <section class="dashboard">
+            
+            <div class="dashboard-card-header">
 
+                <a href="my_applications.php">
+                    <div class="dashboard-card-box">
+                        <i class="fa-solid fa-envelope-open-text"></i>
+                        <h4>Mes Candidatures</h4>
+                        <p><?php echo $count_application ?? 0; ?></p>
+                    </div>
+                </a>
+
+                <div class="dashboard-card-box">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <h4>Offre<?php if ($count_offers > 1) echo 's' ?? ''; ?> disponible<?php if ($count_offers > 1) echo 's' ?? ''; ?></h4>
+                    <p class="last-publication"><?php echo $count_offers ?? 0; ?></p>
+                </div>
+
+                <div class="dashboard-card-box">
+                    <i class="fa-solid fa-bullhorn"></i>
+                    <h4>Dernière candidature</h4>
+                    <p class="last-publication"><?php if (!empty($last_apps['application_created_at'])) echo 'Le ' ?? ''  ?><?php echo $date_fr ?? 'Aucune offre publiée'  ?></p>
+                </div>
+
+            </div>
+
+            <div class="dashboard-card-container">
+
+                <div class="dashboard-card-content left">
+
+                    <h2>Dernière<?php if ($count_offers > 1) echo 's' ?? ''; ?> offre<?php if ($count_offers > 1) echo 's' ?? ''; ?> publiée<?php if ($count_offers > 1) echo 's' ?? ''; ?></h2>
+
+                    <?php if ($count_offers === 0): ?>
+
+                        <div class="no-offer">Aucune offre publiée pour le moment.</div>
+
+                    <?php else: ?>
+
+                        <?php foreach($offers as $offer) : ?>
+
+                            <div class="student-dashboard-card">
+
+                                <div class="student-dashboard-card-box">
+
+                                    <div class="student-dashboard-card-layer">
+                                        <h4><?php echo htmlspecialchars($offer['offer_title'] ?? '') ?></h4>
+                                        <p class="company-name"><?php echo htmlspecialchars($offer['company_name'] ?? '') ?></p>
+                                        <p><?php echo htmlspecialchars($offer['offer_description'] ?? '') ?></p>
+                                        <p style="margin-top: .8rem;">
+                                            <i class="fa-solid fa-location-dot"></i>
+                                            <?php echo htmlspecialchars($offer['offer_location'] ?? null) ?>
+                                        </p>
+                                    </div>
+
+                                    <div class="offer-card-action">
+                                        <a href="offer_details.php?id=<?= $offer['offer_id'] ?>">Postuler</a>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        <?php endforeach; ?>
+
+                    <?php endif; ?>
+
+                </div>
+
+                <div class="dashboard-card-content right">
+
+                    <a href="offers.php">
+                        <div class="aside-card-box" >
+                            <i class="fa-solid fa-file-signature"></i>
+                            <p>Postuler pour une offre</p>
+                        </div>
+                    </a>
+
+                    <a href="edit_profil.php">
+                        <div class="aside-card-box">
+                            <i class='bx  bxs-user'  ></i>
+                            <p>Mettre à jour le profil</p>
+                        </div>
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
 
 
         <!--////////////////////////////////////////////////////-->
