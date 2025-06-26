@@ -67,16 +67,24 @@ $applications = $result_get_apps -> fetchAll(PDO::FETCH_ASSOC);
             <h2>Candidature<?php if(count($applications) > 1) echo 's'; ?> reçue<?php if(count($applications) > 1) echo 's'; ?></h2>
 
             <?php if (count($applications) > 0): ?>
+
             <table>
+
                 <thead>
+
                     <tr>
+
                         <th>Étudiant</th>
                         <th>Offre</th>
                         <th>Date de candidature</th>
                         <th>Actions</th>
+
                     </tr>
+
                 </thead>
+                
                 <tbody>
+
                     <?php foreach($applications as $app): ?>
 
                         <?php
@@ -102,10 +110,11 @@ $applications = $result_get_apps -> fetchAll(PDO::FETCH_ASSOC);
                         <td>
 
                             <div class="action">
+                                
                                 <form action="../controllers/applications_process.php" method="POST" style="display:inline">
-                                <input type="hidden" name="id" value="<?php echo $app['application_id'] ?>">
-                                <input type="hidden" name="action" value="accepted">
-                                <button type="submit" class="btn-action btn-success">Accepter</button>
+                                    <input type="hidden" name="id" value="<?php echo $app['application_id'] ?>">
+                                    <input type="hidden" name="action" value="accepted">
+                                    <button type="submit" class="btn-action btn-success">Accepter</button>
                                 </form>
 
                                 <form action="../controllers/applications_process.php" method="POST" style="display:inline">
@@ -113,12 +122,17 @@ $applications = $result_get_apps -> fetchAll(PDO::FETCH_ASSOC);
                                     <input type="hidden" name="action" value="refused">
                                     <button type="submit" class="btn-action btn-reject">Rejeter</button>
                                 </form>
+
                             </div>
 
                         </td>
+
                     </tr>
+
                     <?php endforeach; ?>
+
                 </tbody>
+
             </table>
 
             <?php else: ?>

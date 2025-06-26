@@ -64,7 +64,7 @@
                     <option value="" disabled selected>Qui êtes vous ?</option>
                     <option value="student">Etudiant</option>
                     <option value="company">Entreprise</option>
-                    <option value="admin">Admin</option>
+                    <!-- <option value="admin">Admin</option> -->
                 </select>
             </div>
 

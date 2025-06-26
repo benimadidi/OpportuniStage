@@ -34,7 +34,7 @@ function sendApplicationEmail($to, $name, $offer, $company_name, $status) {
             . "Cordialement,\nL'equipe OpportuniStage";
     } else {
         $mail->Body = "Bonjour $name,\n\n"
-            . "Nous vous remercions pour l’intérêt porté à notre offre \"$offer\". Après étude, votre candidature n’a pas été retenue.\n\n"
+            . "Nous vous remercions pour l’intérêt porté à l'offre \"$offer\" chez $company_name. Après étude, votre candidature n’a pas été retenue.\n\n"
             . "Nous vous souhaitons bonne continuation dans vos recherches.\n\n"
             . "Cordialement,\nL'equipe OpportuniStage";
     }

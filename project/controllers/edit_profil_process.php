@@ -108,7 +108,7 @@ if (isset($_POST["edit-student-btn"])) {
 
         // Vérifier l'extension du fichier
         if (in_array($file_ext, ['pdf', 'docx'])) {
-            $new_file_name = uniqid('cv_') . '.' . $file_ext;
+            $new_file_name = uniqid("cv_$student_name") . '.' . $file_ext;
             $final_path = $upload_dir . $new_file_name;
 
             if (!is_dir($upload_dir)) {

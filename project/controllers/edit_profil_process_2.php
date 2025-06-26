@@ -85,6 +85,11 @@ if(isset($_POST["edit-profil-btn"])){
             header('Location: ../company/dashboard.php');
             exit();
         }
+
+        else {
+            header('Location: ../admin/dashboard.php');
+            exit();
+        }
         
     }
 
@@ -95,7 +100,7 @@ else{
         'message' => "Une erreur s'est produite"
     ];
     $go_back = $_SERVER['HTTP_REFERER'] ?? '../index.php';
-    header("Location: $referer");
+    header("Location: $go_back");
     exit();
 }
 

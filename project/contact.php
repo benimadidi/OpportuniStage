@@ -112,7 +112,7 @@ if ($session_name !== null)
 
                 <div class="contact-box">
                     <i class="fa-solid fa-envelope"></i>
-                    <p><a href="mailto:benimadidi100@gmail.com" title="Contactez l'administrateur">contact@opportunistage.cd</a></p>
+                    <p><a href="mailto:opportunistage@gmail.com" title="Contactez l'administrateur">opportunistage@gmail.com</a></p>
                 </div>
             
                 <div class="contact-box">

@@ -17,16 +17,7 @@ $offer_id = $_GET['id'] ?? null;
 if ($offer_id){
     require_once '../config/db-config.php';
 
-    //Verifier si l'offre existe et si elle appartient a l'entreprise
-    $sql = "SELECT offer_id FROM offers WHERE offer_id = :offer_id";
-    $result = $PDO -> prepare($sql);
-    $result -> bindParam(":offer_id", $offer_id, PDO::PARAM_INT);
-    $result -> execute();
-    $offer = $result -> fetch(PDO::FETCH_ASSOC);
-}
-
-if ($offer){
-    //Suppression de l'offre
+        //Suppression de l'offre
     $sql = "DELETE FROM offers WHERE offer_id = :offer_id";
     $result = $PDO -> prepare($sql);
     $result -> bindParam(":offer_id", $offer_id, PDO::PARAM_INT);
@@ -37,6 +28,7 @@ if ($offer){
         'message' => 'Offre supprimée'
     ];
 }
+
 else{
     $_SESSION['alerts'][] = [
         'type' => 'error',
@@ -45,7 +37,7 @@ else{
 }
 
 //Redirection vers la page des offres
-header('Location:my_offers.php');
+header('Location: ../admin/offers.php');
 exit;
 
 ?>

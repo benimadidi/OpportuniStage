@@ -163,6 +163,7 @@ if (isset($_POST['login-btn'])) {
 
             case 'admin':
                 $_SESSION['admin-id'] = $user_data['user_id']; 
+                $_SESSION['name'] = $user_data['user_name'];
                 break;
         }
 

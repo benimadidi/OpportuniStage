@@ -184,8 +184,8 @@ if ($session_id){
                 </div>
 
                 <div class="add-offer-input-box">
-                    <label for="offer-remuneration">Rémuneration</label>
-                    <input type="text" name="offer-remuneration" id="offer-remuneration" required placeholder="Non rémunéré / montant par semaine (USD)">
+                    <label for="offer-remuneration">Rémuneration(Optionnel)</label>
+                    <input type="number" name="offer-remuneration" id="offer-remuneration" placeholder="montant par semaine (USD)">
                 </div>
 
                 <button type="submit" name="add-offer-btn" class="add-offer-btn">Publier l'offre</button>

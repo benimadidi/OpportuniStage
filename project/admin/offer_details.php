@@ -65,7 +65,7 @@ if ($offer_id) {
 <body>
 
     <!--////////////////////////////////////////////////////-->
-    <!--alerts-->
+                <!--alerts-->
     <?php include '../includes/alerts.php' ?>
 
 
@@ -156,7 +156,7 @@ if ($offer_id) {
 
         <div class="offer-action-btn">
             <a href="offers.php" class="btn">Retour aux offres</a>
-            <a href="../controllers/offer_details_process.php?id=<?= $offer['offer_id'] ?>" class="btn">Postuler</a>
+            <a href="../controllers/drop_offer_process.php?id=<?= $offer['offer_id'] ?>" class="btn">Supprimer</a>
         </div>
 
     </section>

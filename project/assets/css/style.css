@@ -678,7 +678,7 @@ table tbody tr a:hover{
 
 table tbody tr td{
     font-size: 1.5rem;
-    padding: 1rem 3.5rem;
+    padding: .5rem 2.5rem;
 }
 
 table tbody tr td .action{
@@ -716,6 +716,81 @@ table tbody tr td .action form .btn-action.btn-reject{
 table tbody tr td .action form .btn-action.btn-reject:hover{
     background-color: var(--error-color);
     color: var(--off-white-text);
+}
+
+/*-------------------------------------------------------------------------*/
+/*Voir utilisateurs */
+.admin-users h2{
+    font-size: 3.5rem;
+    margin-bottom: 5rem;
+    text-align: center;    
+}
+
+.admin-users .admin-users-filter{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6rem;
+    margin-bottom: 2rem;
+}
+
+.admin-users .admin-users-filter button{
+    padding: 1rem 2rem;
+    font-size: 1.5rem;
+    color: var(--text-color);
+    border: .1rem solid var(--text-color);
+    background-color: var(--background-color);
+    border-radius: .5rem;
+    cursor: pointer;
+    transition: .3s ease;
+}
+
+.admin-users .admin-users-filter button.active{
+    background-color: var(--text-color);
+    color: var(--background-color);
+}
+
+.admin-users .admin-users-filter button:hover{
+    background-color: var(--text-color);
+    color: var(--background-color);
+}
+
+table tbody tr .action .btn-action{
+    padding: 1rem 1.4rem;
+    border-radius: .8rem;
+    background-color: var(--background-color);
+    font-size: 1.2rem;
+    margin-right: 1rem;
+}
+
+table tbody tr .action .btn-action.show{
+    color: var(--text-color);
+    border: .1rem solid var(--text-color);
+    margin-bottom: 1rem;
+    transition: .3s ease;
+}
+
+table tbody tr .action .btn-action.show:hover{
+    background-color: var(--text-color);
+    color: var(--off-white-text);
+}
+
+table tbody tr .action .btn-action.delete{
+    color: var(--error-color);
+    border: .1rem solid var(--error-color);
+    transition: .3s ease;
+}
+
+table tbody tr .action .btn-action.delete:hover{
+    background-color: var(--error-color);
+    color: var(--off-white-text);
+}
+
+.no-users{
+    color: var(--primary-color);
+    font-size: 3.5rem;
+    text-align: center;
+    margin-top: 14rem;
 }
 
 /*-------------------------------------------------------------------------*/
@@ -1716,6 +1791,19 @@ footer p a:hover{
     table tbody tr td .action form .btn-action{
         padding: .5rem .5rem;
         border-radius: .8rem;
+    }
+
+    /*-------------------------------------------------------------------------*/
+    /*Voir utilisateurs */
+    table tbody tr{
+        font-size: 1.2rem;
+    }
+
+    table tbody tr .action .btn-action{
+        padding: .5rem .7rem;
+        border-radius: .4rem;
+        font-size: .6rem;
+        margin-right: .5rem;
     }
 
 }

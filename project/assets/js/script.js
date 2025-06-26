@@ -14,6 +14,9 @@ const avatarCircle = document.querySelector('.avatar-circle');
 
 const alertBox = document.querySelector('.alert-box');
 
+const filterBtns = document.querySelectorAll(".filter-btn");
+const tableRows = document.querySelectorAll(".user-table tbody tr"); 
+
 /*-----------------------------------------------------------------------------------------------------*/
 /* Le slide pour l'authentification */
 if(authModal){
@@ -64,6 +67,28 @@ if (alertBox){
 }
 
 /*-----------------------------------------------------------------------------------------------------*/
+/*Filtrage des utilisateurs */
+
+filterBtns.forEach(btn => {
+    btn.addEventListener("click", () => {
+        document.querySelector(".filter-btn.active").classList.remove("active");
+        btn.classList.add("active");
+
+        const selectedType = btn.getAttribute("data-type");
+
+        tableRows.forEach(row => {
+            const userType = row.getAttribute("data-user-type");
+
+            if (selectedType === "all" || userType === selectedType) {
+                row.style.display = "";
+            } else {
+                row.style.display = "none";
+            }
+        });
+    });
+});
+
+/*-----------------------------------------------------------------------------------------------------*/
 /* Scroll reveal*/
 let params = { 
     reset: false,
@@ -77,4 +102,3 @@ ScrollReveal().reveal('.site-name, .reveal-top, .about-header-content h2, .about
 ScrollReveal().reveal('.home-header-content h1, .home-header-content p, .home-header-content .btn-home-header-content, .reveal-bottom, .about-header-content p, .about-header-content a, .about-mission-box, .add-offer form .add-offer-btn, .view-offer .offer-box .offer-card, .offer-details a, .profil-info .profil-info-container, .edit-profil .edit-profil-input-box, .edit-profil .edit-profil-btn, .dashboard-card-container .dashboard-card-content.left, .offer-box-companies ', {origin : 'bottom'});
 ScrollReveal().reveal('.home-student-img, .home-company-content, .contact-content, .add-offer form .add-offer-input-box, .view-offer .no-offer,  .offer-details-box p, .dashboard-card-header .dashboard-card-box, .offer-details a', {origin : 'left'});
 ScrollReveal().reveal('.contact-img', {origin : 'right'});
-
