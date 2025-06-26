@@ -578,6 +578,13 @@ section{
 }
 
 /* -------------------------------------------------------------------------
+/*dashboard admin*/
+.dashboard-card-header.admin{
+    grid-template-columns: repeat(4, 1fr);
+}
+
+
+/* -------------------------------------------------------------------------
 /*dashboard student*/
 .dashboard-card-content .student-dashboard-card .student-dashboard-card-box{
     display: flex;

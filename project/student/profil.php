@@ -181,7 +181,7 @@ if ($displayed_id){
                 <div class="profil-info-box last">
                     <i class="bx bxs-file" title="CV"></i>
                     <?php if (!empty($student['student_cv']) && file_exists($student['student_cv'])): ?>
-                        <a href="<?= htmlspecialchars($student['student_cv']) ?>" target="_blank" class="cv-link">Voir mon CV</a>
+                        <a href="<?= htmlspecialchars($student['student_cv']) ?>" target="_blank">Voir mon CV</a>
                     <?php else: ?>
                         <p>CV non disponible</p>
                     <?php endif; ?>

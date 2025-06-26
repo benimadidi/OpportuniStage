@@ -122,7 +122,7 @@ if ($offer_id){
                         <p><span>Durée :</span> <?php echo htmlspecialchars($offer['offer_duration']); ?> semaine<?php echo $offer['offer_duration'] > 1 ? 's' : ''; ?></p>
                         <p><span>Date limite :</span> <?php echo htmlspecialchars($date_fr); ?></p>
                         <p><span>Profil recherché :</span> <?php echo htmlspecialchars($offer['offer_profile']); ?></p>
-                        <p><span>Rémunération/Semaine :</span> <?php echo htmlspecialchars($offer['offer_remuneration']); ?></p>
+                        <p><span>Rémunération/Semaine :</span> <?php echo htmlspecialchars($offer['offer_remuneration'] ? $offer['offer_remuneration'] : 'Non rémunéré'); ?><?php echo $offer['offer_remuneration'] ? ' USD' : ''; ?></p>
                         <p><span>Description :</span><?php echo htmlspecialchars($offer['offer_description']); ?></p>
 
                     </div>
