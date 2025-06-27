@@ -156,10 +156,29 @@ if ($offer_id) {
 
         <div class="offer-action-btn">
             <a href="offers.php" class="btn">Retour aux offres</a>
-            <a href="../controllers/drop_offer_process.php?id=<?= $offer['offer_id'] ?>" class="btn">Supprimer</a>
+            <a href="../controllers/drop_offer_process.php?id=<?= $offer['offer_id'] ?>" class="btn offer-delete">Supprimer</a>
         </div>
 
     </section>
+
+        <!--//////////////////////////////////////////////////////////-->
+                    <!-- La boîte de confirmation -->
+        <div id="confirm-modal" class="modal-overlay bg-color">
+
+            <div class="modal-content">
+
+                <h4>Confirmer l'action</h4>
+
+                <p>Êtes-vous sûr de vouloir supprimer cette offre ?</p>
+
+                <div class="modal-buttons">
+                    <button id="confirm-yes" class="reject">Oui, supprimer</button>
+                    <button id="confirm-no" class="cancel">Annuler</button>
+                </div>
+                
+            </div>
+
+        </div>
 
 
     <!--////////////////////////////////////////////////////-->

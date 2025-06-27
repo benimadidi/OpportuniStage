@@ -15,7 +15,15 @@ const avatarCircle = document.querySelector('.avatar-circle');
 const alertBox = document.querySelector('.alert-box');
 
 const filterBtns = document.querySelectorAll(".filter-btn");
-const tableRows = document.querySelectorAll(".user-table tbody tr"); 
+const tableRows = document.querySelectorAll(".user-list tbody tr"); 
+
+const modal = document.getElementById('confirm-modal');
+const btnYes = document.getElementById('confirm-yes');
+const btnNo = document.getElementById('confirm-no');
+const rejectBtn = document.querySelectorAll('.reject-btn');
+const rejectBtnLink = document.querySelectorAll('.offer-delete');
+let formToSubmit = null;
+let linkToRedirect = null;
 
 /*-----------------------------------------------------------------------------------------------------*/
 /* Le slide pour l'authentification */
@@ -89,8 +97,54 @@ filterBtns.forEach(btn => {
 });
 
 /*-----------------------------------------------------------------------------------------------------*/
+/* Bouton pour la confirmation sur les trucs sensible*/
+if (modal){
+    rejectBtn.forEach(btn => {
+    btn.addEventListener('click', () => {
+        formToSubmit = btn.closest('form');
+        modal.classList.add('show');
+    });
+    });
+
+    btnYes.addEventListener('click', () => {
+    if (formToSubmit) {
+        formToSubmit.submit();
+        formToSubmit = null;
+    }
+    modal.classList.remove('show');
+    });
+
+    btnNo.addEventListener('click', () => {
+    modal.classList.remove('show');
+    formToSubmit = null;
+    });
+
+    rejectBtnLink.forEach(link => {
+    link.addEventListener('click', (event) => {
+        event.preventDefault(); 
+        linkToRedirect = link.getAttribute('href');
+        modal.classList.add('show');
+    });
+    });
+
+    btnYes.addEventListener('click', () => {
+    if (linkToRedirect) {
+        window.location.href = linkToRedirect;
+        linkToRedirect = null;
+    }
+    modal.classList.remove('show');
+    });
+
+    btnNo.addEventListener('click', () => {
+    modal.classList.remove('show');
+    linkToRedirect = null;
+    });
+
+}
+
+/*-----------------------------------------------------------------------------------------------------*/
 /* Scroll reveal*/
-let params = { 
+const params = { 
     reset: false,
     distance: '60px',
     duration: 1500,

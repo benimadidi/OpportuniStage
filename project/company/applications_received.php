@@ -68,78 +68,101 @@ $applications = $result_get_apps -> fetchAll(PDO::FETCH_ASSOC);
 
             <?php if (count($applications) > 0): ?>
 
-            <table>
+            <div class="application-table">
 
-                <thead>
+                <table>
 
-                    <tr>
+                    <thead>
 
-                        <th>Étudiant</th>
-                        <th>Offre</th>
-                        <th>Date de candidature</th>
-                        <th>Actions</th>
+                        <tr>
 
-                    </tr>
+                            <th>Étudiant</th>
+                            <th>Offre</th>
+                            <th>Date de candidature</th>
+                            <th>Actions</th>
 
-                </thead>
-                
-                <tbody>
+                        </tr>
 
-                    <?php foreach($applications as $app): ?>
+                    </thead>
+                    
+                    <tbody>
 
-                        <?php
-                            //Formater la date en francais 
-                            if (!empty($app['application_created_at'])){
-                                $date = new DateTime($app['application_created_at']);
-                                $formatter = new IntlDateFormatter(
-                                    'fr_FR',
-                                    IntlDateFormatter::LONG,
-                                    IntlDateFormatter::NONE,
-                                    'Africa/Kinshasa',
-                                    IntlDateFormatter::GREGORIAN,
-                                    'd MMMM yyyy'
-                                );
-                                $date_fr = $formatter->format($date);
-                            }
-                        ?>
+                        <?php foreach($applications as $app): ?>
 
-                    <tr>
-                        <td><a href="../student/profil.php?id=<?php echo $app['student_user_id'] ?>"><?php echo htmlspecialchars($app['student_name']); ?></a></td>
-                        <td><?php echo htmlspecialchars($app['offer_title']); ?></td>
-                        <td>Le <?php echo htmlspecialchars($date_fr); ?></td>
-                        <td>
+                            <?php
+                                //Formater la date en francais 
+                                if (!empty($app['application_created_at'])){
+                                    $date = new DateTime($app['application_created_at']);
+                                    $formatter = new IntlDateFormatter(
+                                        'fr_FR',
+                                        IntlDateFormatter::LONG,
+                                        IntlDateFormatter::NONE,
+                                        'Africa/Kinshasa',
+                                        IntlDateFormatter::GREGORIAN,
+                                        'd MMMM yyyy'
+                                    );
+                                    $date_fr = $formatter->format($date);
+                                }
+                            ?>
 
-                            <div class="action">
-                                
-                                <form action="../controllers/applications_process.php" method="POST" style="display:inline">
-                                    <input type="hidden" name="id" value="<?php echo $app['application_id'] ?>">
-                                    <input type="hidden" name="action" value="accepted">
-                                    <button type="submit" class="btn-action btn-success">Accepter</button>
-                                </form>
+                        <tr>
+                            <td><a href="../student/profil.php?id=<?php echo $app['student_user_id'] ?>"><?php echo htmlspecialchars($app['student_name']); ?></a></td>
+                            <td><?php echo htmlspecialchars($app['offer_title']); ?></td>
+                            <td>Le <?php echo htmlspecialchars($date_fr); ?></td>
+                            <td>
 
-                                <form action="../controllers/applications_process.php" method="POST" style="display:inline">
-                                    <input type="hidden" name="id" value="<?php echo $app['application_id'] ?>">
-                                    <input type="hidden" name="action" value="refused">
-                                    <button type="submit" class="btn-action btn-reject">Rejeter</button>
-                                </form>
+                                <div class="action">
+                                    
+                                    <form action="../controllers/applications_process.php" method="POST" style="display:inline">
+                                        <input type="hidden" name="id" value="<?php echo $app['application_id'] ?>">
+                                        <input type="hidden" name="action" value="accepted">
+                                        <button type="submit" class="btn-action btn-success">Accepter</button>
+                                    </form>
 
-                            </div>
+                                    <form action="../controllers/applications_process.php" method="POST" class="reject-form" style="display:inline">
+                                        <input type="hidden" name="id" value="<?php echo $app['application_id'] ?>">
+                                        <input type="hidden" name="action" value="refused">
+                                        <button type="button" class="btn-action reject-btn">Rejeter</button>
+                                    </form>
 
-                        </td>
+                                </div>
 
-                    </tr>
+                            </td>
 
-                    <?php endforeach; ?>
+                        </tr>
 
-                </tbody>
+                        <?php endforeach; ?>
 
-            </table>
+                    </tbody>
+
+                </table>
+
+            </div>
 
             <?php else: ?>
                 <p>Aucune candidature reçue pour le moment.</p>
             <?php endif; ?>
 
         </section>
+
+        <!--//////////////////////////////////////////////////////////-->
+                    <!-- La boîte de confirmation -->
+        <div id="confirm-modal" class="modal-overlay">
+
+            <div class="modal-content">
+
+                <h4>Confirmer l'action</h4>
+
+                <p>Êtes-vous sûr de vouloir rejeter cette candidature ?</p>
+
+                <div class="modal-buttons">
+                    <button id="confirm-yes" class="reject">Oui, rejeter</button>
+                    <button id="confirm-no" class="cancel">Annuler</button>
+                </div>
+                
+            </div>
+
+        </div>
 
 
         <!--//////////////////////////////////////////////////////////-->

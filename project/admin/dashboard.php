@@ -173,7 +173,7 @@ if ($session_id){
 
                 <div class="dashboard-card-box">
                     <i class="fa-solid fa-check-to-slot"></i>
-                    <h4>Candidature<?php if ($count_offer > 1) echo 's' ?? ''; ?> reçue<?php if ($count_offer > 1) echo 's' ?? ''; ?></h4>
+                    <h4>Candidature<?php if ($count_offer > 1) echo 's' ?? ''; ?> soumise<?php if ($count_offer > 1) echo 's' ?? ''; ?></h4>
                     <p><?php echo $count_application ?? 0; ?></p>
                 </div>
 

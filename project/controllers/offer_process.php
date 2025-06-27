@@ -21,6 +21,37 @@ if (isset($_POST['add-offer-btn'])){
     $offer_profile = $_POST['offer-profile'];
     $offer_remuneration = $_POST['offer-remuneration'];
 
+    //Verifier si la dure de l'offre est superieur à 0
+    if ($offer_duration <= 0) {
+        $_SESSION['alerts'][] = [
+            'type' => 'error',
+            'message' => 'La duree de l\'offre doit être superieur à 0'
+        ];
+        header('Location: ../company/offer.php');
+        exit();
+    } 
+
+    //Verifier si la date de fin est superieur à la date de debut
+    if (strtotime($offer_deadline) < time()) {
+        $_SESSION['alerts'][] = [
+                'type' => 'error',
+                'message' => 'La date de fin doit être supérieur à la date du début'
+            ];
+        header('Location: ../company/offer.php');
+        exit();
+    }
+
+    //Verifier si la remuneration est > 0
+    if ($offer_remuneration < 0) {
+        $_SESSION['alerts'][] = [
+            'type' => 'error',
+            'message' => 'La remuneration doit être superieur à 0'
+        ];
+        header('Location: ../company/offer.php');
+        exit();
+    }
+
+
     //Recuperer le company-id lié a l'utilisateur connecté
     $query_company = "SELECT company_id FROM companies WHERE company_user_id = :company_user_id";
     $result = $PDO -> prepare($query_company);

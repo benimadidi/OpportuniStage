@@ -158,6 +158,26 @@ if ($session_id){
             <?php endif; ?>
 
         </section>
+        
+
+        <!--//////////////////////////////////////////////////////////-->
+                    <!-- La boîte de confirmation -->
+        <div id="confirm-modal" class="modal-overlay">
+
+            <div class="modal-content">
+
+                <h4>Confirmer l'action</h4>
+
+                <p>Êtes-vous sûr de vouloir supprimer cette offre ?</p>
+
+                <div class="modal-buttons">
+                    <button id="confirm-yes" class="reject">Oui, supprimer</button>
+                    <button id="confirm-no" class="cancel">Annuler</button>
+                </div>
+                
+            </div>
+
+        </div>
 
 
         <!--////////////////////////////////////////////////////-->

@@ -148,9 +148,9 @@ $users = $result -> fetchAll(PDO::FETCH_ASSOC);
 
             <?php if (count($users) > 0): ?>
 
-                <div class="user-list">
+                <div class="user-list application-table">
 
-                    <table class="user-table">
+                    <table>
 
                         <thead>
 
@@ -205,8 +205,8 @@ $users = $result -> fetchAll(PDO::FETCH_ASSOC);
                                         ?>
                                     </td>
                                     <td class="action">
-                                        <a href="<?php if ($user['role'] == 'student') echo '../student/profil.php'; else echo '../company/profil.php'; ?>?id=<?php echo $user['id'] ?>" class="btn-action show">Voir</a> 
-                                        <a href="drop_user.php?id=<?php echo $user['id'] ?>" class="btn-action delete">Supprimer</a>
+                                        <a href="<?php if ($user['role'] == 'student') echo '../student/profil.php'; else echo '../company/profil.php'; ?>?id=<?php echo $user['id'] ?>" class="btn-action show" title="Voir le profil"><i class="fa-solid fa-eye"></i></a> 
+                                        <a href="drop_user.php?id=<?php echo $user['id'] ?>" class="btn-action delete offer-delete" title="Supprimer l'utilisateur"><i class="fa-solid fa-trash"></i></a>
                                     </td>
 
                                 </tr>
@@ -224,6 +224,26 @@ $users = $result -> fetchAll(PDO::FETCH_ASSOC);
             <?php endif; ?>
 
         </section>
+
+        <!--//////////////////////////////////////////////////////////-->
+                    <!-- La boîte de confirmation -->
+        <div id="confirm-modal" class="modal-overlay">
+
+            <div class="modal-content">
+
+                <h4>Confirmer l'action</h4>
+
+                <p>Êtes-vous sûr de vouloir supprimer cet utilisateur ?</p>
+
+                <div class="modal-buttons">
+                    <button id="confirm-yes" class="reject">Oui, supprimer</button>
+                    <button id="confirm-no" class="cancel">Annuler</button>
+                </div>
+                
+            </div>
+
+        </div>
+
 
 
         <!--////////////////////////////////////////////////////-->

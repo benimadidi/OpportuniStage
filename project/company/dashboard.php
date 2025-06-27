@@ -263,7 +263,7 @@ if ($company){
 
                                 <div class="dashboard-card-box aside">
                                     <a href="offer_details.php?id=<?php echo $offer['offer_id']; ?>">Voir</a>
-                                    <a href="drop_offer.php?id=<?php echo $offer['offer_id']; ?>" class="delete-btn">Supprimer</a>
+                                    <a href="drop_offer.php?id=<?php echo $offer['offer_id']; ?>" class="offer-delete">Supprimer</a>
                                 </div>
 
                             </div>
@@ -295,6 +295,25 @@ if ($company){
             </div>
 
         </section>
+
+        <!--//////////////////////////////////////////////////////////-->
+                    <!-- La boîte de confirmation -->
+        <div id="confirm-modal" class="modal-overlay">
+
+            <div class="modal-content">
+
+                <h4>Confirmer l'action</h4>
+
+                <p>Êtes-vous sûr de vouloir supprimer cette offre ?</p>
+
+                <div class="modal-buttons">
+                    <button id="confirm-yes" class="reject">Oui, supprimer</button>
+                    <button id="confirm-no" class="cancel">Annuler</button>
+                </div>
+                
+            </div>
+
+        </div>
 
 
         <!--////////////////////////////////////////////////////-->
