@@ -3,8 +3,8 @@
 
 /*-------------------------------------------------------*/
 /* Gestion de l'affichage des erreurs */ 
-error_reporting(-1);
-ini_set('display_errors', 1);
+error_reporting(0);
+ini_set('display_errors', 0);
 
 /*-------------------------------------------------------*/
 // Initialisation de la session
@@ -49,18 +49,18 @@ $offers = $result_offers -> fetchAll(PDO::FETCH_ASSOC);
 
     <head>
 
-        <!--////////////////////////////////////////////////////-->
-                    <!--Les metas données-->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Métadonnées de la page -->
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>OpportuniSatge</title>
 
-        <!--////////////////////////////////////////////////////-->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
                     <!--styles -->
         <link rel="stylesheet" href="../assets/css/style.css">
 
-        <!--////////////////////////////////////////////////////-->
-                    <!--Icons-->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!--Icones-->
         <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
@@ -68,13 +68,13 @@ $offers = $result_offers -> fetchAll(PDO::FETCH_ASSOC);
 
     <body>
 
-        <!--////////////////////////////////////////////////////-->
-                    <!--alerts-->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Inclusion des alertes -->
         <?php include '../includes/alerts.php' ?>
 
 
-        <!--////////////////////////////////////////////////////-->
-                    <!-- Header de l'admin -->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Header avec navigation et profil -->
         <header class="header">
 
             <a href="#" class="logo">OpportuniSatge</a>
@@ -114,9 +114,8 @@ $offers = $result_offers -> fetchAll(PDO::FETCH_ASSOC);
         </header>
 
 
-        <!--////////////////////////////////////////////////////-->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
                     <!-- offres de toutes les entreprises -->
-        
         <section class="view-offer">
 
             <h2>Offres de stage</h2>
@@ -132,15 +131,23 @@ $offers = $result_offers -> fetchAll(PDO::FETCH_ASSOC);
                     <div class="offer-box-companies">
 
                         <div class="offer-companies-card">
+                            <!-- Titre de l'offre -->
                             <h4><?php echo htmlspecialchars($offer['offer_title'] ?? '') ?></h4>
+
+                            <!-- Nom de l'entreprise -->
                             <p class="company-name"><?php echo htmlspecialchars($offer['company_name'] ?? '') ?></p>
+
+                            <!-- Description de l'offre -->
                             <p><?php echo htmlspecialchars($offer['offer_description'] ?? '') ?></p>
+
+                            <!-- Localisation de l'offre -->
                             <p style="margin-top: .8rem;">
                                 <i class="fa-solid fa-location-dot"></i>
                                 <?php echo htmlspecialchars($offer['offer_location'] ?? null) ?>
                             </p>
                         </div>
 
+                        <!-- Bouton Détails -->
                         <div class="offer-card-action">
                             <a href="offer_details.php?id=<?= $offer['offer_id'] ?>">Détails</a>
                         </div>
@@ -154,18 +161,18 @@ $offers = $result_offers -> fetchAll(PDO::FETCH_ASSOC);
         </section>
 
 
-        <!--////////////////////////////////////////////////////-->
-                    <!-- footer -->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Inclusion du footer commun -->
         <?php include '../includes/footer.php' ?>
 
 
-        <!--//////////////////////////////////////////////////////////-->
-                    <!--Partie du scroll reveal-->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Bibliothèque ScrollReveal pour animations au scroll -->
         <script src="https://unpkg.com/scrollreveal"></script>
 
 
-        <!--////////////////////////////////////////////////////-->
-                    <!--scripts-->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Script -->
         <script src="../assets/js/script.js"></script>
 
     </body>

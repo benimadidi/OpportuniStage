@@ -1,32 +1,39 @@
 <?php
 
+// Importation de la classe PHPMailer
 use PHPMailer\PHPMailer\PHPMailer;
 
-
+// Inclusion des fichiers nécessaires de PHPMailer
 require_once __DIR__ . '/PHPMailer-master/PHPMailer-master/src/PHPMailer.php';
 require_once __DIR__ . '/PHPMailer-master/PHPMailer-master/src/SMTP.php';
 require_once __DIR__ . '/PHPMailer-master/PHPMailer-master/src/Exception.php';
 
 function sendApplicationEmail($to, $name, $offer, $company_name, $status) {
+    // Créer une nouvelle instance de PHPMailer
     $mail = new PHPMailer(true);
 
     // Configuration SMTP Gmail
-    $mail->isSMTP();
-    $mail->Host = 'smtp.gmail.com';
-    $mail->SMTPAuth = true;
-    $mail->Username = 'opportunistage@gmail.com'; 
-    $mail->Password = 'towwuxfskstkiptl';          
-    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-    $mail->Port = 587;
+    $mail->isSMTP();                                     // Utiliser SMTP
+    $mail->Host = 'smtp.gmail.com';                      // Serveur SMTP de Gmail
+    $mail->SMTPAuth = true;                              // Activer l'authentification
+    $mail->Username = 'opportunistage@gmail.com';        // Email d'envoi
+    $mail->Password = 'towwuxfskstkiptl';                // Mot de passe d'application Gmail
+    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;  // Chiffrement TLS
+    $mail->Port = 587;                                   // Port SMTP
 
-    $mail->setFrom('opportunistage@gmail.com', 'OpportuniStage');
-    $mail->addAddress($to, $name);
+    // Définir l'expéditeur et le destinataire
+    $mail -> setFrom('opportunistage@gmail.com', 'OpportuniStage');
+    $mail -> addAddress($to, $name);
 
-    $mail->CharSet = 'UTF-8';
-    $mail->Encoding = 'base64';
-    $mail->isHTML(false);
-    $mail->Subject = "Statut de votre candidature sur OpportuniStage";
+    // Définir l'expéditeur et le destinataire
+    $mail -> CharSet = 'UTF-8';
+    $mail -> Encoding = 'base64';
+    $mail -> isHTML(false);
 
+    // Sujet de l'email
+    $mail -> Subject = "Statut de votre candidature sur OpportuniStage";
+
+    // Contenu du message selon le statut
     if ($status === 'accepted') {
         $mail->Body = "Bonjour $name,\n\n"
             . "Nous avons le plaisir de vous informer que votre candidature pour le poste de \"$offer\" chez $company_name a bien été acceptée.\n\n"
@@ -39,14 +46,16 @@ function sendApplicationEmail($to, $name, $offer, $company_name, $status) {
             . "Cordialement,\nL'equipe OpportuniStage";
     }
 
-        $mail->SMTPOptions = [
-            'ssl' => [
-                'verify_peer' => false,
-                'verify_peer_name' => false,
-                'allow_self_signed' => true,
-            ],
-        ];
+    // Options SSL supplémentaires
+    $mail->SMTPOptions = [
+        'ssl' => [
+            'verify_peer' => false,
+            'verify_peer_name' => false,
+            'allow_self_signed' => true,
+        ],
+    ];
 
+    // Envoi de l'email
     $mail->send();
     return true;
 

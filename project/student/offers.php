@@ -3,8 +3,8 @@
 
 /*-------------------------------------------------------*/
 /* Gestion de l'affichage des erreurs */ 
-error_reporting(-1);
-ini_set('display_errors', 1);
+error_reporting(0);
+ini_set('display_errors', 0);
 
 /*-------------------------------------------------------*/
 // Initialisation de la session
@@ -25,18 +25,18 @@ $session_id = $_SESSION['student-id'] ?? null;
 unset($_SESSION['alerts']);
 
 /*-------------------------------------------------------*/
-// Initialiser les infos de l'etudiant a null
+// Initialisation de la variable student
 $student = null;
 
 if ($session_id){
-    //Récupérer les donnees de l'entreprise 
+    // Récupérer les informations de l'étudiant connecté
     $query_student = "SELECT * FROM students WHERE student_user_id = :user_id";
     $result = $PDO -> prepare($query_student);
     $result -> bindParam(":user_id", $session_id, PDO::PARAM_INT);
     $result -> execute();
     $student = $result -> fetch(PDO::FETCH_ASSOC);
 
-    //Recuperer les offres de toutes les entrepries
+    // Récupérer toutes les offres publiées par toutes les entreprises
     $query = "SELECT offers.*, companies.company_name
               FROM offers
               JOIN companies ON companies.company_id = offers.offer_company_id
@@ -53,18 +53,18 @@ if ($session_id){
 
     <head>
 
-        <!--////////////////////////////////////////////////////-->
-                    <!--Les metas données-->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Métadonnées de la page -->
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>OpportuniSatge</title>
 
-        <!--////////////////////////////////////////////////////-->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
                     <!--styles -->
         <link rel="stylesheet" href="../assets/css/style.css">
 
-        <!--////////////////////////////////////////////////////-->
-                    <!--Icons-->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!--Icones-->
         <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
@@ -72,12 +72,12 @@ if ($session_id){
 
     <body>
 
-        <!--////////////////////////////////////////////////////-->
-                    <!--alerts-->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Inclusion des alertes -->
         <?php include '../includes/alerts.php' ?>
 
-        <!--////////////////////////////////////////////////////-->
-                    <!-- Header de l'etudiant -->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Header avec navigation et profil -->
         <header class="header">
 
             <a href="#" class="logo">OpportuniStage</a>
@@ -122,8 +122,8 @@ if ($session_id){
         </header>
 
 
-        <!--////////////////////////////////////////////////////-->
-                    <!-- offres de toutes les entreprises -->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Section principale : affichage des offres -->>
         
         <section class="view-offer">
 
@@ -135,20 +135,29 @@ if ($session_id){
 
             <?php else: ?>
 
+                <!-- Boucle sur les offres -->
                 <?php foreach ($offers as $offer) : ?>
 
                     <div class="offer-box-companies">
 
                         <div class="offer-companies-card">
+                            <!-- Titre de l'offre -->
                             <h4><?php echo htmlspecialchars($offer['offer_title'] ?? '') ?></h4>
+
+                            <!-- Nom de l'entreprise -->
                             <p class="company-name"><?php echo htmlspecialchars($offer['company_name'] ?? '') ?></p>
+
+                            <!-- Description de l'offre -->
                             <p><?php echo htmlspecialchars($offer['offer_description'] ?? '') ?></p>
+
+                            <!-- Localisation -->
                             <p style="margin-top: .8rem;">
                                 <i class="fa-solid fa-location-dot"></i>
                                 <?php echo htmlspecialchars($offer['offer_location'] ?? null) ?>
                             </p>
                         </div>
 
+                        <!-- Bouton Postuler -->
                         <div class="offer-card-action">
                             <a href="offer_details.php?id=<?= $offer['offer_id'] ?>">Postuler</a>
                         </div>
@@ -161,18 +170,19 @@ if ($session_id){
 
         </section>
 
-        <!--////////////////////////////////////////////////////-->
-                    <!-- footer -->
+
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Inclusion du footer commun -->
         <?php include '../includes/footer.php' ?>
 
 
-        <!--//////////////////////////////////////////////////////////-->
-                    <!--Partie du scroll reveal-->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Bibliothèque ScrollReveal pour animations au scroll -->
         <script src="https://unpkg.com/scrollreveal"></script>
 
 
-        <!--////////////////////////////////////////////////////-->
-                    <!--scripts-->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Script -->
         <script src="../assets/js/script.js"></script>
 
     </body>

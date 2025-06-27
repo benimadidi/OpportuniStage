@@ -3,8 +3,8 @@
 
 /*-------------------------------------------------------*/
 /* Gestion de l'affichage des erreurs */ 
-error_reporting(-1);
-ini_set('display_errors', 1);
+error_reporting(0);
+ini_set('display_errors', 0);
 
 /*-------------------------------------------------------*/
 // Initialisation de la session
@@ -24,7 +24,7 @@ $session_id = $_SESSION['user-id'] ?? null;
 // Suppression des variables d'alerts
 unset($_SESSION['alerts']);
 
-
+//Si l'utilisateur est connecté
 if ($session_id){
     /*-------------------------------------------------------*/
     //Recuperer le nom de l'admin
@@ -88,18 +88,18 @@ if ($session_id){
 
     <head>
 
-        <!--////////////////////////////////////////////////////-->
-                    <!--Les metas données-->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Métadonnées de la page -->
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>OpportuniSatge</title>
 
-        <!--////////////////////////////////////////////////////-->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
                     <!--styles -->
         <link rel="stylesheet" href="../assets/css/style.css">
 
-        <!--////////////////////////////////////////////////////-->
-                    <!--Icons-->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!--Icones-->
         <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
@@ -107,13 +107,13 @@ if ($session_id){
 
     <body>
 
-        <!--////////////////////////////////////////////////////-->
-                    <!--alerts-->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Inclusion des alertes -->
         <?php include '../includes/alerts.php' ?>
 
 
-        <!--////////////////////////////////////////////////////-->
-                    <!-- Header de l'admin -->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Header avec navigation et profil -->
         <header class="header">
 
             <a href="#" class="logo">OpportuniSatge</a>
@@ -153,30 +153,35 @@ if ($session_id){
         </header>
 
 
-        <!--////////////////////////////////////////////////////-->
-                    <!--Dashboard-->              
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Section tableau de bord -->           
         <section class="dashboard">
 
+            <!-- Carte des utilisateurs inscrits -->
             <div class="dashboard-card-header admin">
 
+                <!-- Carte des Etudiants inscrits -->
                 <div class="dashboard-card-box">
                     <i class="fa-solid fa-graduation-cap"></i>
                     <h4>Etudiant<?php if ($count_student > 1) echo 's' ?? ''; ?> inscrit<?php if ($count_student > 1) echo 's' ?? ''; ?></h4>
                     <p><?php echo $count_student; ?></p>
                 </div>
 
+                <!-- Carte des Entreprises inscrits -->
                 <div class="dashboard-card-box">
                     <i class="fa-solid fa-briefcase"></i>
                     <h4>Entreprise<?php if ($count_company > 1) echo 's' ?? ''; ?> inscrit<?php if ($count_company > 1) echo 's' ?? ''; ?></h4>
                     <p><?php echo $count_company ?? 0; ?></p>
                 </div>
 
+                <!-- Carte des Candidatures soumises -->
                 <div class="dashboard-card-box">
                     <i class="fa-solid fa-check-to-slot"></i>
                     <h4>Candidature<?php if ($count_offer > 1) echo 's' ?? ''; ?> soumise<?php if ($count_offer > 1) echo 's' ?? ''; ?></h4>
                     <p><?php echo $count_application ?? 0; ?></p>
                 </div>
 
+                <!-- Carte des Offres publiées -->
                 <div class="dashboard-card-box">
                     <i class="fa-solid fa-file-contract"></i>
                     <h4>Offre<?php if ($count_offer > 1) echo 's' ?? ''; ?> publiée<?php if ($count_offer > 1) echo 's' ?? ''; ?></h4>
@@ -185,7 +190,7 @@ if ($session_id){
 
             </div>
 
-            <!--content-->
+            <!-- Partie contenu principal -->
             <div class="dashboard-card-container">
 
                 <div class="dashboard-card-content left">
@@ -205,15 +210,23 @@ if ($session_id){
                                 <div class="student-dashboard-card-box">
 
                                     <div class="student-dashboard-card-layer">
+                                        <!-- Titre de l'offre -->
                                         <h4><?php echo htmlspecialchars($offer['offer_title'] ?? '') ?></h4>
+
+                                        <!-- Nom de l'entreprise -->
                                         <p class="company-name"><?php echo htmlspecialchars($offer['company_name'] ?? '') ?></p>
+
+                                        <!-- Description de l'offre -->
                                         <p><?php echo htmlspecialchars($offer['offer_description'] ?? '') ?></p>
+
+                                        <!-- Localisation de l'offre -->
                                         <p style="margin-top: .8rem;">
                                             <i class="fa-solid fa-location-dot"></i>
                                             <?php echo htmlspecialchars($offer['offer_location'] ?? null) ?>
                                         </p>
                                     </div>
 
+                                    <!-- Bouton Details -->
                                     <div class="offer-card-action">
                                         <a href="offer_details.php?id=<?= $offer['offer_id'] ?>">Details</a>
                                     </div>
@@ -230,6 +243,7 @@ if ($session_id){
 
                 <div class="dashboard-card-content right">
                     
+                    <!-- Gérer les utilisateurs -->
                     <a href="view_user.php">
                         <div class="aside-card-box" >
                             <i class='bx  bxs-user'  ></i>
@@ -237,6 +251,7 @@ if ($session_id){
                         </div>
                     </a>
 
+                    <!-- Gérer les offres -->
                     <a href="offers.php">
                         <div class="aside-card-box">
                             <i class="fa-solid fa-book"></i>
@@ -251,20 +266,20 @@ if ($session_id){
         </section>
 
 
-        <!--////////////////////////////////////////////////////-->
-                    <!-- footer -->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Inclusion du footer commun -->
         <?php include '../includes/footer.php' ?>
 
 
-        <!--//////////////////////////////////////////////////////////-->
-                    <!--Partie du scroll reveal-->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Bibliothèque ScrollReveal pour animations au scroll -->
         <script src="https://unpkg.com/scrollreveal"></script>
 
 
-        <!--////////////////////////////////////////////////////-->
-                    <!--scripts-->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Script -->
         <script src="../assets/js/script.js"></script>
 
     </body>
-    
+
 </html>

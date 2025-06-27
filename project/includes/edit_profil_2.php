@@ -3,8 +3,8 @@
 
 /*-------------------------------------------------------*/
 /* Gestion de l'affichage des erreurs */ 
-error_reporting(-1);
-ini_set('display_errors', 1);
+error_reporting(0);
+ini_set('display_errors', 0);
 
 /*-------------------------------------------------------*/
 // Initialisation de la session
@@ -21,10 +21,12 @@ $alerts = $_SESSION['alerts'] ?? [];
 $user_id = $_SESSION['user-id'] ?? null;
 $user = null ;
 
+// Si un utilisateur est connecté
 if ($user_id){
+    // Inclusion de la configuration de la base de données
     require_once '../config/db-config.php';
 
-    //Récupérer les données de l'utilisateur
+    // Prépare une requête pour récupérer les informations de l'utilisateur
     $query_user = "SELECT * FROM users WHERE user_id = :user_id";
     $result = $PDO -> prepare($query_user);
     $result -> bindParam(":user_id", $user_id, PDO::PARAM_INT);
@@ -34,31 +36,28 @@ if ($user_id){
 
 /*-------------------------------------------------------*/
 // Suppression des variables de session
-session_unset();
+unset($_SESSION['alerts']);
 
-/*-------------------------------------------------------*/
-// Enregistrement des variables de session
-if ($session_name !== null)
-    $_SESSION['name'] = $session_name ;
-if ($session_id > 0)
-    $_SESSION['user-id'] = $session_id;
 
 ?>
 
 <!DOCTYPE html>
 <html lang="fr">
+
     <head>
 
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Métadonnées de la page -->
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>OpportuniSatge - Edit Profil</title>
+        <title>OpportuniSatge</title>
 
-        <!--////////////////////////////////////////////////////-->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
                     <!--styles -->
         <link rel="stylesheet" href="../assets/css/style.css">
 
-        <!--////////////////////////////////////////////////////-->
-                    <!--Icons-->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!--Icones-->
         <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
@@ -66,8 +65,8 @@ if ($session_id > 0)
 
     <body>
 
-        <!--////////////////////////////////////////////////////-->
-                    <!--alerts-->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                     <!-- Inclusion des alertes -->
         <?php include '../includes/alerts.php' ?>
 
 
@@ -75,40 +74,45 @@ if ($session_id > 0)
 
             <h2>Modifier les informations du compte</h2>
 
+            <!-- Formulaire d'édition du profil -->
             <form action="../controllers/edit_profil_process_2.php" method="POST">
 
+                 <!-- Champ nouvelle adresse email prérempli avec l'email actuel -->
                 <div class="edit-profil-input-box">
                     <label for="user-new-email">Nouvelle adresse email</label>
                     <input type="email" name="user-new-email" id="user-new-email" value="<?php echo htmlspecialchars($user['user_email'] ?? ''); ?>">
                 </div>
 
+                <!-- Champ nouveau mot de passe -->
                 <div class="edit-profil-input-box">
                     <label for="user-new-password">Nouveau mot de passe</label>
                     <input type="password" name="user-new-password" id="user-new-password" required>
                 </div>
 
+                <!-- Champ confirmation du nouveau mot de passe -->
                 <div class="edit-profil-input-box">
                     <label for="user-new-email-confirm">Confirmer le mot de passe</label>
                     <input type="password" name="user-new-password-confirm" id="user-new-password-confirm" required>
                 </div>
 
+                <!-- Bouton pour valider le formulaire -->
                 <button type="submit" name="edit-profil-btn" class="edit-profil-btn">Modifier</button>
 
         </section>
 
         
-        <!--////////////////////////////////////////////////////-->
-                    <!-- footer -->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Inclusion du footer commun -->
         <?php include '../includes/footer.php' ?>
 
 
-        <!--//////////////////////////////////////////////////////////-->
-                    <!--Partie du scroll reveal-->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Bibliothèque ScrollReveal pour animations au scroll -->
         <script src="https://unpkg.com/scrollreveal"></script>
 
 
-        <!--////////////////////////////////////////////////////-->
-                    <!--scripts-->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Script -->
         <script src="../assets/js/script.js"></script>
 
     </body>

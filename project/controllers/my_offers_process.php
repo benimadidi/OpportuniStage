@@ -5,10 +5,11 @@
 require_once '../config/db-config.php';
 
 /* ///////////////////////////////////////////////////// */
-/* Recuperer les offres de l'utilisateur */
+/* Initialisation des variables */
 $user_id = $_SESSION['user-id'];
 $offers  = [];
 
+//Récupérer les offres
 if ($user_id){
     $sql = "SELECT * FROM  offers WHERE offer_company_id = (
                 SELECT company_id FROM companies WHERE company_user_id = :company_user_id

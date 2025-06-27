@@ -1,8 +1,11 @@
 
 /*-------------------------------------------------------------------------*/
 /*Initialisation de ma page*/
+
+/* Import de la police Poppins depuis Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
 
+/* Définition des couleurs */
 :root {
     --primary-color: #005F99;
     --secondary-color: #4FB0E3;
@@ -18,6 +21,7 @@
     --card-background: #ECEFF1;
 }
 
+/* Réinitialisation des styles par défaut des éléments */
 * {
     margin: 0;
     padding: 0;
@@ -29,6 +33,7 @@
     scroll-behavior: smooth;
 }
 
+/* Configuration de base du html */
 html{
     font-size: 62.5%;
     overflow-x: hidden;
@@ -41,7 +46,7 @@ body{
 
 section{
     min-height: 100vh;
-    padding: 10rem 9% 2rem;
+    padding: 8.5rem 9% 2rem;
 }
 
 /*-------------------------------------------------------------------------*/
@@ -237,10 +242,10 @@ section{
     justify-content: center;
     align-items: center;
     z-index: 10000;
-    opacity: 0;
+    opacity: 0.8;
     pointer-events: none;
     transform: scale(0);
-    transition: transform 0.3s ease, opacity 0.3s ease;
+    transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
 .modal-overlay.show {
@@ -1484,7 +1489,9 @@ table tbody tr .action .btn-action.delete:hover{
 
 .about-header-content p{
     font-size: 1.6rem;
-    margin: 2rem 0;
+    margin: 2rem auto;
+    width: 80%;
+
 }
 
 .about-header-content .btn-about-content{

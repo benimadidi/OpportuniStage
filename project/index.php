@@ -3,8 +3,8 @@
 
 /*-------------------------------------------------------*/
 /* Gestion de l'affichage des erreurs */ 
-error_reporting(-1);
-ini_set('display_errors', 1);
+error_reporting(0);
+ini_set('display_errors', 0);
 
 /*-------------------------------------------------------*/
 // Initialisation de la session
@@ -18,12 +18,7 @@ $active_form = $_SESSION['active-form'] ?? '';
 
 /*-------------------------------------------------------*/
 // Suppression des variables de session
-session_unset();
-
-/*-------------------------------------------------------*/
-// Enregistrement des variables de session
-if ($session_name !== null)
-    $_SESSION['name'] = $session_name ;
+unset($_SESSION['alerts']);
 
 ?>
 
@@ -32,18 +27,18 @@ if ($session_name !== null)
 
     <head>
 
-        <!--////////////////////////////////////////////////////-->
-                    <!--Les metas données-->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Métadonnées de la page -->
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>OpportuniSatge</title>
+        <title>OpportuniStage</title>
 
-        <!--////////////////////////////////////////////////////-->
-                    <!--styles -->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Fichier CSS principal -->
         <link rel="stylesheet" href="assets/css/style.css">
 
-        <!--////////////////////////////////////////////////////-->
-                    <!--Icons-->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Librairies d'icônes (Boxicons et Font Awesome) -->
         <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
@@ -51,7 +46,7 @@ if ($session_name !== null)
 
     <body>
 
-        <!--////////////////////////////////////////////////////-->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
                     <!-- Header de l'invité -->
         <header class="header">
             
@@ -72,31 +67,32 @@ if ($session_name !== null)
 
 
 
-        <!--////////////////////////////////////////////////////-->
-                    <!--alerts-->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Inclusion des alertes -->
         <?php include './includes/alerts.php' ?>
 
 
-        <!--////////////////////////////////////////////////////-->
-                    <!-- Modal de connexion -->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Inclusion de la modal d’authentification -->
         <?php include './includes/auth_modal.php' ?>
 
 
-        <!--////////////////////////////////////////////////////-->
-                    <!-- Opportunistage-->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Présentation du nom du site -->
         <div class="site-name">
-            <h1>Bienvenu(e) sur OpportuniStage</h1>
+            <h1>Bienvenue sur OpportuniStage</h1>
         </div>
 
 
-        <!--////////////////////////////////////////////////////-->
-                    <!-- Sections d'acceuil -->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Section principale d’accueil avec image et slogan -->
         <section class="home-header" id="home-header">
 
             <div class="home-header-content">
                 <h1>Stages en entreprises innovantes</h1>
                 <p>Des opportunités à saisir !</p>
 
+                <!-- Bouton pour descendre vers la section suivante -->
                 <a href="#home-student" class="btn-home-header-content">En savoir plus <i class="fa-regular fa-circle-down"></i></a>
             </div>
 
@@ -106,7 +102,8 @@ if ($session_name !== null)
 
         </section>
 
-                    <!--Acceuil etudiant-->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Section dédiée aux étudiants -->
         <section class="home-student" id="home-student">
 
             <div class="home-student-img">
@@ -116,14 +113,16 @@ if ($session_name !== null)
             <div class="home-student-content reveal-bottom">
                 <h2>Une plateforme simple et efficace pour les étudiants</h2>
                 <h3>Trouvez un stage en quelques clics</h3>
-                <p>Accédez à de nombreuses offres publiées par nos entreprises partenaires, filtrées selon votre filière ou vos préférences.</p>
+                <p>Accédez à un large choix d’offres de stages publiées par nos entreprises partenaires, adaptées à vos besoins et ambitions.</p>
                 <p>Postulez rapidement aux offres qui vous intéressent et suivez l’avancement de vos candidatures via votre espace personnel.</p>
-                <p>Recevez des notifications à chaque nouvelle réponse d’une entreprise ou mise à jour de votre statut.</p>
+                <p>Bénéficiez de notifications instantanées pour chaque réponse d’entreprise ou mise à jour de votre statut, afin de ne jamais manquer une opportunité.</p>
+
             </div>
 
         </section>
 
-                    <!--Acceuil entreprise-->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Section dédiée aux entreprises -->
         <section class="home-company">
 
             <div class="home-company-content">
@@ -131,7 +130,7 @@ if ($session_name !== null)
                 <h3>Publiez vos offres et trouvez facilement vos futurs stagiaires</h3>
                 <p>Diffusez vos offres de stage en toute autonomie, avec la possibilité de cibler les profils d'étudiants selon leur domaine d'études.</p>
                 <p>Consultez et gérez les candidatures depuis votre tableau de bord dédié, avec un suivi simple et efficace des réponses.</p>
-                <p>Recevez des notifications en temps réel dès qu’un étudiant postule à une offre ou qu’une action est requise.</p>
+                <p>Accédez à toutes les candidatures reçues et traitez-les directement depuis votre espace.</p>
                 <p>Gagnez du temps dans vos processus de recrutement tout en soutenant les jeunes talents.</p>
             </div>
 
@@ -142,18 +141,18 @@ if ($session_name !== null)
         </section>
 
 
-        <!--////////////////////////////////////////////////////-->
-                    <!-- footer -->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Inclusion du footer commun -->
         <?php include 'includes/footer.php' ?>
 
 
-        <!--//////////////////////////////////////////////////////////-->
-                    <!--Partie du scroll reveal-->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Bibliothèque ScrollReveal pour animations au scroll -->
         <script src="https://unpkg.com/scrollreveal"></script>
 
 
-        <!--////////////////////////////////////////////////////-->
-                    <!--scripts-->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Script -->
         <script src="./assets/js/script.js"></script>
 
     </body>

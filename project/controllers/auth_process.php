@@ -6,27 +6,29 @@ session_start();
 /* Inclusion des fichiers de configuration */
 require_once '../config/db-config.php';
 
-/* ///////////////////////////////////////////////////// */
-/* Inscription */
+/*-----------------------------------------------------------------------------------------*/
+/* Traitement de l'inscription */
 if (isset($_POST['register-btn'])) {
+    // Récupérer les données du formulaire d'inscription
     $user_name = $_POST['name'];
     $user_email = $_POST['email'];
     $user_password = password_hash($_POST['password'], PASSWORD_DEFAULT); 
     $user_role = $_POST['role'];
 
-    //Verifier si le mot de passe confirmé est le bon
+    // Vérifier si les mots de passe correspondent
     if ($_POST['password'] !== $_POST['password-confirm']) {
         $_SESSION['alerts'][] = [
             'type' => 'error',
             'message' => 'Les mots de passe ne correspondent pas'
         ];
+        // Pour que le formulaire inscription reste affiché après redirection
         $_SESSION['active-form'] = 'register';
 
         header('Location: ../index.php');
         exit();
     }
 
-    // Vérifier si l'email existe déjà                      test avec une petite bd
+    // Vérifier si l'email est déjà utilisé
     $query = "SELECT user_email FROM users WHERE user_email = :user_email";
     $check_email = $PDO->prepare($query);
     $check_email -> bindParam(':user_email', $user_email, PDO::PARAM_STR);
@@ -44,20 +46,20 @@ if (isset($_POST['register-btn'])) {
         exit(); 
 
     } else {
-        // Enregistrement utilisateur              test avec une petite bd
+        // Insertion du nouvel utilisateur dans la table users
         $query = "INSERT INTO users (user_name, user_email, user_password, user_role)
                   VALUES (:user_name, :user_email, :user_password, :user_role)";
         $insert = $PDO->prepare($query);
-                        // test
         $insert -> bindParam(':user_name', $user_name, PDO::PARAM_STR);
         $insert -> bindParam(':user_email', $user_email, PDO::PARAM_STR);
         $insert -> bindParam(':user_password', $user_password, PDO::PARAM_STR);
         $insert -> bindParam(':user_role', $user_role, PDO::PARAM_STR);
         $insert -> execute();
 
+        // Récupérer l'id nouvellement inséré
         $user_id = $PDO->lastInsertId();
 
-        // Insérer dans la table correspondante
+        // Insérer dans la table spécifique au rôle
         if ($user_role === 'student') {
             $stmt = $PDO->prepare("INSERT INTO students (student_user_id, student_name) VALUES (:user_id, :name)");
             $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
@@ -78,7 +80,7 @@ if (isset($_POST['register-btn'])) {
             $_SESSION['company-id'] = $company_id;
         }
 
-        //Enregistrer l'utilisateur dans la session
+        // Sauvegarder les infos dans la session
         $_SESSION['user-id'] = $user_id; 
         $_SESSION['name'] = $user_name;
         $_SESSION['role'] = $user_role;
@@ -88,7 +90,7 @@ if (isset($_POST['register-btn'])) {
         ];
         $_SESSION['active-form'] = 'login';
 
-        // Redirection selon rôle
+        // Rediriger l'utilisateur selon son rôle
         switch ($user_role) {
             case 'student':
                 header('Location: ../student/edit_profil.php');
@@ -110,8 +112,8 @@ if (isset($_POST['register-btn'])) {
     }
 }
 
-/* ///////////////////////////////////////////////////// */
-/* Connexion */
+/*-----------------------------------------------------------------------------------------*/
+/* Traitement de la connexion */
 if (isset($_POST['login-btn'])) {
     $user_email = htmlspecialchars($_POST['email']);
     $user_password = $_POST['password'];
@@ -129,9 +131,9 @@ if (isset($_POST['login-btn'])) {
         $user_data = null;
     }
 
-    // Vérifier si le mot de passe est correct
+    // Vérifier la validité du mot de passe
     if ($user_data && password_verify($user_password, $user_data['user_password'])) {
-        //charger les donnees selon le role 
+        // Charger les données spécifiques au rôle 
         switch ($user_data['user_role']) {
             case 'student':
                 $sql = "SELECT student_id, student_name FROM students WHERE student_user_id = :user_id";
@@ -167,7 +169,7 @@ if (isset($_POST['login-btn'])) {
                 break;
         }
 
-        // Enregistrer l'utilisateur dans la session
+         // Enregistrer l'utilisateur en session
         $_SESSION['user-id'] = $user_data['user_id'];
         $_SESSION['role'] = $user_data['user_role'];
         $_SESSION['alerts'][] = [
@@ -196,7 +198,7 @@ if (isset($_POST['login-btn'])) {
         exit();
 
     } else {
-        // Afficher un message d'erreur si l'email ou le mot de passe est incorrect
+        // Si email ou mot de passe incorrect
         $_SESSION['alerts'][] = [
             'type' => 'error',
             'message' => 'Email ou mot de passe incorrect'

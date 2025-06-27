@@ -2,8 +2,8 @@
 
 /*-------------------------------------------------------*/
 /* Gestion de l'affichage des erreurs */ 
-error_reporting(-1);
-ini_set('display_errors', 1);
+error_reporting(0);
+ini_set('display_errors', 0);
 
 /*-------------------------------------------------------*/
 // Initialisation de la session
@@ -13,16 +13,17 @@ session_start();
 // Inclure le fichier de configuration
 require_once '../config/db-config.php';
 
-// Récuperer les donnees de session
+// Récupération de l'ID utilisateur connecté 
 $session_id = $_SESSION['user-id'] ?? null;
 
 /*-------------------------------------------------------*/
-// Recuperation de l'id de l'offre
+// Récupération de l'ID de l'offre à partir de l'URL
 $offer_id = $_GET['id'] ?? null;
 
+/* Vérifier que l'ID de l'offre est fourni */
 if ($offer_id) {
 
-    // Récupérer l'étudiant lie a ce user_id
+    /* Récupérer l'ID de l'étudiant lié à cet utilisateur */
     $query_student = "SELECT student_id FROM students WHERE student_user_id = :user_id";
     $result = $PDO->prepare($query_student);
     $result -> bindParam(':user_id', $session_id, PDO::PARAM_INT);
@@ -30,16 +31,18 @@ if ($offer_id) {
     $student = $result -> fetch(PDO::FETCH_ASSOC);
 }
 
+/* Vérifier que l'étudiant existe */
 if ($student) {
     $student_id = $student['student_id'];
 
-    // Verifier si l'etudiant a deja postuler a cette offre
+    /* Vérifier si l'étudiant a déjà postulé à cette offre */
     $query_check = "SELECT * FROM applications WHERE application_student_id = :student_id AND application_offer_id = :offer_id";
     $result = $PDO->prepare($query_check);
     $result->bindParam(':student_id', $student_id, PDO::PARAM_INT);
     $result->bindParam(':offer_id', $offer_id, PDO::PARAM_INT);
     $result->execute();
 
+    /* Si candidature déjà existante, alerte et redirection */
     if ($result -> rowCount() > 0) {
         $_SESSION['alerts'][] = [
             'type' => 'error', 
@@ -48,21 +51,30 @@ if ($student) {
         header("Location: ../student/offers.php?id=" . $offer_id);
         exit;
     }
+
+    // Enregistrer la candidature
+    $query_insert = "INSERT INTO applications (application_student_id, application_offer_id) VALUES (:student_id, :offer_id)";
+    $result = $PDO -> prepare($query_insert);
+    $result -> bindParam(':student_id', $student_id, PDO::PARAM_INT);
+    $result -> bindParam(':offer_id', $offer_id, PDO::PARAM_INT);
+    $result -> execute();
+
+    $_SESSION['alerts'][] = [
+        'type' => 'success', 
+        'message' => 'Votre candidature a bien été envoyée'
+    ];
+
+    header("Location: ../student/offers.php?id=" . $offer_id);
+    exit;
 }
 
-// Enregistrer la candidature
-$query_insert = "INSERT INTO applications (application_student_id, application_offer_id) VALUES (:student_id, :offer_id)";
-$result = $PDO -> prepare($query_insert);
-$result -> bindParam(':student_id', $student_id, PDO::PARAM_INT);
-$result -> bindParam(':offer_id', $offer_id, PDO::PARAM_INT);
-$result -> execute();
-
+/* Si pas d'ID d'offre ou pas d'étudiant trouvé */
 $_SESSION['alerts'][] = [
-    'type' => 'success', 
-    'message' => 'Votre candidature a bien été envoyée'
+    'type' => 'error',
+    'message' => "Impossible de postuler : informations manquantes"
 ];
-
-header("Location: ../student/offers.php?id=" . $offer_id);
+header("Location: ../student/offers.php");
 exit;
+
 
 ?>

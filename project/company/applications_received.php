@@ -3,8 +3,8 @@
 
 /*-------------------------------------------------------*/
 /* Gestion de l'affichage des erreurs */ 
-error_reporting(-1);
-ini_set('display_errors', 1);
+error_reporting(0);
+ini_set('display_errors', 0);
 
 /*-------------------------------------------------------*/
 // Initialisation de la session
@@ -16,7 +16,7 @@ require_once '../config/db-config.php';
 
 /*-------------------------------------------------------*/
 // Recuperer l'id de l'entreprise
-$company_id = intval($_GET['company_id']) ?? null;
+$company_id = $_GET['company_id'] ?? null;
 
 
 //recuperer les candidatures recues
@@ -38,18 +38,18 @@ $applications = $result_get_apps -> fetchAll(PDO::FETCH_ASSOC);
 
     <head>
 
-        <!--////////////////////////////////////////////////////-->
-                    <!--Les metas données-->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Métadonnées de la page -->
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>OpportuniSatge</title>
 
-        <!--////////////////////////////////////////////////////-->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
                     <!--styles -->
         <link rel="stylesheet" href="../assets/css/style.css">
 
-        <!--////////////////////////////////////////////////////-->
-                    <!--Icons-->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!--Icones-->
         <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
@@ -57,10 +57,12 @@ $applications = $result_get_apps -> fetchAll(PDO::FETCH_ASSOC);
 
     <body>
 
-        <!--////////////////////////////////////////////////////-->
-                    <!--alerts-->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Inclusion des alertes -->
         <?php include '../includes/alerts.php' ?>
 
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Section affichant les candidatures reçues -->
         <section class="application-received">
 
 
@@ -89,20 +91,10 @@ $applications = $result_get_apps -> fetchAll(PDO::FETCH_ASSOC);
 
                         <?php foreach($applications as $app): ?>
 
+                            <!-- Formater la date en francais -->
                             <?php
-                                //Formater la date en francais 
-                                if (!empty($app['application_created_at'])){
-                                    $date = new DateTime($app['application_created_at']);
-                                    $formatter = new IntlDateFormatter(
-                                        'fr_FR',
-                                        IntlDateFormatter::LONG,
-                                        IntlDateFormatter::NONE,
-                                        'Africa/Kinshasa',
-                                        IntlDateFormatter::GREGORIAN,
-                                        'd MMMM yyyy'
-                                    );
-                                    $date_fr = $formatter->format($date);
-                                }
+                                include '../utils/date_format.php';
+                                $date_fr = dateFormat($app['application_created_at']);
                             ?>
 
                         <tr>
@@ -113,12 +105,14 @@ $applications = $result_get_apps -> fetchAll(PDO::FETCH_ASSOC);
 
                                 <div class="action">
                                     
+                                    <!-- Formulaire d'acceptation -->
                                     <form action="../controllers/applications_process.php" method="POST" style="display:inline">
                                         <input type="hidden" name="id" value="<?php echo $app['application_id'] ?>">
                                         <input type="hidden" name="action" value="accepted">
                                         <button type="submit" class="btn-action btn-success">Accepter</button>
                                     </form>
 
+                                    <!-- Formulaire de refus avec bouton déclenchant la confirmation -->
                                     <form action="../controllers/applications_process.php" method="POST" class="reject-form" style="display:inline">
                                         <input type="hidden" name="id" value="<?php echo $app['application_id'] ?>">
                                         <input type="hidden" name="action" value="refused">
@@ -145,8 +139,8 @@ $applications = $result_get_apps -> fetchAll(PDO::FETCH_ASSOC);
 
         </section>
 
-        <!--//////////////////////////////////////////////////////////-->
-                    <!-- La boîte de confirmation -->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Boîte de confirmation pour rejeter -->
         <div id="confirm-modal" class="modal-overlay">
 
             <div class="modal-content">
@@ -165,13 +159,13 @@ $applications = $result_get_apps -> fetchAll(PDO::FETCH_ASSOC);
         </div>
 
 
-        <!--//////////////////////////////////////////////////////////-->
-                    <!--Partie du scroll reveal-->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Bibliothèque ScrollReveal pour animations au scroll -->
         <script src="https://unpkg.com/scrollreveal"></script>
 
 
-        <!--////////////////////////////////////////////////////-->
-                    <!--scripts-->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Script -->
         <script src="../assets/js/script.js"></script>
 
     </body>

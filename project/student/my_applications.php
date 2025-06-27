@@ -3,8 +3,8 @@
 
 /*-------------------------------------------------------*/
 /* Gestion de l'affichage des erreurs */ 
-error_reporting(-1);
-ini_set('display_errors', 1);
+error_reporting(0);
+ini_set('display_errors', 0);
 
 /*-------------------------------------------------------*/
 // Initialisation de la session
@@ -25,20 +25,21 @@ $session_id = $_SESSION['user-id'] ?? null;
 unset($_SESSION['alerts']);
 
 /*-------------------------------------------------------*/
-// Initialiser les infos de l'etudiant a null
+// Initialiser les infos de l'étudiant à null
 $student = null;
 
 if ($session_id){
-    //Récupérer les donnees de l'etudiant 
+    // Récupérer les informations du profil étudiant 
     $query_student = "SELECT * FROM students WHERE student_user_id = :user_id";
     $result = $PDO -> prepare($query_student);
     $result -> bindParam(":user_id", $session_id, PDO::PARAM_INT);
     $result -> execute();
     $student = $result -> fetch(PDO::FETCH_ASSOC);
 
+    // Récupérer l'identifiant interne de l'étudiant
     $student_id = $student['student_id'];
 
-    //recuperer les candidatures de l'etudiant
+    // Récupérer toutes les candidatures de l'étudiant avec les détails des offres et des entreprises
     $query_application = "SELECT applications.*, offers.*, companies.company_name
                           FROM applications
                           JOIN offers ON offers.offer_id = applications.application_offer_id
@@ -57,18 +58,18 @@ if ($session_id){
 
     <head>
 
-        <!--////////////////////////////////////////////////////-->
-                    <!--Les metas données-->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Métadonnées de la page -->
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>OpportuniSatge</title>
 
-        <!--////////////////////////////////////////////////////-->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
                     <!--styles -->
         <link rel="stylesheet" href="../assets/css/style.css">
 
-        <!--////////////////////////////////////////////////////-->
-                    <!--Icons-->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!--Icones-->
         <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
@@ -76,12 +77,12 @@ if ($session_id){
 
     <body>
 
-        <!--////////////////////////////////////////////////////-->
-                    <!--alerts-->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Inclusion des alertes -->
         <?php include '../includes/alerts.php' ?>
 
-        <!--////////////////////////////////////////////////////-->
-                    <!-- Header de l'etudiant -->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Header avec navigation et profil -->
         <header class="header">
 
             <a href="#" class="logo">OpportuniStage</a>
@@ -127,9 +128,9 @@ if ($session_id){
 
 
 
-        <!--////////////////////////////////////////////////////-->
-                    <!-- mes candidatures -->
-        <section class="view-offer">
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Section principale : affichage des candidatures de l'étudiant -->
+         <section class="view-offer">
 
             <h2>Mes candidatures</h2>
 
@@ -139,21 +140,14 @@ if ($session_id){
 
             <?php else: ?>
 
+                <!-- Boucle sur chaque candidature récupérée -->
                 <?php foreach ($applications as $application) : ?>
 
                     <?php
                         /*-------------------------------------------------------------------------*/
                         //Formater la date en francais 
-                        $date = new DateTime($application['application_created_at']);
-                        $formatter = new IntlDateFormatter(
-                            'fr_FR',
-                            IntlDateFormatter::LONG,
-                            IntlDateFormatter::NONE,
-                            'Africa/Kinshasa',
-                            IntlDateFormatter::GREGORIAN,
-                            'd MMMM yyyy'
-                        );
-                        $date_fr = $formatter -> format($date);
+                        include '../utils/date_format.php';
+                        $date_fr = dateFormat($application['application_created_at']);
 
                         /*-------------------------------------------------------------------------*/
                         // Déterminer le statut
@@ -171,6 +165,7 @@ if ($session_id){
 
                     ?>
 
+                    <!-- Carte individuelle de candidature -->
                     <div class="offer-box-companies">
 
                         <div class="offer-companies-card">
@@ -185,9 +180,11 @@ if ($session_id){
                         </div>
 
                         <div class="offer-card-action">
+                            <!-- Affichage du statut de la candidature -->
                             <p class="<?php echo $class_status[$status] ?? 'waiting-status' ?>">
                                 <?php echo $status_text[$status] ?? 'En attente' ?>
                             </p>
+                            <!-- Lien pour supprimer la candidature -->
                             <a href="drop_application.php?id=<?= $application['application_id'] ?>" class="drop-application offer-delete">Supprimer</a>
                         </div>
 
@@ -199,8 +196,8 @@ if ($session_id){
 
         </section>
         
-        <!--//////////////////////////////////////////////////////////-->
-                    <!-- La boîte de confirmation -->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Modale de confirmation de suppression -->
         <div id="confirm-modal" class="modal-overlay">
 
             <div class="modal-content">
@@ -220,18 +217,18 @@ if ($session_id){
 
 
 
-        <!--////////////////////////////////////////////////////-->
-                    <!-- footer -->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Inclusion du footer commun -->
         <?php include '../includes/footer.php' ?>
 
 
-        <!--//////////////////////////////////////////////////////////-->
-                    <!--Partie du scroll reveal-->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Bibliothèque ScrollReveal pour animations au scroll -->
         <script src="https://unpkg.com/scrollreveal"></script>
 
 
-        <!--////////////////////////////////////////////////////-->
-                    <!--scripts-->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Script -->
         <script src="../assets/js/script.js"></script>
 
     </body>

@@ -1,7 +1,6 @@
 
 <?php
 
-
 /*------------------------------------------------------------------------*/
 /* Parametres de connexion a la base */
 $DB_DSN = 'mysql:host=localhost;dbname=OpportuniStage';

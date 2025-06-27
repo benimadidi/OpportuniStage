@@ -7,10 +7,11 @@ session_start();
 /* Inclusion des fichiers de configuration */
 require_once '../config/db-config.php';
 
-/* ///////////////////////////////////////////////////// */
-/* Ajout d'une offre */
+/* ---------------------------------------------------------------------------- */
+/* Vérifier si le formulaire de création d'offre a été soumis */
 if (isset($_POST['add-offer-btn'])){
 
+    /* Récupération des données du formulaire */
     $offer_title = $_POST['offer-title'];
     $offer_description = $_POST['offer-description'];
     $offer_location = $_POST['offer-location'];
@@ -19,9 +20,9 @@ if (isset($_POST['add-offer-btn'])){
     $offer_duration = $_POST['offer-duration'];
     $offer_deadline = $_POST['offer-deadline'];
     $offer_profile = $_POST['offer-profile'];
-    $offer_remuneration = $_POST['offer-remuneration'];
+    $offer_remuneration = $_POST['offer-remuneration'] ?? 0;
 
-    //Verifier si la dure de l'offre est superieur à 0
+    /* Vérifier que la durée de l'offre est supérieure à 0 */
     if ($offer_duration <= 0) {
         $_SESSION['alerts'][] = [
             'type' => 'error',
@@ -31,7 +32,7 @@ if (isset($_POST['add-offer-btn'])){
         exit();
     } 
 
-    //Verifier si la date de fin est superieur à la date de debut
+    /* Vérifier que la date limite est dans le futur */
     if (strtotime($offer_deadline) < time()) {
         $_SESSION['alerts'][] = [
                 'type' => 'error',
@@ -41,7 +42,7 @@ if (isset($_POST['add-offer-btn'])){
         exit();
     }
 
-    //Verifier si la remuneration est > 0
+    /* Vérifier que la rémunération n'est pas négative */
     if ($offer_remuneration < 0) {
         $_SESSION['alerts'][] = [
             'type' => 'error',
@@ -51,8 +52,7 @@ if (isset($_POST['add-offer-btn'])){
         exit();
     }
 
-
-    //Recuperer le company-id lié a l'utilisateur connecté
+    /* Récupérer l'ID de l'entreprise liée à l'utilisateur connecté */
     $query_company = "SELECT company_id FROM companies WHERE company_user_id = :company_user_id";
     $result = $PDO -> prepare($query_company);
     $result -> bindParam(":company_user_id", $_SESSION['user-id'], PDO::PARAM_INT);
@@ -61,7 +61,7 @@ if (isset($_POST['add-offer-btn'])){
     $company_id = $result -> fetch(PDO::FETCH_ASSOC);
     $company_id = $company_id['company_id'];
 
-    //Enregistrer les données de l'utilisateur
+    /* Enregistrer la nouvelle offre en base de données */
     $query = "INSERT INTO offers (
                 offer_company_id,
                 offer_title, 
@@ -102,7 +102,7 @@ if (isset($_POST['add-offer-btn'])){
 
     $insert -> execute();
 
-    //Enregistrer les donnees utilisateur dans la session
+    /* Afficher une alerte de succès */
     $_SESSION['alerts'][] = [
         'type' => 'success',
         'message' => 'Offre Publiée avec succès'
@@ -113,6 +113,7 @@ if (isset($_POST['add-offer-btn'])){
 
 }
 
+/* Si le formulaire n'a pas été soumis correctement */
 else{
     $_SESSION['alerts'][] = [
         'type' => 'error',

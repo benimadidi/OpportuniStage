@@ -3,8 +3,8 @@
 
 /*-------------------------------------------------------*/
 /* Gestion de l'affichage des erreurs */ 
-error_reporting(-1);
-ini_set('display_errors', 1);
+error_reporting(0);
+ini_set('display_errors', 0);
 
 /*-------------------------------------------------------*/
 // Initialisation de la session
@@ -14,6 +14,7 @@ session_start();
 // Recuperation de l'id de l'offre
 $offer_id = $_GET['id'] ?? null;
 
+// Si l'offre existe
 if ($offer_id){
     require_once '../config/db-config.php';
 
@@ -25,6 +26,7 @@ if ($offer_id){
     $offer = $result -> fetch(PDO::FETCH_ASSOC);
 }
 
+//Si l'offre existe dans la base
 if ($offer){
     //Suppression de l'offre
     $sql = "DELETE FROM offers WHERE offer_id = :offer_id";

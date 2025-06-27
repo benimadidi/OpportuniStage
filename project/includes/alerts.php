@@ -1,19 +1,19 @@
 
-    <!--////////////////////////////////////////////////////-->
-    <!-- Gestion des alertes -->
-    <?php if(!empty($alerts)) : ?>
+<!--//////////////////////////////////////////////////////////////////////////////////////////-->
+            <!-- Gestion des alertes -->
+<?php if(!empty($alerts)) : ?>
 
-        <div class="alert-box">
+    <div class="alert-box">
 
-            <?php foreach($alerts as $alert) : ?>
-                
-                <div class="alert <?= $alert['type'] ?>">
-                    <i class="bx <?= $alert['type'] === 'success' ? 'bxs-check-circle' : 'bxs-x-circle'; ?>"></i>
-                    <p><?= $alert['message'] ?></p>
-                </div>
+        <?php foreach($alerts as $alert) : ?>
+            
+            <div class="alert <?php echo $alert['type'] ?>">
+                <i class="bx <?php echo $alert['type'] === 'success' ? 'bxs-check-circle' : 'bxs-x-circle'; ?>"></i>
+                <p><?php echo $alert['message'] ?></p>
+            </div>
 
-            <?php endforeach; ?>
+        <?php endforeach; ?>
 
-        </div>
+    </div>
 
-    <?php endif; ?>
+<?php endif; ?>

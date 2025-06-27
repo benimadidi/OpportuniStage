@@ -3,8 +3,8 @@
 
 /*-------------------------------------------------------*/
 /* Gestion de l'affichage des erreurs */ 
-error_reporting(-1);
-ini_set('display_errors', 1);
+error_reporting(0);
+ini_set('display_errors', 0);
 
 /*-------------------------------------------------------*/
 // Initialisation de la session
@@ -37,7 +37,7 @@ if ($session_id){
     $result -> execute();
     $student = $result -> fetch(PDO::FETCH_ASSOC);
 
-    //Afficher le nombre de candidatures envoyees
+    // Récupérer le nombre total de candidatures de l'étudiant
     $query_application = "SELECT COUNT(application_id) AS total FROM applications 
                           JOIN offers ON offers.offer_id = applications.application_offer_id
                           WHERE applications.application_student_id = :student_id";
@@ -47,7 +47,7 @@ if ($session_id){
     $applications = $count_application -> fetch(PDO::FETCH_ASSOC);
     $count_application = $applications['total'];
 
-    //Recuperer le 3 dernieres offres
+    // Récupérer les 3 dernières offres publiées
     $query = "SELECT offers.*, companies.company_name
               FROM offers
               JOIN companies ON companies.company_id = offers.offer_company_id
@@ -57,14 +57,14 @@ if ($session_id){
     $result_offers -> execute();
     $offers = $result_offers -> fetchAll(PDO::FETCH_ASSOC);
 
-    //compter le nombre d'offres
+    // Compter le nombre total d'offres
     $query_offers = "SELECT COUNT(offer_id) AS total FROM offers ";
     $count_offers = $PDO -> prepare($query_offers);
     $count_offers -> execute();
     $count_offers = $count_offers -> fetch(PDO::FETCH_ASSOC);
     $count_offers = $count_offers['total'];
 
-    //recuperer la date de la derniere candidature
+    // Récupérer la date de la dernière candidature
     $query_last_apps = "SELECT application_created_at FROM applications
                         WHERE application_student_id = :student_id
                         ORDER BY application_created_at DESC
@@ -83,18 +83,18 @@ if ($session_id){
 
     <head>
 
-        <!--////////////////////////////////////////////////////-->
-                    <!--Les metas données-->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Métadonnées de la page -->
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>OpportuniSatge</title>
 
-        <!--////////////////////////////////////////////////////-->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
                     <!--styles -->
         <link rel="stylesheet" href="../assets/css/style.css">
 
-        <!--////////////////////////////////////////////////////-->
-                    <!--Icons-->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!--Icones-->
         <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
@@ -102,32 +102,22 @@ if ($session_id){
 
     <body>
 
-        <!--////////////////////////////////////////////////////-->
-                    <!--alerts-->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Inclusion des alertes -->
         <?php include '../includes/alerts.php' ?>
 
-        <!--////////////////////////////////////////////////////-->
-        <!-- Gerer la correspondance des langues -->
-         <?php
-            //Formater la date en francais 
-            if (!empty($last_apps['application_created_at'])){
-                $date = new DateTime($last_apps['application_created_at']);
-                $formatter = new IntlDateFormatter(
-                    'fr_FR',
-                    IntlDateFormatter::LONG,
-                    IntlDateFormatter::NONE,
-                    'Africa/Kinshasa',
-                    IntlDateFormatter::GREGORIAN,
-                    'd MMMM yyyy'
-                );
-                $date_fr = $formatter->format($date);
-            }
-         ?>
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Gestion du formatage de la date en français -->         
+        <?php
+            /*Inclure la fonction du formatage de la date*/
+            include '../utils/date_format.php';
+
+            $date_fr = dateFormat($last_apps['application_created_at']);
+        ?>
 
 
-
-        <!--////////////////////////////////////////////////////-->
-                    <!-- Header de l'etudiant -->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Header avec navigation et profil -->
         <header class="header">
 
             <a href="#" class="logo">OpportuniStage</a>
@@ -171,12 +161,13 @@ if ($session_id){
 
         </header>
 
-        <!--////////////////////////////////////////////////////-->
-                    <!-- dashboard content -->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Section principale du dashboard -->
         <section class="dashboard">
             
             <div class="dashboard-card-header">
 
+                <!-- Bloc Mes Candidatures -->
                 <a href="my_applications.php">
                     <div class="dashboard-card-box">
                         <i class="fa-solid fa-envelope-open-text"></i>
@@ -185,16 +176,18 @@ if ($session_id){
                     </div>
                 </a>
 
+                <!-- Bloc Offres disponibles -->
                 <div class="dashboard-card-box">
                     <i class="fa-solid fa-magnifying-glass"></i>
                     <h4>Offre<?php if ($count_offers > 1) echo 's' ?? ''; ?> disponible<?php if ($count_offers > 1) echo 's' ?? ''; ?></h4>
                     <p class="last-publication"><?php echo $count_offers ?? 0; ?></p>
                 </div>
 
+                <!-- Bloc Dernière candidature -->
                 <div class="dashboard-card-box">
                     <i class="fa-solid fa-bullhorn"></i>
                     <h4>Dernière candidature</h4>
-                    <p class="last-publication"><?php if (!empty($last_apps['application_created_at'])) echo 'Le ' ?? ''  ?><?php echo $date_fr ?? 'Aucune offre publiée'  ?></p>
+                    <p class="last-publication"><?php if (!empty($last_apps['application_created_at'])) echo 'Le ' ?? ''  ?><?php echo $date_fr ?? 'Aucune candidature'  ?></p>
                 </div>
 
             </div>
@@ -264,18 +257,18 @@ if ($session_id){
         </section>
 
 
-        <!--////////////////////////////////////////////////////-->
-                    <!-- footer -->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Inclusion du footer commun -->
         <?php include '../includes/footer.php' ?>
 
 
-        <!--//////////////////////////////////////////////////////////-->
-                    <!--Partie du scroll reveal-->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Bibliothèque ScrollReveal pour animations au scroll -->
         <script src="https://unpkg.com/scrollreveal"></script>
 
 
-        <!--////////////////////////////////////////////////////-->
-                    <!--scripts-->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Script -->
         <script src="../assets/js/script.js"></script>
 
     </body>

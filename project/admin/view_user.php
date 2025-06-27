@@ -3,8 +3,8 @@
 
 /*-------------------------------------------------------*/
 /* Gestion de l'affichage des erreurs */ 
-error_reporting(-1);
-ini_set('display_errors', 1);
+error_reporting(0);
+ini_set('display_errors', 0);
 
 /*-------------------------------------------------------*/
 // Initialisation de la session
@@ -59,8 +59,6 @@ $result = $PDO -> prepare($query);
 $result -> execute();
 $users = $result -> fetchAll(PDO::FETCH_ASSOC);
 
-// var_dump($users);
-// exit;
 
 ?>
 
@@ -69,18 +67,18 @@ $users = $result -> fetchAll(PDO::FETCH_ASSOC);
 
     <head>
 
-        <!--////////////////////////////////////////////////////-->
-                    <!--Les metas données-->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Métadonnées de la page -->
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>OpportuniSatge</title>
 
-        <!--////////////////////////////////////////////////////-->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
                     <!--styles -->
         <link rel="stylesheet" href="../assets/css/style.css">
 
-        <!--////////////////////////////////////////////////////-->
-                    <!--Icons-->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!--Icones-->
         <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
@@ -88,13 +86,13 @@ $users = $result -> fetchAll(PDO::FETCH_ASSOC);
 
     <body>
 
-        <!--////////////////////////////////////////////////////-->
-                    <!--alerts-->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Inclusion des alertes -->
         <?php include '../includes/alerts.php' ?>
 
 
-        <!--////////////////////////////////////////////////////-->
-                    <!-- Header de l'admin -->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Header avec navigation et profil -->
         <header class="header">
 
             <a href="#" class="logo">OpportuniSatge</a>
@@ -134,6 +132,8 @@ $users = $result -> fetchAll(PDO::FETCH_ASSOC);
         </header>
 
 
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Section de gestion des utilisateurs --> 
         <section class="admin-users">
 
             <h2>Gestion des utilisateurs</h2>
@@ -189,18 +189,8 @@ $users = $result -> fetchAll(PDO::FETCH_ASSOC);
                                     <td>
                                         <?php 
                                             //Formater la date en francais 
-                                            if (!empty($user['created_at'])){
-                                                $date = new DateTime($user['created_at']);
-                                                $formatter = new IntlDateFormatter(
-                                                    'fr_FR', 
-                                                    IntlDateFormatter::LONG,
-                                                    IntlDateFormatter::NONE,
-                                                    'Africa/Kinshasa',
-                                                    IntlDateFormatter::GREGORIAN,
-                                                    'd MMMM yyyy'
-                                                );
-                                                $date_fr = $formatter->format($date);
-                                            }
+                                            include '../utils/date_format.php';
+                                            $date_fr = dateFormat($user['created_at']);
                                             echo 'Le ' . $date_fr ?? '_';
                                         ?>
                                     </td>
@@ -225,7 +215,7 @@ $users = $result -> fetchAll(PDO::FETCH_ASSOC);
 
         </section>
 
-        <!--//////////////////////////////////////////////////////////-->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
                     <!-- La boîte de confirmation -->
         <div id="confirm-modal" class="modal-overlay">
 
@@ -246,18 +236,18 @@ $users = $result -> fetchAll(PDO::FETCH_ASSOC);
 
 
 
-        <!--////////////////////////////////////////////////////-->
-                    <!-- footer -->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Inclusion du footer commun -->
         <?php include '../includes/footer.php' ?>
 
 
-        <!--//////////////////////////////////////////////////////////-->
-                    <!--Partie du scroll reveal-->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Bibliothèque ScrollReveal pour animations au scroll -->
         <script src="https://unpkg.com/scrollreveal"></script>
 
 
-        <!--////////////////////////////////////////////////////-->
-                    <!--scripts-->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Script -->
         <script src="../assets/js/script.js"></script>
 
     </body>

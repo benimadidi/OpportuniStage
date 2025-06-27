@@ -3,8 +3,8 @@
 
 /*-------------------------------------------------------*/
 /* Gestion de l'affichage des erreurs */ 
-error_reporting(-1);
-ini_set('display_errors', 1);
+error_reporting(0);
+ini_set('display_errors', 0);
 
 /*-------------------------------------------------------*/
 // Initialisation de la session
@@ -44,33 +44,15 @@ $result -> bindParam(':application_id', $application_id, PDO::PARAM_INT);
 $result -> execute();
 
 /*-------------------------------------------------------*/
-//Envoyer un email de confirmation a l'etudiant
+//Envoyer un email de confirmation à l'etudiant
 $mail_to = $info['student_email'] ?? null;
 $subject = "Status de votre Candidature sur Opportunistage";
 $offer = $info['offer_title'] ?? "l'offre";
 $student_name = $info['student_name'] ?? 'candidat';
-
 $company_name = $info['company_name'] ?? "l'entreprise";
 
-if ($new_status === 'accepted'){
-    $message  = "Bonjour $student_name\n\n";
-    $message .= "Nous avons le plaisir de vous informer que votre candidature pour le poste de \"$offer\" chez $company_name a bien été acceptée.\n\n";
-    $message .= "L'entreprise vous contactera très prochainement pour les prochaines étapes.\n\n";
-    $message .= "Nous vous souhaitons plein succès dans cette opportunité professionnelle !\n\n";
-    $message .= "Cordialement,\n";
-    $message .= "L’équipe OpportuniStage";
-}
-else{
-    $message = "Bonjour $student_name,\n\n";
-    $message .= "Merci d’avoir postulé à l’offre \"$offer\" proposée par l’entreprise \"$company_name\".\n\n";
-    $message .= "Après étude de votre profil, nous vous informons que votre candidature n’a malheureusement pas été retenue.\n\n";
-    $message .= "Nous vous encourageons à continuer vos recherches sur notre plateforme et à postuler à d’autres offres.\n\n";
-    $message .= "Bien à vous,\n";
-    $message .= "L’équipe OpportuniStage";
-}
-
 /*-------------------------------------------------------*/
-//Envoyer l'email si l'addresse de l'etudiant est correct ou existe
+//Envoyer l'email si l'addresse de l'etudiant existe
 require_once '../utils/send_email.php';
 
 if ($mail_to){

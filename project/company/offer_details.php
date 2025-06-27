@@ -3,17 +3,19 @@
 
 /*-------------------------------------------------------*/
 /* Gestion de l'affichage des erreurs */ 
-error_reporting(-1);
-ini_set('display_errors', 1);
+error_reporting(0);
+ini_set('display_errors', 0);
 
 /*-------------------------------------------------------*/
-// Recuperation de l'id de l'offre
+// Récupération de l'ID de l'offre passée en GET
 $offer_id = $_GET['id'] ?? null;
 $offer = null ;
 
+//Si l'offre existe
 if ($offer_id){
     require_once '../config/db-config.php';
 
+    // Préparation de la requête SQL pour récupérer l'offre
     $sql = "SELECT * FROM offers WHERE offer_id = :offer_id";
     $result = $PDO -> prepare($sql);
     $result -> bindParam(":offer_id", $offer_id, PDO::PARAM_INT);
@@ -28,18 +30,18 @@ if ($offer_id){
 
     <head>
 
-        <!--////////////////////////////////////////////////////-->
-                    <!--Les metas données-->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Métadonnées de la page -->
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>OpportuniSatge</title>
 
-        <!--////////////////////////////////////////////////////-->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
                     <!--styles -->
         <link rel="stylesheet" href="../assets/css/style.css">
 
-        <!--////////////////////////////////////////////////////-->
-                    <!--Icons-->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!--Icones-->
         <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
@@ -47,13 +49,13 @@ if ($offer_id){
 
     <body>
 
-        <!--////////////////////////////////////////////////////-->
-                    <!--alerts-->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Inclusion des alertes -->
         <?php include '../includes/alerts.php' ?>
         
 
-        <!--////////////////////////////////////////////////////-->
-        <!-- Gerer la correspondance des langues -->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Gerer la correspondance des langues -->
         <?php
             // correspondance secteur anglais => français
             $sectors = [
@@ -81,29 +83,27 @@ if ($offer_id){
             ];
 
             //Formater la date en francais 
-            $date = new DateTime($offer['offer_deadline']);
-            $formatter = new IntlDateFormatter(
-                'fr_FR',
-                IntlDateFormatter::LONG,
-                IntlDateFormatter::NONE,
-                'Africa/Kinshasa',
-                IntlDateFormatter::GREGORIAN,
-                'd MMMM yyyy'
-            );
-            $date_fr = $formatter->format($date);
+            include '../utils/date_format.php';
+            $date_fr = dateFormat($offer['offer_deadline']);
         ?>
 
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Section contenant les détails de l'offre -->
         <section class="offer-details">
 
             <?php if ($offer): ?>
 
+                <!-- Si l'offre existe -->
                 <div class="offer-details-container">
 
                     <h2><?php echo htmlspecialchars(ucfirst($offer['offer_title'])); ?></h2>
 
                     <div class="offer-details-box">
                         
+                        <!-- Lieu -->
                         <p><span>Lieu :</span> <?php echo htmlspecialchars($offer['offer_location']); ?></p>
+
+                        <!-- Secteur et type -->
                         <p>
                             <span>Secteur :</span>
                             <?php
@@ -119,10 +119,16 @@ if ($offer_id){
                                 echo htmlspecialchars($types[$type] ?? $type);
                             ?>
                         </p>
+
+                        <!--Durée et date limite -->
                         <p><span>Durée :</span> <?php echo htmlspecialchars($offer['offer_duration']); ?> semaine<?php echo $offer['offer_duration'] > 1 ? 's' : ''; ?></p>
                         <p><span>Date limite :</span> <?php echo htmlspecialchars($date_fr); ?></p>
+
+                        <!-- Profil et remunération -->
                         <p><span>Profil recherché :</span> <?php echo htmlspecialchars($offer['offer_profile']); ?></p>
                         <p><span>Rémunération/Semaine :</span> <?php echo htmlspecialchars($offer['offer_remuneration'] ? $offer['offer_remuneration'] : 'Non rémunéré'); ?><?php echo $offer['offer_remuneration'] ? ' USD' : ''; ?></p>
+
+                        <!-- Description -->
                         <p><span>Description :</span><?php echo htmlspecialchars($offer['offer_description']); ?></p>
 
                     </div>
@@ -132,27 +138,29 @@ if ($offer_id){
 
             <?php else: ?>
 
+                <!-- Si l'offre est introuvable -->
                 <div class="alert error">Offre introuvable.</div>
 
             <?php endif; ?>
 
+            <!-- Bouton retour -->
             <a href="my_offers.php" class="btn">Retour à mes offres</a>
 
         </section>
 
 
-        <!--////////////////////////////////////////////////////-->
-                    <!-- footer -->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Inclusion du footer commun -->
         <?php include '../includes/footer.php' ?>
 
 
-        <!--//////////////////////////////////////////////////////////-->
-                    <!--Partie du scroll reveal-->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Bibliothèque ScrollReveal pour animations au scroll -->
         <script src="https://unpkg.com/scrollreveal"></script>
 
 
-        <!--////////////////////////////////////////////////////-->
-                    <!--scripts-->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Script -->
         <script src="../assets/js/script.js"></script>
 
     </body>

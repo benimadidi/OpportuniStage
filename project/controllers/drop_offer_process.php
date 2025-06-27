@@ -3,8 +3,8 @@
 
 /*-------------------------------------------------------*/
 /* Gestion de l'affichage des erreurs */ 
-error_reporting(-1);
-ini_set('display_errors', 1);
+error_reporting(0);
+ini_set('display_errors', 0);
 
 /*-------------------------------------------------------*/
 // Initialisation de la session
@@ -17,7 +17,7 @@ $offer_id = $_GET['id'] ?? null;
 if ($offer_id){
     require_once '../config/db-config.php';
 
-        //Suppression de l'offre
+    //Suppression de l'offre
     $sql = "DELETE FROM offers WHERE offer_id = :offer_id";
     $result = $PDO -> prepare($sql);
     $result -> bindParam(":offer_id", $offer_id, PDO::PARAM_INT);

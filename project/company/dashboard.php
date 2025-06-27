@@ -3,8 +3,8 @@
 
 /*-------------------------------------------------------*/
 /* Gestion de l'affichage des erreurs */ 
-error_reporting(-1);
-ini_set('display_errors', 1);
+error_reporting(0);
+ini_set('display_errors', 0);
 
 /*-------------------------------------------------------*/
 // Initialisation de la session
@@ -25,21 +25,22 @@ $session_id = $_SESSION['user-id'] ?? null;
 unset($_SESSION['alerts']);
 
 /*-------------------------------------------------------*/
-// Initialiser les infos de l'entreprise a null
+/* Initialisation des variables */
 $company = null ;
 $offers = [];
 $last_publication = null;
 
+/* Si l'utilisateur est connecté */
 if ($session_id){
 
-    //Récupérer les donnees de l'entreprise 
+    /* Récupérer les infos de l'entreprise */ 
     $query_company = "SELECT * FROM companies WHERE company_user_id = :user_id";
     $result = $PDO -> prepare($query_company);
     $result -> bindParam(":user_id", $session_id, PDO::PARAM_INT);
     $result -> execute();
     $company = $result -> fetch(PDO::FETCH_ASSOC);
 
-    //Recuperer la derniere publication
+    /* Récupérer la date de la dernière publication */
     $query_last_publication = "SELECT offer_created_at FROM offers 
                                WHERE offer_company_id = :company_id 
                                ORDER BY offer_id DESC LIMIT 1";
@@ -49,10 +50,11 @@ if ($session_id){
     $last_publication = $result_last_publication -> fetch(PDO::FETCH_ASSOC);
 }
 
+/* Si l'entreprise existe */
 if ($company){
     $company_id = $company['company_id'];
 
-    //Recuperer les 3 dernieres offres 
+    /* Les 3 dernières offres */
     $query = "SELECT * FROM offers 
               WHERE offer_company_id = :company_id 
               ORDER BY offer_id DESC 
@@ -63,7 +65,7 @@ if ($company){
     $result -> execute();
     $offers = $result -> fetchAll(PDO::FETCH_ASSOC);
 
-    //Compter toutes les offres publiees
+    /* Compter toutes les offres */
     $query_all_offers = "SELECT COUNT(offer_id) AS total FROM offers WHERE offer_company_id = :company_id";
     $result_all_offers = $PDO -> prepare($query_all_offers);
     $result_all_offers -> bindParam(":company_id", $company_id, PDO::PARAM_INT);
@@ -71,7 +73,7 @@ if ($company){
     $all_offers = $result_all_offers -> fetch(PDO::FETCH_ASSOC);
     $total_offers = $all_offers['total'] ?? 0;
 
-    //Compter le nombre de candidatures recues
+    /* Compter le nombre de candidatures en attente */
     $query_count_apps = "SELECT COUNT(*) AS total FROM applications 
                          JOIN offers ON offers.offer_id = applications.application_offer_id
                          WHERE offers.offer_company_id = :company_id
@@ -91,18 +93,18 @@ if ($company){
 
     <head>
 
-        <!--////////////////////////////////////////////////////-->
-                    <!--Les metas données-->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Métadonnées de la page -->
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>OpportuniSatge</title>
 
-        <!--////////////////////////////////////////////////////-->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
                     <!--styles -->
         <link rel="stylesheet" href="../assets/css/style.css">
 
-        <!--////////////////////////////////////////////////////-->
-                    <!--Icons-->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!--Icones-->
         <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
@@ -110,8 +112,13 @@ if ($company){
 
     <body>
 
-        <!--////////////////////////////////////////////////////-->
-                    <!-- Header de l'entreprise -->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Inclusion des alertes -->
+        <?php include '../includes/alerts.php' ?>
+
+
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Header avec navigation et profil -->
         <header class="header">
 
             <a href="#" class="logo">OpportuniStage</a>
@@ -157,13 +164,9 @@ if ($company){
 
         </header>
 
-        <!--////////////////////////////////////////////////////-->
-                    <!--alerts-->
-        <?php include '../includes/alerts.php' ?>
 
-
-        <!--////////////////////////////////////////////////////-->
-        <!-- Gerer la correspondance des langues -->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Gerer la correspondance des langues -->
         <?php
             // correspondance secteur anglais => français
             $sectors = [
@@ -185,26 +188,18 @@ if ($company){
             ];
 
             //Formater la date en francais 
-            if (!empty($last_publication['offer_created_at'])){
-                $date = new DateTime($last_publication['offer_created_at']);
-                $formatter = new IntlDateFormatter(
-                    'fr_FR',
-                    IntlDateFormatter::LONG,
-                    IntlDateFormatter::NONE,
-                    'Africa/Kinshasa',
-                    IntlDateFormatter::GREGORIAN,
-                    'd MMMM yyyy'
-                );
-                $date_fr = $formatter->format($date);
-            }
+            include '../utils/date_format.php';
+            $date_fr = dateFormat($last_publication['offer_created_at']);
         ?>
 
-        <!--////////////////////////////////////////////////////-->
-                    <!--Dashboard-->              
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Section tableau de bord -->              
         <section class="dashboard">
 
+            <!-- Les 3 cartes principales -->
             <div class="dashboard-card-header">
 
+                <!-- Carte des offres publiées -->
                 <a href="my_offers.php">
                     <div class="dashboard-card-box">
                         <i class="fa-solid fa-briefcase"></i>
@@ -213,6 +208,7 @@ if ($company){
                     </div>
                 </a>
 
+                <!-- Carte des candidatures reçues -->
                 <a href="applications_received.php?company_id=<?php echo $company['company_id']; ?>">
                     <div class="dashboard-card-box">
                         <i class="fa-solid fa-user-tie"></i>
@@ -221,6 +217,7 @@ if ($company){
                     </div>
                 </a>
 
+                <!-- Carte dernière publication -->
                 <div class="dashboard-card-box">
                     <i class="fa-solid fa-calendar-days"></i>
                     <h4>Dernière publication</h4>
@@ -229,7 +226,7 @@ if ($company){
 
             </div>
 
-            <!--content-->
+            <!-- Partie contenu principal -->
             <div class="dashboard-card-container">
 
                 <div class="dashboard-card-content left">
@@ -296,8 +293,8 @@ if ($company){
 
         </section>
 
-        <!--//////////////////////////////////////////////////////////-->
-                    <!-- La boîte de confirmation -->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- La boîte de confirmation de suppression -->
         <div id="confirm-modal" class="modal-overlay">
 
             <div class="modal-content">
@@ -316,18 +313,18 @@ if ($company){
         </div>
 
 
-        <!--////////////////////////////////////////////////////-->
-                <!-- footer -->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Inclusion du footer commun -->
         <?php include '../includes/footer.php' ?>
 
 
-        <!--//////////////////////////////////////////////////////////-->
-                    <!--Partie du scroll reveal-->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Bibliothèque ScrollReveal pour animations au scroll -->
         <script src="https://unpkg.com/scrollreveal"></script>
 
 
-        <!--////////////////////////////////////////////////////-->
-                    <!--scripts-->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Script -->
         <script src="../assets/js/script.js"></script>
 
     </body>

@@ -3,8 +3,8 @@
 
 /*-------------------------------------------------------*/
 /* Gestion de l'affichage des erreurs */ 
-error_reporting(-1);
-ini_set('display_errors', 1);
+error_reporting(0);
+ini_set('display_errors', 0);
 
 /*-------------------------------------------------------*/
 // Initialisation de la session
@@ -18,12 +18,7 @@ $active_form = $_SESSION['active-form'] ?? '';
 
 /*-------------------------------------------------------*/
 // Suppression des variables de session
-session_unset();
-
-/*-------------------------------------------------------*/
-// Enregistrement des variables de session
-if ($session_name !== null)
-    $_SESSION['name'] = $session_name ;
+unset($_SESSION['alerts']);
 
 ?>
 
@@ -32,18 +27,18 @@ if ($session_name !== null)
 
     <head>
 
-        <!--////////////////////////////////////////////////////-->
-                    <!--Les metas données-->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Métadonnées de la page -->
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>OpportuniSatge</title>
+        <title>OpportuniStage</title>
 
-        <!--////////////////////////////////////////////////////-->
-                    <!--styles -->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Fichier CSS principal -->
         <link rel="stylesheet" href="assets/css/style.css">
 
-        <!--////////////////////////////////////////////////////-->
-                    <!--Icons-->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Librairies d'icônes (Boxicons et Font Awesome) -->
         <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
@@ -51,95 +46,102 @@ if ($session_name !== null)
 
     <body>
 
-    <!--////////////////////////////////////////////////////-->
-                    <!-- Header de l'invité -->
-    <header class="header">
-        
-        <a href="#" class="logo">OpportuniStage</a>
-
-        <i class='bx  bxs-menu' id="menu-icon" ></i> 
-
-        <nav class="navbar">
-            <a href="index.php" >Acceuil</a>
-            <a href="about.php">À propos</a>
-            <a href="#contact" class="active">Contact</a>
-
-            <button type="button" class="login-btn-modal">Se connecter</button>
-
-        </nav>
-
-    </header>
-
-
-    <!--////////////////////////////////////////////////////-->
-                <!--alerts-->
-    <?php include './includes/alerts.php' ?>
-
-
-    <!--////////////////////////////////////////////////////-->
-                <!-- Modal de connexion -->
-    <?php include './includes/auth_modal.php' ?>
-
-
-    <!--////////////////////////////////////////////////////-->
-                <!-- Opportunistage-->
-    <div class="site-name">
-        <h1>Nous Contacter</h1>
-    </div>
-
-
-    <!--////////////////////////////////////////////////////-->
-                <!-- Sections a propos -->
-    <section class="contact" id="contact">
-
-        <div class="contact-img">
-            <img src="assets/images/contact.png" alt="">
-        </div>
-
-        <div class="contact-content">
-            <h2>Contactez-nous !</h2>
-            <h3>OpportuniStage</h3>
-
-            <div class="contact-container">
-                <div class="contact-box">
-                    <i class="fa-solid fa-house-chimney"></i>
-                    <p>
-                        Université Protestante du Congo (UPC)<br>
-                        12, Avenue de la Connaissance<br>
-                        1000 Kinshasa | RDC
-                    </p>
-                </div>
-
-                <div class="contact-box">
-                    <i class="fa-solid fa-envelope"></i>
-                    <p><a href="mailto:opportunistage@gmail.com" title="Contactez l'administrateur">opportunistage@gmail.com</a></p>
-                </div>
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                        <!-- Header pour les invités non connectés -->
+        <header class="header">
             
-                <div class="contact-box">
-                    <i class="fa-solid fa-mobile" style="padding-left: .4rem;"></i>
-                    <p><a href="tel:+243977564418">+243 977 564 418</a></p>
-                </div>
-            </div> 
+            <a href="#" class="logo">OpportuniStage</a>
+
+            <!-- Icône du menu burger, visible en version mobile -->
+            <i class='bx  bxs-menu' id="menu-icon" ></i> 
+
+            <!-- Barre de navigation -->
+            <nav class="navbar">
+                <a href="index.php" >Acceuil</a>
+                <a href="about.php">À propos</a>
+                <a href="#contact" class="active">Contact</a>
+
+                <!-- Bouton pour ouvrir la modal de connexion -->
+                <button type="button" class="login-btn-modal">Se connecter</button>
+
+            </nav>
+
+        </header>
 
 
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Inclusion des alertes -->
+        <?php include './includes/alerts.php' ?>
+
+
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Inclusion de la modal d’authentification -->
+        <?php include './includes/auth_modal.php' ?>
+
+
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Titre principal de la page -->
+        <div class="site-name">
+            <h1>Nous Contacter</h1>
         </div>
 
-    </section>
+
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Section de contact -->
+        <section class="contact" id="contact">
+
+            <div class="contact-img">
+                <img src="assets/images/contact.png" alt="">
+            </div>
+
+            <!-- Contenu texte et coordonnées -->
+            <div class="contact-content">
+                <h2>Contactez-nous !</h2>
+                <h3>OpportuniStage</h3>
+
+                <div class="contact-container">
+                    <!-- Adresse physique -->
+                    <div class="contact-box">
+                        <i class="fa-solid fa-house-chimney"></i>
+                        <p>
+                            Université Protestante du Congo (UPC)<br>
+                            12, Avenue de la Connaissance<br>
+                            1000 Kinshasa | RDC
+                        </p>
+                    </div>
+
+                    <!-- Email de contact -->
+                    <div class="contact-box">
+                        <i class="fa-solid fa-envelope"></i>
+                        <p><a href="mailto:opportunistage@gmail.com" title="Contactez l'administrateur">opportunistage@gmail.com</a></p>
+                    </div>
+                
+                    <!-- Numéro de téléphone -->
+                    <div class="contact-box">
+                        <i class="fa-solid fa-mobile" style="padding-left: .4rem;"></i>
+                        <p><a href="tel:+243977564418">+243 977 564 418</a></p>
+                    </div>
+                </div> 
 
 
-    <!--////////////////////////////////////////////////////-->
-                <!-- footer -->
-    <?php include 'includes/footer.php' ?>
+            </div>
+
+        </section>
 
 
-    <!--//////////////////////////////////////////////////////////-->
-                <!--Partie du scroll reveal-->
-    <script src="https://unpkg.com/scrollreveal"></script>
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Inclusion du footer commun -->
+        <?php include 'includes/footer.php' ?>
 
 
-    <!--////////////////////////////////////////////////////-->
-                <!--scripts-->
-    <script src="./assets/js/script.js"></script>
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Bibliothèque ScrollReveal pour animations au scroll -->
+        <script src="https://unpkg.com/scrollreveal"></script>
+
+
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Script -->
+        <script src="./assets/js/script.js"></script>
 
     </body>
 

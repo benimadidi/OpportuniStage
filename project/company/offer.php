@@ -3,8 +3,8 @@
 
 /*-------------------------------------------------------*/
 /* Gestion de l'affichage des erreurs */ 
-error_reporting(-1);
-ini_set('display_errors', 1);
+error_reporting(0);
+ini_set('display_errors', 0);
 
 /*-------------------------------------------------------*/
 // Initialisation de la session
@@ -21,13 +21,13 @@ $session_id = $_SESSION['user-id'] ?? null;
 unset($_SESSION['alerts']);
 
 /*-------------------------------------------------------*/
-// Initialiser les infos de l'entreprise a null
+// Initialisation de l'entreprise
 $company = null ;
 
 if ($session_id){
     require_once '../config/db-config.php';
 
-    //Récupérer les donnees de l'entreprise 
+    // Récupérer les données de l'entreprise liée au user
     $query_company = "SELECT * FROM companies WHERE company_user_id = :user_id";
     $result = $PDO -> prepare($query_company);
     $result -> bindParam(":user_id", $session_id, PDO::PARAM_INT);
@@ -43,27 +43,32 @@ if ($session_id){
 
     <head>
 
-        <!--////////////////////////////////////////////////////-->
-                    <!--Les metas données-->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Métadonnées de la page -->
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>OpportuniSatge</title>
 
-        <!--////////////////////////////////////////////////////-->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
                     <!--styles -->
         <link rel="stylesheet" href="../assets/css/style.css">
 
-        <!--////////////////////////////////////////////////////-->
-                    <!--Icons-->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!--Icones-->
         <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
     </head>
 
-        <body>
+    <body>
 
-        <!--////////////////////////////////////////////////////-->
-                    <!-- Header de l'entreprise -->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Inclusion des alertes -->
+        <?php include '../includes/alerts.php' ?>
+
+
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Header avec navigation et profil -->
         <header class="header">
 
             <a href="#" class="logo">OpportuniStage</a>
@@ -109,12 +114,8 @@ if ($session_id){
 
         </header>
 
-        <!--////////////////////////////////////////////////////-->
-                    <!--alerts-->
-        <?php include '../includes/alerts.php' ?>
 
-
-        <!--////////////////////////////////////////////////////-->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
                     <!-- Formulaire de publication -->
 
         <section class="add-offer">
@@ -122,21 +123,25 @@ if ($session_id){
             <h2>Publier une offre</h2>
 
             <form action="../controllers/offer_process.php" method="POST">
+                 <!-- Titre -->
                 <div class="add-offer-input-box">
                     <label for="offer-title">Titre de l'offre</label>
                     <input type="text" name="offer-title" id="offer-title" required>
                 </div>
 
+                <!-- Description -->
                 <div class="add-offer-input-box">
                     <label for="offer-description">Description de l'offre</label>
                     <input type="text" name="offer-description" id="offer-description" required>
                 </div>
 
+                <!-- Lieu de l'offre -->
                 <div class="add-offer-input-box">
                     <label for="offer-location">Lieu de l'offre</label>
                     <input type="text" name="offer-location" id="offer-location" value="<?php echo htmlspecialchars($company['company_address'] ?? ''); ?>" required>
                 </div>
 
+                <!-- Secteur d'activité -->
                 <div class="add-offer-input-box">
                     <label for="offer-sector">Secteur d'activité</label>
                     <select name="offer-sector" id="offer-sector">
@@ -159,6 +164,7 @@ if ($session_id){
                     </select>
                 </div>
 
+                <!-- Type d'offre -->
                 <div class="add-offer-input-box">
                     <label for="offer-type">Type d'offre</label>
                     <select name="offer-type" id="offer-type" required>
@@ -168,44 +174,50 @@ if ($session_id){
                     </select>
                 </div>
 
+                <!-- Duree de l'offre -->
                 <div class="add-offer-input-box">
                     <label for="offer-duration">Duree de l'offre</label>
                     <input type="number" name="offer-duration" id="offer-duration" required placeholder="En semaines">
                 </div>
 
+                <!-- Date limite de candidature -->
                 <div class="add-offer-input-box">
                     <label for="offer-deadline">Date limite de candidature</label>
                     <input type="date" name="offer-deadline" id="offer-deadline" required>
                 </div>
 
+                <!-- Profil recherché -->
                 <div class="add-offer-input-box">
                     <label for="offer-profile">Profil recherché</label>
                     <textarea name="offer-profile" id="offer-profile" cols="30" rows="4" required></textarea>
                 </div>
 
+                <!-- Remuneration -->
                 <div class="add-offer-input-box">
-                    <label for="offer-remuneration">Rémuneration(Optionnel)</label>
-                    <input type="number" name="offer-remuneration" id="offer-remuneration" placeholder="montant par semaine (USD)">
+                    <label for="offer-remuneration">Rémuneration</label>
+                    <input type="number" name="offer-remuneration" id="offer-remuneration" placeholder="montant par semaine (USD)" required>
                 </div>
 
+                <!-- Bouton de soumission -->
                 <button type="submit" name="add-offer-btn" class="add-offer-btn">Publier l'offre</button>
 
             </form>
 
         </section>
 
-        <!--////////////////////////////////////////////////////-->
-                <!-- footer -->
+
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Inclusion du footer commun -->
         <?php include '../includes/footer.php' ?>
 
 
-        <!--//////////////////////////////////////////////////////////-->
-                    <!--Partie du scroll reveal-->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Bibliothèque ScrollReveal pour animations au scroll -->
         <script src="https://unpkg.com/scrollreveal"></script>
 
 
-        <!--////////////////////////////////////////////////////-->
-                    <!--scripts-->
+        <!--//////////////////////////////////////////////////////////////////////////////////////////-->
+                    <!-- Script -->
         <script src="../assets/js/script.js"></script>
 
     </body>
