@@ -36,7 +36,6 @@
 /* Configuration de base du html */
 html{
     font-size: 62.5%;
-    overflow-x: hidden;
 }
 
 body{
@@ -1894,17 +1893,11 @@ footer p a:hover{
     }
 
     /*-------------------------------------------------------------------------*/
-    /*Voir utilisateurs */
-    table tbody tr{
-        font-size: 1.2rem;
+    /* tableau utilisateurs */
+    .user-list table{
+        overflow: auto;
     }
-
-    table tbody tr .action .btn-action{
-        padding: .5rem .7rem;
-        border-radius: .4rem;
-        font-size: .6rem;
-        margin-right: .5rem;
-    }
+    
 
 }
 
