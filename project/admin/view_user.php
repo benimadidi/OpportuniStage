@@ -189,9 +189,19 @@ $users = $result -> fetchAll(PDO::FETCH_ASSOC);
                                     <td>
                                         <?php 
                                             //Formater la date en francais 
-                                            include '../utils/date_format.php';
-                                            $date_fr = dateFormat($user['created_at']);
-                                            echo 'Le ' . $date_fr ?? '_';
+                                            if (!empty($user['created_at'])){
+                                                $date_format = new DateTime($user['created_at']);
+                                                $formatter = new IntlDateFormatter(
+                                                    'fr_FR',
+                                                    IntlDateFormatter::LONG,
+                                                    IntlDateFormatter::NONE,
+                                                    'Africa/Kinshasa',
+                                                    IntlDateFormatter::GREGORIAN,
+                                                    'd MMMM yyyy'
+                                                );
+                                                $date_fr = $formatter->format($date_format);
+                                                echo 'Le ' . $date_fr ?? 'Aucune date';
+                                            }
                                         ?>
                                     </td>
                                     <td class="action">

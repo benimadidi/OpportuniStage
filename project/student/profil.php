@@ -125,20 +125,20 @@ if ($displayed_id){
 
                 <!-- Avatar et nom -->
                 <div class="profil-info-box heading">
-                    <div class="avatar-circle"><?= strtoupper($student['student_name'][0] ?? $session_name[0] ?? '') ?></div>
-                    <h3 class="profil-info-name"><?= htmlspecialchars($student['student_name'] ?? $session_name ?? '') ?></h3>
+                    <div class="avatar-circle"><?php echo strtoupper($student['student_name'][0] ?? $session_name[0] ?? '') ?></div>
+                    <h3 class="profil-info-name"><?php echo htmlspecialchars($student['student_name'] ?? $session_name ?? '') ?></h3>
                 </div>
 
                 <!-- Email -->
                 <div class="profil-info-box">
                     <i class="bx bxs-envelope" title="Email"></i>
-                    <p><a href="mailto:<?= htmlspecialchars($user['user_email'] ?? '#') ?>"><?= htmlspecialchars($user['user_email'] ?? 'Non renseigné') ?></a></p>
+                    <p><a href="mailto:<?php echo htmlspecialchars($user['user_email'] ?? '#') ?>"><?= htmlspecialchars($user['user_email'] ?? 'Non renseigné') ?></a></p>
                 </div>
 
                 <!-- Université -->
                 <div class="profil-info-box">
                     <i class="bx bxs-school" title="Université"></i>
-                    <p><?= htmlspecialchars($student['student_university'] ?? 'Non renseigné') ?></p>
+                    <p><?php echo htmlspecialchars($student['student_university'] ?? 'Non renseigné') ?></p>
                 </div>
 
                 <!-- Domaine d'études -->
@@ -166,7 +166,7 @@ if ($displayed_id){
                 <!-- Téléphone -->
                 <div class="profil-info-box">
                     <i class="bx bxs-phone" title="Téléphone"></i>
-                    <p><?= htmlspecialchars($student['student_phone_number'] ?? 'Non renseigné') ?></p>
+                    <p><?php echo htmlspecialchars($student['student_phone_number'] ?? 'Non renseigné') ?></p>
                 </div>
 
                 <!-- Date de naissance -->
@@ -178,7 +178,7 @@ if ($displayed_id){
                 <!-- À propos -->
                 <div class="profil-info-box description-box">
                     <i class="fa-solid fa-comment-dots" title="A propos de vous"></i>
-                    <p><?= htmlspecialchars($student['student_about'] ?? 'Pas de description') ?></p>
+                    <p><?php echo htmlspecialchars($student['student_about'] ?? 'Pas de description') ?></p>
                 </div>
 
                 <!-- CV -->
