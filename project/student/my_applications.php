@@ -51,6 +51,8 @@ if ($session_id){
     $result_applications -> execute();
     $applications = $result_applications -> fetchAll(PDO::FETCH_ASSOC);
 }
+// var_dump($applications);
+// exit;
 ?>
 
 <!DOCTYPE html>
@@ -146,8 +148,18 @@ if ($session_id){
                     <?php
                         /*-------------------------------------------------------------------------*/
                         //Formater la date en francais 
-                        include '../utils/date_format.php';
-                        $date_fr = dateFormat($application['application_created_at']);
+                        if (!empty($application['application_created_at'])){
+                            $date_format = new DateTime($application['application_created_at']);
+                            $formatter = new IntlDateFormatter(
+                                'fr_FR',
+                                IntlDateFormatter::LONG,
+                                IntlDateFormatter::NONE,
+                                'Africa/Kinshasa',
+                                IntlDateFormatter::GREGORIAN,
+                                'd MMMM yyyy'
+                            );
+                            $date_fr = $formatter->format($date_format);
+                        }
 
                         /*-------------------------------------------------------------------------*/
                         // Déterminer le statut

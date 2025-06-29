@@ -93,8 +93,18 @@ $applications = $result_get_apps -> fetchAll(PDO::FETCH_ASSOC);
 
                             <!-- Formater la date en francais -->
                             <?php
-                                include '../utils/date_format.php';
-                                $date_fr = dateFormat($app['application_created_at']);
+                                if (!empty($app['application_created_at'])){
+                                    $date_format = new DateTime($app['application_created_at']);
+                                    $formatter = new IntlDateFormatter(
+                                        'fr_FR',
+                                        IntlDateFormatter::LONG,
+                                        IntlDateFormatter::NONE,
+                                        'Africa/Kinshasa',
+                                        IntlDateFormatter::GREGORIAN,
+                                        'd MMMM yyyy'
+                                    );
+                                    $date_fr = $formatter->format($date_format);
+                                }
                             ?>
 
                         <tr>
