@@ -79,6 +79,13 @@ if ($session_id){
     $count_offers = $count_offers -> fetch(PDO::FETCH_ASSOC);
     $count_offers = $count_offers['total'];
 
+    //Compter le nombre de candidature
+    $query_application = "SELECT COUNT(application_id) AS total FROM applications";
+    $count_application = $PDO -> prepare($query_application);
+    $count_application -> execute();
+    $count_application = $count_application -> fetch(PDO::FETCH_ASSOC);
+    $count_application = $count_application['total'];
+
 }
 
 ?>
@@ -177,15 +184,15 @@ if ($session_id){
                 <!-- Carte des Candidatures soumises -->
                 <div class="dashboard-card-box">
                     <i class="fa-solid fa-check-to-slot"></i>
-                    <h4>Candidature<?php if ($count_offer > 1) echo 's' ?? ''; ?> soumise<?php if ($count_offer > 1) echo 's' ?? ''; ?></h4>
+                    <h4>Candidature<?php if ($count_application > 1) echo 's' ?? ''; ?> soumise<?php if ($count_application > 1) echo 's' ?? ''; ?></h4>
                     <p><?php echo $count_application ?? 0; ?></p>
                 </div>
 
                 <!-- Carte des Offres publiées -->
                 <div class="dashboard-card-box">
                     <i class="fa-solid fa-file-contract"></i>
-                    <h4>Offre<?php if ($count_offer > 1) echo 's' ?? ''; ?> publiée<?php if ($count_offer > 1) echo 's' ?? ''; ?></h4>
-                    <p><?php echo $count_offer ?? 0; ?></p>
+                    <h4>Offre<?php if ($count_offers > 1) echo 's' ?? ''; ?> publiée<?php if ($count_offers > 1) echo 's' ?? ''; ?></h4>
+                    <p><?php echo $count_offers ?? 0; ?></p>
                 </div>
 
             </div>
