@@ -296,19 +296,3 @@ Ce projet a été conçu et développé par :
 -  Téléphone : +243 977 564 418
 
 N’hésitez pas à me contacter pour toute question ou suggestion.
-
-
----
-
-## 9. Licence
-
-Ce projet est la propriété exclusive de **Toussaint Madidi**.
-
-- **Tous droits réservés.**
-- Aucune partie de ce projet ne peut être reproduite, distribuée ou transmise, de quelque manière que ce soit, sans l’autorisation écrite préalable de l’auteur.
-- Toute utilisation commerciale, diffusion ou modification est strictement interdite.
-
-Pour toute demande d’autorisation, veuillez contacter :
-
-benimadidi100@gmail.com
-
