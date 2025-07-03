@@ -51,7 +51,7 @@ Suivez ces étapes pour installer et configurer OpportuniStage sur votre serveur
 
 ---
 
-### 1️. Cloner le projet
+### 1. Cloner le projet
 
 Clonez le dépôt dans le dossier de votre serveur local :
 
@@ -60,7 +60,7 @@ ou téléchargez l’archive ZIP et extrayez-la.
 
 ---
 
-### 2️. Configuration de la base de données
+### 2. Configuration de la base de données
 
 Importez le schéma fourni (database.sql ou le script généré) :
 
@@ -72,7 +72,7 @@ Vérifiez que toutes les tables ont bien été créées (users, students, compan
 
 ---
 
-### 3️. Configuration de l’application
+### 3. Configuration de l’application
 
 Ouvrez le fichier `config/db-config.php`.
 
@@ -88,7 +88,7 @@ Adaptez selon votre environnement.
 
 ---
 
-### 4️. Lancer l’application
+### 4. Lancer l’application
 
 Démarrez votre serveur local (Apache ou autre).
 
@@ -102,7 +102,7 @@ L’application est maintenant prête à être utilisée.
 
 ---
 
-### 5️. Activer le mode développement (Optionnel)
+### 5. Activer le mode développement (Optionnel)
 
 Pour activer l’affichage des erreurs, vérifiez que dans vos scripts PHP vous avez :
 
@@ -166,7 +166,7 @@ Voici l'organisation des fichiers et dossiers principaux du projet OpportuniStag
     │ │ │ ├── home.png                      
     │ │ │ └── student.png                      
     │ │ └── js/
-    │ │ └── script.js                           # Script JavaScript principal
+    │ │   └── script.js                         # Script JavaScript principal
     │ │
     │ ├── company/                              # Pages dédiées aux entreprises
     │ │ ├── applications_received.php           # Candidatures reçues
@@ -219,12 +219,12 @@ Voici l'organisation des fichiers et dossiers principaux du projet OpportuniStag
     │ │ │ ├── script.js
     │ │ │ └── style.css
     │ │ └── test_php_mailer/                    # Test d'envoi d'email avec PHPMailer
-    │ │ ├── css/
-    │ │ │ └── style.css
-    │ │ ├── PHPMailer-Master/                   # Librairie PHPMailer
-    │ │ │ └── ...
-    │ │ ├── index.php
-    │ │ └── SendMailFunction.php
+    │ │ │ ├── css/
+    │ │ │ │ └── style.css
+    │ │ │ ├── PHPMailer-Master/                 # Librairie PHPMailer
+    │ │ │ │ └── ...
+    │ │ │ ├── index.php
+    │ │ │ └── SendMailFunction.php
     │ │
     │ ├── uploads/cvs/                          # Dossier de stockage des CV soumis
     │ │ └── ...
