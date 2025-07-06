@@ -107,7 +107,7 @@ unset($_SESSION['alerts']);
         <section class="home-student" id="home-student">
 
             <div class="home-student-img">
-                <img src="assets/images/student.png" alt="">
+                <img src="assets/images/student-removebg-preview.png" alt="">
             </div>
 
             <div class="home-student-content reveal-bottom">
@@ -135,7 +135,7 @@ unset($_SESSION['alerts']);
             </div>
 
             <div class="home-company-img reveal-top">
-                <img src="assets/images/company.png" alt="">
+                <img src="assets/images/company-removebg-preview.png" alt="">
             </div>
 
         </section>

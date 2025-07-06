@@ -91,7 +91,7 @@ unset($_SESSION['alerts']);
         <section class="contact" id="contact">
 
             <div class="contact-img">
-                <img src="assets/images/contact.png" alt="">
+                <img src="assets/images/contact-removebg-preview.png" alt="">
             </div>
 
             <!-- Contenu texte et coordonnées -->
